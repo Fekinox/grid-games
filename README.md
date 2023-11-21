@@ -15,12 +15,9 @@ Build a Tic-Tac-Toe game incorporating the web technologies and techniques you'v
 
 Commit and push the code to a new repo in your personal GitHub account - see below on how to create a new repo.
 
-#### You may choose to complete this assignment in two ways:
+#### Setup
 
-1. To get some practice setting up a GitHub repo, consider creating the project locally in a project folder on your computer.  Detailed instructions are right below.
-2. Create a new HTML/CSS/JS repl in [replit.com](https://replit.com/). Name your repl something like "T-T-T Weekend".
-
-This lab is **a DELIVERABLE** - be sure to submit the either the link to your GitHub repo or the link to your repl in Google Classroom prior to the due date.
+Create a GitHub repo, create the project locally in a project folder on your computer.  Detailed instructions are right below.
 
 ## How to Create a New Repo
 
@@ -46,7 +43,7 @@ This lab is **a DELIVERABLE** - be sure to submit the either the link to your Gi
 
 As always...
 
-1. `git add -A`
+1. `git add -A` or `git add .` or `git add <individual file name>`
 
 2. `git commit -m "Msg stating what the commit WILL do (present, not past-tense)"`
 
