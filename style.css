@@ -1,0 +1,36 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+div#tttgrid {
+  text-align: center;
+}
+
+div.tttrow {
+  display: block;
+  margin: 10px;
+}
+
+div.tttcell {
+  display: inline-block;
+  margin-inline: 10px;
+  min-width: 100px;
+  min-height: 100px;
+  background-color: grey;
+  border: 1px solid black;
+}
+
+.red, div.red {
+  background-color: red;
+}
+
+.blue, div.blue {
+  background-color: blue;
+}
+
+div.indicator {
+  display: inline;
+  padding-left: 1em;
+  margin-inline: 0.5em;
+}
