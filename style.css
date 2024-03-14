@@ -1,36 +1,69 @@
 body {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  background-color: #363745;
+  margin-top: 100px;
+  color: white;
+  font-family: sans-serif;
 }
+
+div#container {
+  display: grid;
+  /* grid-template-rows: 50px minmax(500px, max-content) 50px 50px; */
+  /* grid-template-columns: 50px minmax(500px, max-content) 50px; */
+  grid-template-rows: 50px max-content max-content max-content;
+  grid-template-columns: 50px max-content 50px;
+  line-height: 0;
+  background-color: #212224;
+}
+
 div#tttgrid {
   text-align: center;
+  grid-area: 2 / 2 / 3 / 3;
+}
+
+div#tttstatus {
+  grid-area: 3 / 2 / 4 / 3;
+  text-align: center;
+  margin: 10px;
 }
 
 div.tttrow {
   display: block;
-  margin: 10px;
+  margin: 10px 0;
 }
 
 div.tttcell {
   display: inline-block;
-  margin-inline: 10px;
+  margin-inline: 5px;
   min-width: 100px;
   min-height: 100px;
-  background-color: grey;
-  border: 1px solid black;
+  background-color: #2b2c30;
 }
 
 .red, div.red {
-  background-color: red;
+  background-color: #ed456f;
 }
 
 .blue, div.blue {
-  background-color: blue;
+  background-color: #5572e6;
 }
 
 div.indicator {
   display: inline;
   padding-left: 1em;
   margin-inline: 0.5em;
+}
+
+button {
+  padding: 0.5em 1em;
+  margin: 1em;
+  background-color: #2b2c30;
+  border: 0;
+  color: white;
+  grid-area: 4 / 2 / 4 / 3;
+  justify-self: center;
 }

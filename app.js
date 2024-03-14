@@ -63,10 +63,7 @@ class GameState {
       this.gridItem.appendChild(row)
     }
 
-    let status = document.createElement('div')
-    status.classList.add('tttstatus')
-    this.gridItem.appendChild(status)
-    this.status = status
+    this.status = document.getElementById('tttstatus')
   }
 
   
