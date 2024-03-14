@@ -91,6 +91,15 @@ class GameState {
 
         row.appendChild(cell)
         this.renderableGrid.push(cell);
+
+        // global variables for now
+        const maxDim = Math.max(this.width, this.height)
+        const marginWidth = 8
+        const containerSize = 600
+        const maxWidth =
+          (containerSize - 100 - (maxDim)*marginWidth)/(maxDim)
+        cell.style.setProperty('min-width', `${maxWidth}px`)
+        cell.style.setProperty('min-height', `${maxWidth}px`)
       }
       this.gridItem.appendChild(row)
     }

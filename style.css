@@ -22,11 +22,28 @@ body {
 }
 
 div#container {
-  display: grid;
-  grid-template-rows: 50px max-content 50px max-content max-content;
-  grid-template-columns: 50px max-content 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   line-height: 0;
   background-color: #212224;
+}
+
+div#center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  max-width: 600px;
+  max-height: 600px;
+  min-width: 600px;
+  min-height: 600px;
+}
+
+div#game {
+  display: grid;
+  grid-template-rows: 50px max-content 50px;
+  grid-template-columns: 50px max-content 50px;
 }
 
 div#tttgrid {
