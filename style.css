@@ -74,16 +74,18 @@ div.filledcell::after {
   text-rendering: auto;
   position: absolute;
   font: var(--fa-font-solid);
-  animation-name: popin;
-  animation-duration: 0.1s;
   font-size: 2em;
+
+  animation-name: popin;
+  animation-duration: 0.2s;
+  animation-timing-function: ease;
 }
 
-div.red::after, div.win-red::after {
+div.tttcell.red::after, div.tttcell.win-red::after {
   content: 'X';
 }
 
-div.blue::after, div.win-blue::after {
+div.tttcell.blue::after, div.tttcell.win-blue::after {
   content: 'O';
 }
 
@@ -101,12 +103,12 @@ div.hoverable:hover {
   color: #5572e6;
 }
 
-div.win-red {
+div.tttcell.win-red {
   background-color: #ed456f;
   color: #2b2c30;
 }
 
-div.win-blue {
+div.tttcell.win-blue {
   background-color: #5572e6;
   color: #2b2c30;
 }
@@ -152,4 +154,20 @@ button:active {
   to {
     font-size: 2em;
   }
+}
+
+span#statusline {
+  transition: border-bottom-width 0.2s ease;
+}
+
+span#statusline.win-red {
+  border-bottom: 3px solid var(--player1-color)
+}
+
+span#statusline.win-blue {
+  border-bottom: 3px solid var(--player2-color)
+}
+
+span#statusline.tie {
+  border-bottom: 3px solid white
 }

@@ -65,7 +65,7 @@ class GameState {
       this.gridItem.appendChild(row)
     }
 
-    this.status = document.getElementById('tttstatus')
+    this.status = document.getElementById('statusline')
   }
 
   
@@ -199,12 +199,19 @@ class GameState {
     if (this.outcome === null) {
       this.status.innerHTML =
         `${this.inlineIndicator(this.turn)} TO MOVE`
+      this.status.className = ''
     } else {
       if (this.outcome.player === 0) {
         this.status.innerHTML = 'TIE'
+        this.status.className = 'tie'
       } else {
         this.status.innerHTML =
           `${this.inlineIndicator(this.outcome.player)} WIN`
+        const colorTag =
+          (this.outcome.player === 1)
+          ? 'red'
+          : 'blue'
+        this.status.className = `win-${colorTag}`
       }
     }
   }
