@@ -182,7 +182,7 @@ class GameState {
   }
 }
 
-let state = new GameState(5, 5, 4);
+let state = new GameState(3, 3, 3);
 
 document.addEventListener('DOMContentLoaded', (event) => {
   state.rebuildCachedItems()
