@@ -59,6 +59,17 @@ class GameState {
       this.rebuildGrid()
       this.render()
     })
+
+    // Expansion buttons
+    let gs = this;
+    ['up', 'down', 'left', 'right'].forEach((dir) => {
+      const tag = `${dir}Button`
+      console.log(tag)
+      gs[tag] = document.querySelector(`button#${dir}`)
+      gs[tag].addEventListener('click', (event) => {
+        this.expand(dir)
+      })
+    })
   }
 
   rebuildGrid() {
@@ -188,12 +199,26 @@ class GameState {
     const win = this.checkWin();
     if (win !== null) {
       this.outcome = win
-    } else if (this.grid.every((cell) => cell !== null)) {
-      this.outcome = {
-        player: 0,
-        tiles: []
-      }
+    } 
+    this.render()
+  }
+
+  expand(dir) {
+    switch(dir) {
+      case 'up':
+        this.expandGrid(this.width, this.height + 1, 0, 1)
+        break;
+      case 'down':
+        this.expandGrid(this.width, this.height + 1, 0, 0)
+        break;
+      case 'left':
+        this.expandGrid(this.width + 1, this.height, 1, 0)
+        break;
+      case 'right':
+        this.expandGrid(this.width + 1, this.height, 0, 0)
+        break;
     }
+    this.turn *= -1;
     this.render()
   }
 

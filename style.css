@@ -23,7 +23,7 @@ body {
 
 div#container {
   display: grid;
-  grid-template-rows: 50px max-content max-content max-content;
+  grid-template-rows: 50px max-content 50px max-content max-content;
   grid-template-columns: 50px max-content 50px;
   line-height: 0;
   background-color: #212224;
@@ -31,11 +31,11 @@ div#container {
 
 div#tttgrid {
   text-align: center;
-  grid-area: 2 / 2 / 3 / 3;
+  grid-area: 2 / 2;
 }
 
 div#tttstatus {
-  grid-area: 3 / 2 / 4 / 3;
+  grid-area: 4 / 2;
   text-align: center;
   margin: 10px;
   height: 40px;
@@ -43,7 +43,7 @@ div#tttstatus {
 }
 
 section#buttons {
-  grid-area: 4 / 2 / 4 / 3;
+  grid-area: 5 / 2;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,13 +51,13 @@ section#buttons {
 
 div.tttrow {
   display: block;
-  margin: 4px 0;
+  margin: 8px 0;
 }
 
 div.tttcell {
   display: inline-flex;
   position: relative;
-  margin-inline: 2px;
+  margin-inline: 4px;
   min-width: 70px;
   min-height: 70px;
   background-color: #2b2c30;
@@ -171,4 +171,75 @@ span#statusline.win-blue {
 
 span#statusline.tie {
   border-bottom: 3px solid white
+}
+
+button.expand {
+  background-color: var(--background-color);
+  border: 0;
+  margin: 4px;
+  justify-content: center;
+  align-items: center;
+
+  display: flex;
+}
+
+.hoverbox {
+  transition:
+    width 0.2s ease,
+    height 0.2s ease
+  ;
+  background-color: var(--hover-color);
+  width: 0%;
+  height: 0%;
+}
+
+#up .hoverbox {
+  align-self: flex-end;
+  width: 70%;
+}
+
+#down .hoverbox {
+  align-self: flex-start;
+  width: 70%;
+}
+
+#left .hoverbox {
+  margin-left: auto;
+  height: 70%;
+}
+
+#right .hoverbox {
+  margin-right: auto;
+  height: 70%;
+}
+
+button.expand:hover#up .hoverbox,
+button.expand:hover#down .hoverbox,
+button.expand:hover#left .hoverbox,
+button.expand:hover#right .hoverbox {
+  /* justify-self: stretch; */
+  /* align-self: stretch; */
+  width: 100%;
+  height: 100%;
+}
+
+button#reset:active {
+  background-color: #ba2e4e;
+  color: #2b2c30;
+}
+
+button#up {
+  grid-area: 1 / 2;
+}
+
+button#down {
+  grid-area: 3 / 2;
+}
+
+button#left {
+  grid-area: 2 / 1;
+}
+
+button#right {
+  grid-area: 2 / 3;
 }
