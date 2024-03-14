@@ -3,6 +3,7 @@ class GameState {
     // Dimensions of the game board.
     this.width = width
     this.height = height
+
     // Number of tiles in a row needed to win. Assumed to be at least 1.
     this.toWin = toWin
 
