@@ -166,7 +166,7 @@ button#reset:active {
 
 @keyframes popin {
   from {
-    font-size: 0em;
+    font-size: 0;
   }
 
   to {
