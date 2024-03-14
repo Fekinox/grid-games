@@ -5,6 +5,11 @@ class GameState {
     this.height = height
     // Number of tiles in a row needed to win. Assumed to be at least 1.
     this.toWin = toWin
+
+    this.gridItem = null
+    this.renderableGrid = [];
+    this.status = null
+
     this.reset()
   }
   
@@ -15,11 +20,12 @@ class GameState {
     this.turn = 1
     this.outcome = null
   }
-  
-  render() {
-    let gridItem = document.querySelector('#tttgrid')
-    gridItem.innerHTML = "";
-    
+
+  rebuildCachedItems() {
+    this.gridItem = document.querySelector('#tttgrid')
+    this.gridItem.innerHTML = '';
+
+    this.renderableGrid = [];
     for (let y = 0; y < this.height; y++) {
       let row = document.createElement('div')
       row.classList.add('tttrow')
@@ -32,31 +38,48 @@ class GameState {
         cell.addEventListener('click', (e) => {
           this.makeMove(x, y)
         })
+
         row.appendChild(cell)
+        this.renderableGrid.push(cell);
       }
-      gridItem.appendChild(row)
+      this.gridItem.appendChild(row)
+    }
+
+    let status = document.createElement('div')
+    status.classList.add('tttstatus')
+    this.gridItem.appendChild(status)
+    this.status = status
+  }
+  
+  render() {
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+        let cell = this.renderableGrid[this.index(x, y)]
+        cell.classList.remove('red')
+        cell.classList.remove('blue')
+        let entry = this.get(x, y)
+        if (entry === 1) { cell.classList.add('red') }
+        else if (entry === -1) { cell.classList.add('blue') }
+      }
     }
     
-    gridItem.appendChild(this.renderStatus())
+    this.renderStatus()
   }
   
   renderStatus() {
-    let status = document.createElement('div')
-    status.classList.add('tttstatus')
     if (this.outcome === null) {
       const color = (this.turn === 1) ? 'red' : 'blue'
-      status.innerHTML =
+      this.status.innerHTML =
         `<div class='indicator ${color}'></div> TO MOVE`
     } else {
       if (this.outcome === 0) {
-        status.innerHTML = 'TIE'
+        this.status.innerHTML = 'TIE'
       } else {
         const color = (this.outcome === 1) ? 'red' : 'blue'
-        status.innerHTML =
+        this.status.innerHTML =
           `<div class='indicator ${color}'></div> WIN`
       }
     }
-    return status
   }
   
   index(x, y) {
@@ -138,5 +161,6 @@ class GameState {
 let state = new GameState(3, 3, 3);
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    state.render()
+  state.rebuildCachedItems()
+  state.render()
 });
