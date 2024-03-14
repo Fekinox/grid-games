@@ -24,6 +24,21 @@ class GameState {
   rebuildCachedItems() {
     this.gridItem = document.querySelector('#tttgrid')
     this.gridItem.innerHTML = '';
+    this.gridItem.addEventListener('click', (evt) => {
+      const target = evt.target
+      if (!target.classList.contains('tttcell')) { return }
+      const coordinates = target.id.split(' ').map((s) => Number(s))
+      if (coordinates.length < 2 ||
+        coordinates.some((c) => 
+          c === undefined || c === NaN
+        )
+      ) {
+        console.log('Invalid cell ID')
+        return
+      }
+
+      this.makeMove(coordinates[0], coordinates[1])
+    })
 
     this.renderableGrid = [];
     for (let y = 0; y < this.height; y++) {
@@ -35,9 +50,10 @@ class GameState {
         let entry = this.get(x, y)
         if (entry === 1) { cell.classList.add('red') }
         else if (entry === -1) { cell.classList.add('blue') }
-        cell.addEventListener('click', (e) => {
-          this.makeMove(x, y)
-        })
+        cell.id = `${x} ${y}`
+        // cell.addEventListener('click', (e) => {
+        //   this.makeMove(x, y)
+        // })
 
         row.appendChild(cell)
         this.renderableGrid.push(cell);
@@ -50,7 +66,7 @@ class GameState {
     this.gridItem.appendChild(status)
     this.status = status
   }
-  
+
   render() {
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
