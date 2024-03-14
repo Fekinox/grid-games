@@ -177,10 +177,29 @@ button.expand {
   background-color: var(--background-color);
   border: 0;
   margin: 4px;
+  padding: 0;
   justify-content: center;
   align-items: center;
 
   display: flex;
+}
+
+button.expand#up {
+  margin-bottom: 0px;
+  margin-top: 8px;
+}
+
+button.expand#down {
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+
+button.expand#left {
+  margin: 8px 4px 8px 8px;
+}
+
+button.expand#right {
+  margin: 8px 8px 8px 4px;
 }
 
 .hoverbox {
