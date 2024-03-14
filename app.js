@@ -25,7 +25,8 @@ class GameState {
 
   // Rebuilds the cached renderables.
   rebuildCachedItems() {
-    this.gridItem = document.querySelector('#tttgrid')
+    this.rootElement = document.querySelector(':root');
+    this.gridItem = document.getElementById('tttgrid')
     this.gridItem.innerHTML = '';
     this.gridItem.addEventListener('click', (evt) => {
       const target = evt.target
@@ -172,8 +173,19 @@ class GameState {
           : ''
         if (entry === 1) { cell.classList.add(`${winPrefix}red`) }
         else if (entry === -1) { cell.classList.add(`${winPrefix}blue`) }
+        else if (!this.outcome) { cell.classList.add('hoverable') }
       }
     }
+
+    let hover = ''
+    if (this.outcome && this.outcome.player !== undefined) {
+      hover = 'var(--background-color)'
+    } else if (this.turn === 1) {
+      hover = 'var(--player1-color)'
+    } else {
+      hover = 'var(--player2-color)'
+    }
+    this.rootElement.style.setProperty('--hover-color', hover)
     
     this.renderStatus()
   }

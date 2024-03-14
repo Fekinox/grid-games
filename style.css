@@ -1,3 +1,11 @@
+:root {
+  --player1-color: #ed456f;
+  --player2-color: #5572e6;
+  --background-color: #212224;
+
+  --hover-color: #ffffff;
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -85,6 +93,10 @@ div.blue::after, div.win-blue::after {
   font-size: 2em;
 }
 
+div.hoverable:hover {
+  background-color: var(--hover-color);
+}
+
 .red, div.red {
   /* background-color: #ed456f; */
   color: #ed456f;
@@ -121,6 +133,21 @@ button {
 
   text-transform: uppercase;
   font-size: 20px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease
+  ;
+}
+
+button:hover {
+  background-color: #ed456f;
+  color: #2b2c30;
+}
+
+button:active {
+  background-color: #ba2e4e;
+  color: #2b2c30;
 }
 
 @keyframes popin {
