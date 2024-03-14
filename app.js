@@ -13,6 +13,7 @@ class GameState {
     this.reset()
   }
   
+  // Resets all game parameters.
   reset() {
     this.grid =
       Array.from({ length: this.width * this.height},
@@ -21,6 +22,7 @@ class GameState {
     this.outcome = null
   }
 
+  // Rebuilds the cached renderables.
   rebuildCachedItems() {
     this.gridItem = document.querySelector('#tttgrid')
     this.gridItem.innerHTML = '';
@@ -67,36 +69,6 @@ class GameState {
     this.status = status
   }
 
-  render() {
-    for (let y = 0; y < this.height; y++) {
-      for (let x = 0; x < this.width; x++) {
-        let cell = this.renderableGrid[this.index(x, y)]
-        cell.classList.remove('red')
-        cell.classList.remove('blue')
-        let entry = this.get(x, y)
-        if (entry === 1) { cell.classList.add('red') }
-        else if (entry === -1) { cell.classList.add('blue') }
-      }
-    }
-    
-    this.renderStatus()
-  }
-  
-  renderStatus() {
-    if (this.outcome === null) {
-      const color = (this.turn === 1) ? 'red' : 'blue'
-      this.status.innerHTML =
-        `<div class='indicator ${color}'></div> TO MOVE`
-    } else {
-      if (this.outcome === 0) {
-        this.status.innerHTML = 'TIE'
-      } else {
-        const color = (this.outcome === 1) ? 'red' : 'blue'
-        this.status.innerHTML =
-          `<div class='indicator ${color}'></div> WIN`
-      }
-    }
-  }
   
   index(x, y) {
     return x + (y * this.width)
@@ -171,6 +143,39 @@ class GameState {
       this.outcome = 0
     }
     this.render()
+  }
+
+  // Updates the view with the current game state.
+  render() {
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+        let cell = this.renderableGrid[this.index(x, y)]
+        cell.classList.remove('red')
+        cell.classList.remove('blue')
+        let entry = this.get(x, y)
+        if (entry === 1) { cell.classList.add('red') }
+        else if (entry === -1) { cell.classList.add('blue') }
+      }
+    }
+    
+    this.renderStatus()
+  }
+  
+  // Renders the current game status line beneath the grid.
+  renderStatus() {
+    if (this.outcome === null) {
+      const color = (this.turn === 1) ? 'red' : 'blue'
+      this.status.innerHTML =
+        `<div class='indicator ${color}'></div> TO MOVE`
+    } else {
+      if (this.outcome === 0) {
+        this.status.innerHTML = 'TIE'
+      } else {
+        const color = (this.outcome === 1) ? 'red' : 'blue'
+        this.status.innerHTML =
+          `<div class='indicator ${color}'></div> WIN`
+      }
+    }
   }
 }
 
