@@ -118,7 +118,7 @@ i.red, i.blue {
   vertical-align: -0.2px;
 }
 
-button {
+button#reset {
   padding: 0.5em 1em;
   margin: 1em;
   background-color: #2b2c30;
@@ -137,12 +137,12 @@ button {
   ;
 }
 
-button:hover {
+button#reset:hover {
   background-color: #ed456f;
   color: #2b2c30;
 }
 
-button:active {
+button#reset:active {
   background-color: #ba2e4e;
   color: #2b2c30;
 }

@@ -1,10 +1,12 @@
 class GameState {
   constructor(width = 3, height = 3, toWin = 3) {
     // Dimensions of the game board.
+    this.initWidth = width
+    this.initHeight = height
+    this.initToWin = toWin
+
     this.width = width
     this.height = height
-
-    // Number of tiles in a row needed to win. Assumed to be at least 1.
     this.toWin = toWin
 
     this.gridItem = null
@@ -16,6 +18,10 @@ class GameState {
   
   // Resets all game parameters.
   reset() {
+    this.width = this.initWidth
+    this.height = this.initHeight
+    this.toWin = this.initToWin
+
     this.grid =
       Array.from({ length: this.width * this.height},
       () => null)
@@ -24,10 +30,9 @@ class GameState {
   }
 
   // Rebuilds the cached renderables.
-  rebuildCachedItems() {
+  initCachedItems() {
     this.rootElement = document.querySelector(':root');
     this.gridItem = document.getElementById('tttgrid')
-    this.gridItem.innerHTML = '';
     this.gridItem.addEventListener('click', (evt) => {
       const target = evt.target
       if (!target.classList.contains('tttcell')) { return }
@@ -44,6 +49,20 @@ class GameState {
       this.makeMove(coordinates[0], coordinates[1])
     })
 
+    this.rebuildGrid()
+
+    this.status = document.getElementById('statusline')
+
+    this.resetButton = document.querySelector('button#reset')
+    this.resetButton.addEventListener('click', (event) => { 
+      this.reset()
+      this.rebuildGrid()
+      this.render()
+    })
+  }
+
+  rebuildGrid() {
+    this.gridItem.innerHTML = '';
     this.renderableGrid = [];
     for (let y = 0; y < this.height; y++) {
       let row = document.createElement('div')
@@ -64,10 +83,32 @@ class GameState {
       }
       this.gridItem.appendChild(row)
     }
-
-    this.status = document.getElementById('statusline')
   }
 
+  expandGrid(new_width, new_height, origin_x, origin_y) {
+    let gs = this
+    let newGrid =
+      Array.from(
+        { length: new_width * new_height },
+        (v, idx) => {
+          const cur_x = idx % new_width
+          const cur_y = Math.floor(idx / new_width)
+
+          const offset_x = cur_x - origin_x
+          const offset_y = cur_y - origin_y
+
+          if (gs.inBounds(offset_x, offset_y)) {
+            return gs.get(offset_x, offset_y)
+          } else {
+            return null
+          }
+        }
+      )
+    this.width = new_width
+    this.height = new_height
+    this.grid = newGrid
+    this.rebuildGrid()
+  }
   
   index(x, y) {
     return x + (y * this.width)
@@ -225,9 +266,31 @@ class GameState {
   }
 }
 
-let state = new GameState(3, 3, 3);
+let state = new GameState(4, 4, 4);
 
 document.addEventListener('DOMContentLoaded', (event) => {
-  state.rebuildCachedItems()
+  state.initCachedItems()
   state.render()
 });
+
+document.addEventListener('keydown', (event) => {
+  console.log(event.key)
+  switch (event.key.toLowerCase()) {
+    case 'w':
+      state.expandGrid(state.width, state.height + 1, 0, 1)
+      state.render()
+      break;
+    case 'a':
+      state.expandGrid(state.width + 1, state.height, 1, 0)
+      state.render()
+      break;
+    case 's':
+      state.expandGrid(state.width, state.height + 1, 0, 0)
+      state.render()
+      break;
+    case 'd':
+      state.expandGrid(state.width + 1, state.height, 0, 0)
+      state.render()
+      break;
+  }
+})
