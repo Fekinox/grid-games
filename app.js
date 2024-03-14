@@ -161,22 +161,28 @@ class GameState {
   // Renders the current game status line beneath the grid.
   renderStatus() {
     if (this.outcome === null) {
-      const color = (this.turn === 1) ? 'red' : 'blue'
       this.status.innerHTML =
-        `<div class='indicator ${color}'></div> TO MOVE`
+        `${this.inlineIndicator(this.turn)} TO MOVE`
     } else {
       if (this.outcome === 0) {
         this.status.innerHTML = 'TIE'
       } else {
-        const color = (this.outcome === 1) ? 'red' : 'blue'
         this.status.innerHTML =
-          `<div class='indicator ${color}'></div> WIN`
+          `${this.inlineIndicator(this.outcome)} WIN`
       }
+    }
+  }
+
+  inlineIndicator(color) {
+    if (color === 1) {
+      return '<i class=\'red fa-solid fa-x\'></i>'
+    } else {
+      return '<i class=\'blue fa-solid fa-o\'></i>'
     }
   }
 }
 
-let state = new GameState(3, 3, 3);
+let state = new GameState(5, 5, 4);
 
 document.addEventListener('DOMContentLoaded', (event) => {
   state.rebuildCachedItems()

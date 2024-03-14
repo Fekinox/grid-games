@@ -12,8 +12,6 @@ body {
 
 div#container {
   display: grid;
-  /* grid-template-rows: 50px minmax(500px, max-content) 50px 50px; */
-  /* grid-template-columns: 50px minmax(500px, max-content) 50px; */
   grid-template-rows: 50px max-content max-content max-content;
   grid-template-columns: 50px max-content 50px;
   line-height: 0;
@@ -33,23 +31,54 @@ div#tttstatus {
 
 div.tttrow {
   display: block;
-  margin: 10px 0;
+  margin: 4px 0;
 }
 
 div.tttcell {
-  display: inline-block;
-  margin-inline: 5px;
-  min-width: 100px;
-  min-height: 100px;
+  display: inline-flex;
+  position: relative;
+  margin-inline: 2px;
+  min-width: 50px;
+  min-height: 50px;
   background-color: #2b2c30;
+  justify-content: center;
+  align-items: center;
+}
+
+div.red::after {
+  display: inline-block;
+  text-rendering: auto;
+  position: absolute;
+  font: var(--fa-font-solid);
+  content: 'X';
+
+  font-size: 2.5em;
+}
+
+div.blue::after {
+  display: inline-block;
+  text-rendering: auto;
+  position: absolute;
+  font: var(--fa-font-solid);
+  content: 'O';
+
+  font-size: 2.5em;
 }
 
 .red, div.red {
-  background-color: #ed456f;
+  /* background-color: #ed456f; */
+  color: #ed456f;
 }
 
 .blue, div.blue {
-  background-color: #5572e6;
+  /* background-color: #5572e6; */
+  color: #5572e6;
+}
+
+i.red, i.blue {
+  font-size: 30px;
+  vertical-align: -6px;
+  margin: 10px;
 }
 
 div.indicator {
