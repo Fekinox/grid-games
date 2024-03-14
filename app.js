@@ -84,18 +84,24 @@ class GameState {
   }
   
   // Check for a win starting from the cell (x, y) in the direction given by (dx, dy).
+    // Returns an object with the following properties:
+  // player: Winning player
+  // tiles: Winning tiles in tile coordinate form
   checkWinIn(x, y, dx, dy) {
     let winner = this.get(x, y)
     if (winner === null) { return null }
     const end_x = x + dx*(this.toWin - 1)
     const end_y = y + dy*(this.toWin - 1)
     if (!this.inBounds(end_x, end_y)) { return null }
+
+    let winningTiles = [[x, y]]
     
     let xx = x + dx
     let yy = y + dy
     let steps = 1
     
     while (this.inBounds(xx, yy) && steps < this.toWin) {
+      winningTiles.push([xx, yy])
       if (winner !== this.get(xx, yy)) {
         return null
       }
@@ -103,7 +109,10 @@ class GameState {
       yy += dy
       steps += 1
     }
-    return winner
+    return {
+      player: winner,
+      tiles: winningTiles
+    }
   }
   
   // Check for all possible wins and return the first win.
@@ -137,7 +146,10 @@ class GameState {
     if (win !== null) {
       this.outcome = win
     } else if (this.grid.every((cell) => cell !== null)) {
-      this.outcome = 0
+      this.outcome = {
+        player: 0,
+        tiles: []
+      }
     }
     this.render()
   }
@@ -147,11 +159,18 @@ class GameState {
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
         let cell = this.renderableGrid[this.index(x, y)]
-        cell.classList.remove('red')
-        cell.classList.remove('blue')
-        let entry = this.get(x, y)
-        if (entry === 1) { cell.classList.add('red') }
-        else if (entry === -1) { cell.classList.add('blue') }
+        cell.className = 'tttcell'
+        const entry = this.get(x, y)
+
+        const winPrefix =
+          (this.outcome &&
+           this.outcome.tiles.some((p) => 
+            p[0] === x && p[1] === y  
+           ))
+          ? 'win-'
+          : ''
+        if (entry === 1) { cell.classList.add(`${winPrefix}red`) }
+        else if (entry === -1) { cell.classList.add(`${winPrefix}blue`) }
       }
     }
     
@@ -164,11 +183,11 @@ class GameState {
       this.status.innerHTML =
         `${this.inlineIndicator(this.turn)} TO MOVE`
     } else {
-      if (this.outcome === 0) {
+      if (this.outcome.player === 0) {
         this.status.innerHTML = 'TIE'
       } else {
         this.status.innerHTML =
-          `${this.inlineIndicator(this.outcome)} WIN`
+          `${this.inlineIndicator(this.outcome.player)} WIN`
       }
     }
   }
