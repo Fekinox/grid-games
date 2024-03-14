@@ -171,8 +171,12 @@ class GameState {
            ))
           ? 'win-'
           : ''
-        if (entry === 1) { cell.classList.add(`${winPrefix}red`) }
-        else if (entry === -1) { cell.classList.add(`${winPrefix}blue`) }
+        if (entry === 1) { 
+          cell.classList.add(`${winPrefix}red`, 'filledcell')
+        }
+        else if (entry === -1) {
+          cell.classList.add(`${winPrefix}blue`, 'filledcell')
+        }
         else if (!this.outcome) { cell.classList.add('hoverable') }
       }
     }

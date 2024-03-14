@@ -69,28 +69,22 @@ div.tttcell {
   ;
 }
 
-div.red::after, div.win-red::after {
+div.filledcell::after {
   display: inline-block;
   text-rendering: auto;
   position: absolute;
   font: var(--fa-font-solid);
-  content: 'X';
-
   animation-name: popin;
   animation-duration: 0.1s;
   font-size: 2em;
 }
 
-div.blue::after, div.win-blue::after {
-  display: inline-block;
-  text-rendering: auto;
-  position: absolute;
-  font: var(--fa-font-solid);
-  content: 'O';
+div.red::after, div.win-red::after {
+  content: 'X';
+}
 
-  animation-name: popin;
-  animation-duration: 0.1s;
-  font-size: 2em;
+div.blue::after, div.win-blue::after {
+  content: 'O';
 }
 
 div.hoverable:hover {
