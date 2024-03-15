@@ -1,6 +1,5 @@
 // TODO: Maybe make the game area scrollable and make the margin widths dynamic
 // as well.
-// TODO: Glyphs should scale to fit the content
 // TODO: Animations should not restart when you expand the board
 // TODO: Add responsive design stuff as well
 // TODO: Add additional variants (misere tic tac toe, for instance)
