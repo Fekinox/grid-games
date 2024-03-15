@@ -271,7 +271,7 @@ button.expand#right {
 
 div.hscroll, div.vscroll {
   background-color: #212224;
-  padding: 10px;
+  padding: 5px;
 }
 
 div.hscroll:hover, div.vscroll:hover {
