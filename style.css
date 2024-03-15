@@ -158,7 +158,7 @@ div.hoverable:hover {
 }
 
 .blue, div.blue {
-  background-color: var(--player2-color);
+  color: var(--player2-color);
 }
 
 div.tttcell.win-red {
