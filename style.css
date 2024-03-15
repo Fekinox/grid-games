@@ -27,6 +27,7 @@ div#container {
   justify-content: center;
   line-height: 0;
   background-color: #212224;
+  border-radius: 16px;
 }
 
 div#center {
@@ -35,14 +36,18 @@ div#center {
   grid-template-columns: 50px max-content 50px;
   justify-content: stretch;
   align-items: stretch;
+  grid-gap: 20px;
+  padding: 30px;
 }
 
 div#game {
+  background-color: #121314;
   display: grid;
   grid-template-rows: 50px max-content 50px;
   grid-template-columns: 50px max-content 50px;
   width: max-content;
   height: max-content;
+  border-radius: 16px;
 
   grid-area: 2 / 2;
 }
@@ -211,7 +216,7 @@ span#statusline.tie {
 }
 
 button.expand {
-  background-color: var(--background-color);
+  background-color: #121314;
   border: 0;
   margin: 4px;
   padding: 0;
@@ -247,6 +252,7 @@ button.expand#right {
   background-color: var(--hover-color);
   width: 0%;
   height: 0%;
+  border-radius: 16px;
 }
 
 #up .hoverbox {
@@ -272,6 +278,7 @@ button.expand#right {
 div.hscroll, div.vscroll {
   background-color: #212224;
   padding: 5px;
+  border-radius: 16px;
 }
 
 div.hscroll:hover, div.vscroll:hover {
@@ -280,6 +287,7 @@ div.hscroll:hover, div.vscroll:hover {
 
 div.hscroll-indicator, div.vscroll-indicator {
   background-color: #212224;
+  border-radius: 16px;
 }
 
 div.hscroll-indicator {
