@@ -44,6 +44,7 @@ class GameState {
   initCachedItems() {
     this.rootElement = document.querySelector(':root');
     this.gridItem = document.getElementById('tttgrid')
+    this.gameContainer = document.getElementById('game')
     this.gridItem.addEventListener('click', (evt) => {
       const target = evt.target
       if (!target.classList.contains('tttcell')) { return }
@@ -102,24 +103,17 @@ class GameState {
 
         row.appendChild(cell)
         this.renderableGrid.push(cell);
-
-        // global variables for now
-        const maxDim = Math.max(this.width, this.height)
-        const marginWidth = 8
-        const minimumWidth = 50;
-        const expandWidth = 50;
-        const containerSize = 600
-        const maxWidth =
-          Math.max(
-              minimumWidth,
-              (containerSize - 2*expandWidth
-                  - (maxDim+1)*marginWidth)/(maxDim),
-          )
-        cell.style.setProperty('min-width', `${maxWidth}px`)
-        cell.style.setProperty('min-height', `${maxWidth}px`)
       }
       this.gridItem.appendChild(row)
     }
+
+    // Set transform to scale inner contents to 600px
+    const maxLen = Math.max(
+        this.gameContainer.clientWidth,
+        this.gameContainer.clientHeight,
+    )
+    this.gameContainer.style.transform =
+      `scale(${(600/maxLen) * 100}%)`
   }
 
   expandGrid(new_width, new_height, origin_x, origin_y) {
@@ -345,3 +339,4 @@ document.addEventListener('keydown', (event) => {
       break;
   }
 })
+

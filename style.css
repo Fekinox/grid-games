@@ -51,6 +51,9 @@ div#gamecenter {
   background-color: #121314;
   border-radius: 16px;
   padding: 8px;
+  max-width: 600px;
+  max-height: 600px;
+  overflow: hidden hidden;
 }
 
 div#game {
@@ -59,7 +62,6 @@ div#game {
   grid-template-columns: 50px max-content 50px;
   width: max-content;
   height: max-content;
-  transform: scale(calc(600px/100%));
   gap: 8px;
 }
 
