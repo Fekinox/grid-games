@@ -30,25 +30,26 @@ div#container {
 }
 
 div#center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  max-width: 600px;
-  max-height: 600px;
-  min-width: 600px;
-  min-height: 600px;
+  display: grid;
+  grid-template-rows: 50px max-content 50px;
+  grid-template-columns: 50px max-content 50px;
+  justify-content: stretch;
+  align-items: stretch;
 }
 
 div#game {
   display: grid;
   grid-template-rows: 50px max-content 50px;
   grid-template-columns: 50px max-content 50px;
+  width: max-content;
+  height: max-content;
+
+  grid-area: 2 / 2;
 }
 
 div#tttgrid {
   text-align: center;
-  grid-area: 2 / 2;
+  grid-area: 2 / 2 / 3 / 3;
 }
 
 div#tttstatus {
@@ -84,6 +85,25 @@ div.tttcell {
   transition: 
     background-color 0.2s ease
   ;
+
+  border-radius: 4px;
+}
+
+/* Bigger border radii on corners */
+div.tttrow:first-child div.tttcell:first-child {
+  border-top-left-radius: 16px;
+}
+
+div.tttrow:first-child div.tttcell:last-child {
+  border-top-right-radius: 16px;
+}
+
+div.tttrow:last-child div.tttcell:first-child {
+  border-bottom-left-radius: 16px;
+}
+
+div.tttrow:last-child div.tttcell:last-child {
+  border-bottom-right-radius: 16px;
 }
 
 div.filledcell::after {
@@ -247,6 +267,45 @@ button.expand#right {
 #right .hoverbox {
   margin-right: auto;
   height: 70%;
+}
+
+div.hscroll, div.vscroll {
+  background-color: #212224;
+  padding: 10px;
+}
+
+div.hscroll:hover, div.vscroll:hover {
+  background-color: #121314;
+}
+
+div.hscroll-indicator, div.vscroll-indicator {
+  background-color: #212224;
+}
+
+div.hscroll-indicator {
+  height: 100%;
+  width: 10%;
+}
+
+div.vscroll-indicator {
+  height: 10%;
+  width: 100%;
+}
+
+div#vscroll-left {
+  grid-area: 2 / 1;
+}
+
+div#vscroll-right {
+  grid-area: 2 / 3;
+}
+
+div#hscroll-top {
+  grid-area: 1 / 2;
+}
+
+div#hscroll-bottom {
+  grid-area: 3 / 2;
 }
 
 button.expand:hover#up .hoverbox,
