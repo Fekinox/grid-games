@@ -36,25 +36,39 @@ div#center {
   grid-template-columns: 50px max-content 50px;
   justify-content: stretch;
   align-items: stretch;
-  grid-gap: 20px;
+  gap: 20px;
   padding: 30px;
 }
 
-div#game {
+div#gamecenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-area: 2 / 2;
+
+  min-width: 600px;
+  min-height: 600px;
   background-color: #121314;
+  border-radius: 16px;
+  padding: 8px;
+}
+
+div#game {
   display: grid;
   grid-template-rows: 50px max-content 50px;
   grid-template-columns: 50px max-content 50px;
   width: max-content;
   height: max-content;
-  border-radius: 16px;
-
-  grid-area: 2 / 2;
+  transform: scale(calc(600px/100%));
+  gap: 8px;
 }
 
 div#tttgrid {
   text-align: center;
   grid-area: 2 / 2 / 3 / 3;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 div#tttstatus {
@@ -73,14 +87,13 @@ section#buttons {
 }
 
 div.tttrow {
-  display: block;
-  margin: 8px 0;
+  display: flex;
+  gap: 8px;
 }
 
 div.tttcell {
   display: inline-flex;
   position: relative;
-  margin-inline: 4px;
   min-width: 70px;
   min-height: 70px;
   background-color: #2b2c30;
@@ -218,30 +231,12 @@ span#statusline.tie {
 button.expand {
   background-color: #121314;
   border: 0;
-  margin: 4px;
+  margin: 0px;
   padding: 0;
   justify-content: center;
   align-items: center;
 
   display: flex;
-}
-
-button.expand#up {
-  margin-bottom: 0px;
-  margin-top: 8px;
-}
-
-button.expand#down {
-  margin-top: 0px;
-  margin-bottom: 8px;
-}
-
-button.expand#left {
-  margin: 8px 4px 8px 8px;
-}
-
-button.expand#right {
-  margin: 8px 8px 8px 4px;
 }
 
 .hoverbox {
