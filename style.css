@@ -2,6 +2,9 @@
   --player1-color: #ed456f;
   --player2-color: #5572e6;
   --background-color: #212224;
+  --mid-background-color: #2b2c30;
+  --light-background-color: #363745;
+  --dark-background-color: #121314;
 
   --hover-color: #ffffff;
 }
@@ -12,7 +15,7 @@ body {
   justify-content: center;
   align-items: center;
 
-  background-color: #363745;
+  background-color: var(--light-background-color);
   margin-top: 100px;
   color: white;
   font-family: monospace, sans-serif;
@@ -26,7 +29,7 @@ div#container {
   flex-direction: column;
   justify-content: center;
   line-height: 0;
-  background-color: #212224;
+  background-color: var(--background-color);
   border-radius: 16px;
 }
 
@@ -48,7 +51,7 @@ div#gamecenter {
 
   min-width: 600px;
   min-height: 600px;
-  background-color: #121314;
+  background-color: var(--dark-background-color);
   border-radius: 16px;
   padding: 8px;
   max-width: 600px;
@@ -98,7 +101,7 @@ div.tttcell {
   position: relative;
   min-width: 70px;
   min-height: 70px;
-  background-color: #2b2c30;
+  background-color: var(--mid-background-color);
   justify-content: center;
   align-items: center;
 
@@ -151,23 +154,21 @@ div.hoverable:hover {
 }
 
 .red, div.red {
-  /* background-color: #ed456f; */
-  color: #ed456f;
+  color: var(--player1-color);
 }
 
 .blue, div.blue {
-  /* background-color: #5572e6; */
-  color: #5572e6;
+  background-color: var(--player2-color);
 }
 
 div.tttcell.win-red {
-  background-color: #ed456f;
-  color: #2b2c30;
+  background-color: var(--player1-color);
+  color: var(--mid-background-color);
 }
 
 div.tttcell.win-blue {
-  background-color: #5572e6;
-  color: #2b2c30;
+  background-color: var(--player1-color);
+  color: var(--mid-background-color);
 }
 
 i.red, i.blue {
@@ -178,7 +179,7 @@ i.red, i.blue {
 button#reset {
   padding: 0.5em 1em;
   margin: 1em;
-  background-color: #2b2c30;
+  background-color: var(--dark-background-color);
   border: 0;
   color: white;
   grid-area: 4 / 2 / 4 / 3;
@@ -195,13 +196,13 @@ button#reset {
 }
 
 button#reset:hover {
-  background-color: #ed456f;
-  color: #2b2c30;
+  color: var(--player1-color);
+  color: var(--dark-background-color);
 }
 
 button#reset:active {
   background-color: #ba2e4e;
-  color: #2b2c30;
+  color: var(--dark-background-color);
 }
 
 @keyframes popin {
@@ -231,7 +232,7 @@ span#statusline.tie {
 }
 
 button.expand {
-  background-color: #121314;
+  background-color: var(--dark-background-color);
   border: 0;
   margin: 0px;
   padding: 0;
@@ -273,17 +274,17 @@ button.expand {
 }
 
 div.hscroll, div.vscroll {
-  background-color: #212224;
+  background-color: var(--background-color);
   padding: 5px;
   border-radius: 16px;
 }
 
 div.hscroll:hover, div.vscroll:hover {
-  background-color: #121314;
+  background-color: var(--dark-background-color);
 }
 
 div.hscroll-indicator, div.vscroll-indicator {
-  background-color: #212224;
+  background-color: var(--background-color);
   border-radius: 16px;
 }
 
@@ -321,11 +322,6 @@ button.expand:hover#right .hoverbox {
   /* align-self: stretch; */
   width: 100%;
   height: 100%;
-}
-
-button#reset:active {
-  background-color: #ba2e4e;
-  color: #2b2c30;
 }
 
 button#up {
