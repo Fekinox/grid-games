@@ -167,7 +167,7 @@ div.tttcell.win-red {
 }
 
 div.tttcell.win-blue {
-  background-color: var(--player1-color);
+  background-color: var(--player2-color);
   color: var(--mid-background-color);
 }
 
