@@ -107,11 +107,13 @@ class GameState {
         const maxDim = Math.max(this.width, this.height)
         const marginWidth = 8
         const minimumWidth = 50;
+        const expandWidth = 50;
         const containerSize = 600
         const maxWidth =
           Math.max(
               minimumWidth,
-              (containerSize - 100 - (maxDim)*marginWidth)/(maxDim),
+              (containerSize - 2*expandWidth
+                  - (maxDim+1)*marginWidth)/(maxDim),
           )
         cell.style.setProperty('min-width', `${maxWidth}px`)
         cell.style.setProperty('min-height', `${maxWidth}px`)
