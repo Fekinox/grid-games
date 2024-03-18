@@ -10,13 +10,16 @@ My app is called Tic Tac Toe Tic, which is a variant of Tic Tac Toe made by a fr
 
 ## Wire Frames
 
-**Initial Landing View**
+**Initial view**
+![image](https://github.com/Fekinox/tic-tac-toe-tic/assets/20966518/8549f2d0-06c5-485e-8b60-1023121fc02f)
 
-![image](https://media.git.generalassemb.ly/user/21811/files/0f7aee00-c1d9-11ea-9dad-de086a5c91fc)
 
-**Results View**
+**Win*
+![image](https://github.com/Fekinox/tic-tac-toe-tic/assets/20966518/ead53ea9-6ce0-4481-998f-9bcdf7080ccb)
 
-![image](https://media.git.generalassemb.ly/user/21811/files/1a358300-c1d9-11ea-95da-6c14aefb0f18)
+
+**Board expansion**
+![Board expansion](https://github.com/Fekinox/tic-tac-toe-tic/assets/20966518/d3259af3-7ddf-4420-a51f-11aba6f999bf)
 
 ## User Stories
 
@@ -37,22 +40,11 @@ My app is called Tic Tac Toe Tic, which is a variant of Tic Tac Toe made by a fr
 - As a player, I would like access to different variations on the rules, such as regular tic-tac-toe rules without board expansion, or misere rules in which forcing a player to get k-in-a-row counts as a win instead of a loss.
 
 #### Timeline - Daily Accountability
-Example of a Timeline to keep organized and on task for hitting goals every single day you’re on the sprint for your project.
-
-Create your own table using this markdown table generator website:
-https://www.tablesgenerator.com/markdown_tables
-
-Do not neglect to plan, you will thank yourself later for being proactive!
-| Day        |   | Task                               | Blockers | Notes/ Thoughts |
-|------------|---|------------------------------------|----------|-----------------|
-| Thursday   |   | Create and present proposal        |          |                 |
-| Friday     |   | Create html, js, css files         |          |                 |
-| Saturday   |   | Create basic scaffolding           |          |                 |
-| Sunday     |   | Add functionality                  |          |                 |
-| Monday     |   | Add styling                        |          |                 |
-| Tuesday    |   | Finaliza MVP                       |          |                 |
-| Wedenesday |   | Work on stretch goals              |          |                 |
-| Thursday   |   | Work on icebox items if applicable |          |                 |
-| Friday     |   | Presentation Day!                  |          |                 |
-|            |   |                                    |          |                 |
+| Day       | Task                                                                                                                           | Notes |
+|-----------|--------------------------------------------------------------------------------------------------------------------------------|-------|
+| Monday    | Most of the game functionality's already complete- focus on adding responsive design and removing visual/animation bugs.       |       |
+| Tuesday   | Add a settings menu and clean up the code making it easier to change game properties.                                          |       |
+| Wednesday | Try to add new variants and ruleset changes like misere rules, board configuration, or disabling TTTT board expansion entirely |       |
+| Thursday  | Free time to either complete previous tasks or work on stretch goals.                                                          |       |
+| Friday    | Presentation time.                                                                                                             |       |
 
