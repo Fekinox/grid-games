@@ -111,8 +111,17 @@ class GameState {
         this.gameContainer.clientWidth,
         this.gameContainer.clientHeight,
     )
-    this.gameContainer.style.transform =
-      `scale(${(600/maxLen) * 100}%)`
+    // this.scaleWindow(600/maxLen)
+  }
+
+  scaleWindow(sizeFactor) {
+    this.gameContainer.style.scale =
+      `${sizeFactor * 100}%`
+  }
+
+  translateWindow(x, y) {
+    this.gameContainer.style.translate =
+      `${x}px ${y}px`
   }
 
   expandGrid(new_width, new_height, origin_x, origin_y) {
