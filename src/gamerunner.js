@@ -1,6 +1,6 @@
 class GameRunner {
   startGame(engine) {
-    this.buildView()
+    this.getDOMElements()
     this.engine = engine
     this.view = engine.buildView({
       root: this.root,
@@ -26,7 +26,7 @@ class GameRunner {
     this.view.render(this.engine)
   }
 
-  buildView() {
+  getDOMElements() {
     this.root = document.querySelector(':root')
     let container = document.getElementById('container')
     // Game central container
