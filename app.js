@@ -44,6 +44,9 @@ class GameState {
     this.rootElement = document.querySelector(':root');
     this.gridItem = document.getElementById('tttgrid')
     this.gameContainer = document.getElementById('game')
+    this.status = document.getElementById('statusline')
+    this.resetButton = document.querySelector('button#reset')
+
     this.gridItem.addEventListener('click', (evt) => {
       const target = evt.target
       if (!target.classList.contains('tttcell')) { return }
@@ -62,9 +65,6 @@ class GameState {
 
     this.rebuildGrid()
 
-    this.status = document.getElementById('statusline')
-
-    this.resetButton = document.querySelector('button#reset')
     this.resetButton.addEventListener('click', (event) => { 
       this.reset()
       this.rebuildGrid()
