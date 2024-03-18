@@ -14,7 +14,7 @@ class Scroller {
 let scroller
 document.addEventListener('DOMContentLoaded', (event) => {
   scroller = new Scroller(
-    document.getElementByID('gamecenter'),
-    document.getElementByID('game'),
+    document.getElementById('gamecenter'),
+    document.getElementById('game'),
   )
 })

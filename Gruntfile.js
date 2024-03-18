@@ -6,6 +6,7 @@ module.exports = function(grunt) {
     concat: {
       build: {
         src: [
+          'src/grid.js',
           'src/game.js',
           'src/scrolling.js',
           'src/app.js',
