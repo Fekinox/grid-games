@@ -2,6 +2,7 @@ class GameRunner {
   startGame(engine) {
     this.getDOMElements()
     this.engine = engine
+    this.game.id = this.engine.name
     this.view = engine.buildView({
       root: this.root,
       container: this.game,
@@ -36,7 +37,7 @@ class GameRunner {
     let gamecenter = document.createElement('div')
     gamecenter.id = 'gamecenter'
     this.game = document.createElement('div')
-    this.game.id = 'game'
+    this.game.classList.add('game')
 
 
     container.appendChild(center)

@@ -11,9 +11,14 @@
 let runner = new GameRunner()
 
 document.addEventListener('DOMContentLoaded', (event) => {
-  runner.startGame(new TeeFourEngine({
-    width: 4,
-    height: 4,
-    toWin: 4,
+  // runner.startGame(new TeeFourEngine({
+  //   width: 4,
+  //   height: 4,
+  //   toWin: 4,
+  // }))
+  runner.startGame(new TeeThreeEngine({
+    width: 3,
+    height: 3,
+    toWin: 3,
   }))
 })

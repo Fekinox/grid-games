@@ -1,16 +1,16 @@
-class TeeFourEngine {
+class TeeThreeEngine {
   constructor(rules) {
-    this.initWidth = rules.width
-    this.initHeight = rules.height
+    this.width = rules.width
+    this.height = rules.height
     this.toWin = rules.toWin
-    this.name = 'teefour'
+    this.name = 'teethree'
 
     this.reset()
   }
 
   // Resets all game parameters.
   reset() {
-    this.grid = new Grid(this.initWidth, this.initHeight)
+    this.grid = new Grid(this.width, this.height)
     this.turn = 1
     this.outcome = null
   }
@@ -19,9 +19,6 @@ class TeeFourEngine {
     switch(action.name) {
       case 'move':
         this.makeMove(action.x, action.y)
-        break;
-      case 'expand':
-        this.expand(action.dir)
         break;
     }
   }
@@ -46,35 +43,22 @@ class TeeFourEngine {
     const win = this.checkWin(this.turn);
     if (win !== null) {
       this.outcome = win
+    } else if (this.grid.grid.every((elem) => elem !== null)) {
+      this.outcome = {
+        player: 0,
+        tiles: []
+      }
     } else {
       this.turn *= -1;
     }
   }
 
-  expand(dir) {
-    switch(dir) {
-      case 'up':
-        this.grid.resize(this.grid.width, this.grid.height + 1, 0, 1)
-        break;
-      case 'down':
-        this.grid.resize(this.grid.width, this.grid.height + 1, 0, 0)
-        break;
-      case 'left':
-        this.grid.resize(this.grid.width + 1, this.grid.height, 1, 0)
-        break;
-      case 'right':
-        this.grid.resize(this.grid.width + 1, this.grid.height, 0, 0)
-        break;
-    }
-    this.turn *= -1;
-  }
-
   buildView(domElems) {
-    return new TeeFourView(domElems, this)
+    return new TeeThreeView(domElems, this)
   }
 }
 
-class TeeFourView {
+class TeeThreeView {
   constructor(domElems, engine) {
     this.rootElement = domElems.root
     this.gameContainer = domElems.container
@@ -105,27 +89,6 @@ class TeeFourView {
     })
 
     this.rebuildGrid(engine)
-
-    // Expansion buttons
-    for (const dir of ['up', 'down', 'left', 'right']) {
-      const tag = `${dir}Button`
-      let button = document.createElement('button')
-      this[tag] = button
-
-      button.id = dir
-      button.classList.add('expand')
-
-      let hbox = document.createElement('div')
-      hbox.classList.add('hoverbox')
-      button.appendChild(hbox)
-      this.gameContainer.appendChild(button)
-      button.addEventListener('click', (event) => {
-        this.sendAction({
-          name: 'expand',
-          dir: dir
-        })
-      })
-    }
   }
 
   rebuildGrid(engine) {
