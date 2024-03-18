@@ -14,7 +14,7 @@ My app is called Tic Tac Toe Tic, which is a variant of Tic Tac Toe made by a fr
 ![image](https://github.com/Fekinox/tic-tac-toe-tic/assets/20966518/8549f2d0-06c5-485e-8b60-1023121fc02f)
 
 
-**Win*
+**Win**
 ![image](https://github.com/Fekinox/tic-tac-toe-tic/assets/20966518/ead53ea9-6ce0-4481-998f-9bcdf7080ccb)
 
 
@@ -32,12 +32,25 @@ My app is called Tic Tac Toe Tic, which is a variant of Tic Tac Toe made by a fr
 - As a player, I would like to reset the game state at any time so I can play again.
 - As a player, I want the UI to be clean, modern, and responsive, with smooth, subtle animations on all updates to game state.
 - As a player, I want to be able to scroll through the game board if/when it gets too large so that the icons don't become too small for me to feasibly see.
+- As a developer, I want a clean, nicely managed codebase to make it easier to
+  add new games and functionality.
 
 #### Stretch Goals
 
 - As a player who is playing on a mobile device, I wish to have a consistent, seamless, and comfortable user experience.
 - As a player, I would like to open a settings menu in which I can set game parameters like the initial number of rows and columns and the number of tiles needed to win.
 - As a player, I would like access to different variations on the rules, such as regular tic-tac-toe rules without board expansion, or misere rules in which forcing a player to get k-in-a-row counts as a win instead of a loss.
+- As a player, I would like to play additional games that also use the same
+  game board.
+  - I would like to add Othello, a 2-player game where players compete to fill
+    a grid with pieces of their own color.
+  - I would like to add Connect-4, a game where players drop pieces down onto a
+    board to get four in a row.
+- As a player, I would like to choose between additional color themes to
+  personalize my game experience.
+  - As a player, I would like my color scheme choices persisted in the browser
+    so that if I open the game again or refresh the page, the theme remains
+    there.
 
 #### Timeline - Daily Accountability
 | Day       | Task                                                                                                                           | Notes |
