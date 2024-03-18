@@ -75,7 +75,7 @@ div#tttgrid {
   gap: 8px;
 }
 
-div#tttstatus {
+div#status {
   grid-area: 4 / 2;
   text-align: center;
   margin: 10px;

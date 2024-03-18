@@ -29,23 +29,24 @@ class GameRunner {
   getDOMElements() {
     this.root = document.querySelector(':root')
     let container = document.getElementById('container')
+
     // Game central container
     let center = document.createElement('div')
     center.id = 'center'
-    container.appendChild(center)
-
     let gamecenter = document.createElement('div')
     gamecenter.id = 'gamecenter'
-    center.appendChild(gamecenter)
-
     this.game = document.createElement('div')
     this.game.id = 'game'
+
+
+    container.appendChild(center)
+    center.appendChild(gamecenter)
     gamecenter.appendChild(this.game)
     
     // Status
     let status = document.createElement('div')
     this.statusLine = document.createElement('span')
-    status.id = 'tttstatus'
+    status.id = 'status'
     this.statusLine.id = 'statusline'
     status.appendChild(this.statusLine)
     container.appendChild(status)
