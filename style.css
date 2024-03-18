@@ -34,13 +34,12 @@ div#container {
 }
 
 div#center {
-  display: grid;
+  display: flex;
   grid-template-rows: 50px max-content 50px;
   grid-template-columns: 50px max-content 50px;
-  justify-content: stretch;
-  align-items: stretch;
-  gap: 20px;
-  padding: 30px;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
 }
 
 div#gamecenter {
