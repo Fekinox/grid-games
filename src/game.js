@@ -66,13 +66,13 @@ class GameState {
     })
 
     // Expansion buttons
-    ['up', 'down', 'left', 'right'].forEach((dir) => {
+    for (const dir of ['up', 'down', 'left', 'right']) {
       const tag = `${dir}Button`
       this[tag] = document.querySelector(`button#${dir}`)
       this[tag].addEventListener('click', (event) => {
         this.expand(dir)
       })
-    })
+    }
   }
 
   rebuildGrid() {
