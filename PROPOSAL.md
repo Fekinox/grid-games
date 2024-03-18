@@ -50,11 +50,13 @@ game board.
   - As a player, I would like to play against an AI.
 
 #### Timeline - Daily Accountability
-| Day       | Task                                                                                                                           | Notes |
-|-----------|--------------------------------------------------------------------------------------------------------------------------------|-------|
-| Monday    | Most of the game functionality's already complete- focus on adding responsive design and removing visual/animation bugs.       |       |
-| Tuesday   | Add a settings menu and clean up the code making it easier to change game properties.                                          |       |
-| Wednesday | Try to add new variants and ruleset changes like misere rules, board configuration, or disabling TTTT board expansion entirely |       |
-| Thursday  | Free time to either complete previous tasks or work on stretch goals.                                                          |       |
-| Friday    | Presentation time.                                                                                                             |       |
-
+| Day   | Task                                                                                                                                                                                        | Notes |
+|-------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------|
+| 03/18 | Clean up the codebase (split code across multiple files and compile them with Grunt) and generalize the code to allow for running any kind of game, instead of a particular hard-coded one. |       |
+| 03/19 | Begin implementing other games like Othello and Connect-4.                                                                                                                                  |       |
+| 03/20 | Add additional niceties like a running score counting wins, losses, and ties, game settings, and a popup explaining the rules of a game.                                                    |       |
+| 03/21 | Improve the visuals and add animations and styling.                                                                                                                                         |       |
+| 03/22 | Flexible time if previous tasks are not completed by then.                                                                                                                                  |       |
+| 03/23 | Stretch goals                                                                                                                                                                               |       |
+| 03/24 | Stretch goals                                                                                                                                                                               |       |
+| 03/25 | Presentation                                                                                                                                                                                |       |
