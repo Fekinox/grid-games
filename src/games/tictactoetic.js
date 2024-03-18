@@ -72,7 +72,7 @@ class TeeFourEngine {
     return new TeeFourView({
       rootElement: document.querySelector(':root'),
       gameContainer: document.getElementById('game'),
-      status: document.getElementById('tttstatus'),
+      status: document.getElementById('statusline'),
       resetButton: document.querySelector('button#reset')
     }, this)
   }
