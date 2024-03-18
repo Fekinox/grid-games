@@ -55,7 +55,6 @@ class GameState {
       }
 
       this.makeMove(coordinates[0], coordinates[1])
-      console.log('made move')
     })
 
     this.rebuildGrid()
@@ -67,12 +66,10 @@ class GameState {
     })
 
     // Expansion buttons
-    let gs = this;
     ['up', 'down', 'left', 'right'].forEach((dir) => {
       const tag = `${dir}Button`
-      console.log(tag)
-      gs[tag] = document.querySelector(`button#${dir}`)
-      gs[tag].addEventListener('click', (event) => {
+      this[tag] = document.querySelector(`button#${dir}`)
+      this[tag].addEventListener('click', (event) => {
         this.expand(dir)
       })
     })
@@ -119,7 +116,6 @@ class GameState {
   // Check for all possible wins and return the first win.
   checkWin(player) {
     let wins = this.grid.allKInARows(this.toWin, player)
-    console.log('got k in a rows')
     return (wins.length !== 0)
     ? {
       player: this.turn,
