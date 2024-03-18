@@ -7,6 +7,8 @@ module.exports = function(grunt) {
       build: {
         src: [
           'src/grid.js',
+          'src/gamerunner.js',
+          'src/games/tictactoetic.js',
           'src/game.js',
           'src/scrolling.js',
           'src/app.js',
