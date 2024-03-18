@@ -36,9 +36,6 @@ My app is called Tic Tac Toe Tic, which is a variant of Tic Tac Toe made by a fr
 - As a player, I would like to open a settings menu in which I can set game parameters like the initial number of rows and columns and the number of tiles needed to win.
 - As a player, I would like access to different variations on the rules, such as regular tic-tac-toe rules without board expansion, or misere rules in which forcing a player to get k-in-a-row counts as a win instead of a loss.
 
-
-#### Notionboard Template
-
 #### Timeline - Daily Accountability
 Example of a Timeline to keep organized and on task for hitting goals every single day you’re on the sprint for your project.
 
