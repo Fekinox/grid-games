@@ -13,16 +13,7 @@ module.exports = function(grunt) {
           'src/game.js',
           'src/app.js',
         ],
-        dest: 'build/tttt.js',
-      }
-    },
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-      },
-      build: {
-        src: 'build/tttt.js',
-        dest: 'build/<%= pkg.name %>.min.js'
+        dest: 'public/tttt.js',
       }
     }
   });
@@ -32,6 +23,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
 
   // Default task(s).
-  grunt.registerTask('default', ['concat',/* 'uglify' */]);
+  grunt.registerTask('default', ['concat']);
 
 };
