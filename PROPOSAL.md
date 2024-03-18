@@ -10,16 +10,7 @@ For my project, I plan on developing a site (currently unnamed) in which players
 
 ## Wire Frames
 
-**Initial view**
-![image](https://github.com/Fekinox/tic-tac-toe-tic/assets/20966518/8549f2d0-06c5-485e-8b60-1023121fc02f)
-
-
-**Win**
-![image](https://github.com/Fekinox/tic-tac-toe-tic/assets/20966518/ead53ea9-6ce0-4481-998f-9bcdf7080ccb)
-
-
-**Board expansion**
-![Board expansion](https://github.com/Fekinox/tic-tac-toe-tic/assets/20966518/d3259af3-7ddf-4420-a51f-11aba6f999bf)
+![image](https://github.com/Fekinox/tic-tac-toe-tic/assets/20966518/0e9ea51a-619e-4c40-988d-fac2c1691c39)
 
 ## User Stories
 
