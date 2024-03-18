@@ -11,10 +11,12 @@ My app is called Tic Tac Toe Tic, which is a variant of Tic Tac Toe made by a fr
 ## Wire Frames
 
 **Initial view**
-![Initial view](https://files.catbox.moe/3vdfwn.png)
+![image](https://github.com/Fekinox/tic-tac-toe-tic/assets/20966518/8549f2d0-06c5-485e-8b60-1023121fc02f)
 
-**Win**
-![Win](https://files.catbox.moe/6nmazw.png)
+
+**Win*
+![image](https://github.com/Fekinox/tic-tac-toe-tic/assets/20966518/ead53ea9-6ce0-4481-998f-9bcdf7080ccb)
+
 
 **Board expansion**
 ![Board expansion](https://github.com/Fekinox/tic-tac-toe-tic/assets/20966518/d3259af3-7ddf-4420-a51f-11aba6f999bf)
