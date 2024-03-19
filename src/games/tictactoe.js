@@ -3,6 +3,7 @@ class TeeThreeEngine {
     this.width = rules.width
     this.height = rules.height
     this.toWin = rules.toWin
+    this.misere = rules.misere
     this.name = 'teethree'
 
     this.reset()
@@ -73,7 +74,7 @@ class TeeThreeEngine {
     let wins = this.grid.allKInARows(this.toWin, player)
     return (wins.length !== 0)
     ? {
-      player: this.turn,
+      player: (!this.misere) ? this.turn : -this.turn,
       tiles: wins[0],
     }
     : null
