@@ -9,6 +9,7 @@
   --dark-background-color: #121314;
 
   --hover-color: white;
+  font-size: 20px;
 }
 
 body {
@@ -24,7 +25,6 @@ body {
   color: white;
   font-family: monospace, sans-serif;
 
-  font-size: 20px;
   text-transform: uppercase;
 }
 
@@ -88,6 +88,7 @@ div.buttons-hbox {
 }
 
 button, input[type='submit'] {
+  font-size: 20px;
   padding: 0.5em 1em;
   background-color: var(--dark-background-color);
   border: 0;
@@ -132,6 +133,7 @@ input[type='number'] {
   background-color: var(--dark-background-color);
   color: white;
   border: 0;
+  font-size: 20px;
 }
 
 input[type='number']:invalid {

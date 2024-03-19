@@ -86,7 +86,7 @@ class GameRules {
       }
     })
 
-    form.onsubmit = (event) => {
+    form.addEventListener('submit', (event) => {
       event.preventDefault()
       let rules = fields.reduce(
         (rules, item) => {
@@ -102,7 +102,7 @@ class GameRules {
         }, {})
       app.clearPopup()
       submitHook(rules)
-    }
+    })
 
     return form
   }
