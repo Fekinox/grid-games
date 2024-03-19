@@ -116,20 +116,11 @@ class TeeThreeView {
     this.gridItem.addEventListener('click', (evt) => {
       const target = evt.target
       if (!target.classList.contains('tttcell')) { return }
-      const coordinates = target.id.split(' ').map((s) => Number(s))
-      if (coordinates.length < 2 ||
-        coordinates.some((c) => 
-          c === undefined || c === NaN
-        )
-      ) {
-        console.log('Invalid cell ID')
-        return
-      }
 
       this.sendAction({
         name: 'move',
-        x: coordinates[0],
-        y: coordinates[1]
+        x: Number(target.dataset.x),
+        y: Number(target.dataset.y),
       })
     })
 
@@ -148,7 +139,9 @@ class TeeThreeView {
         let entry = engine.grid.get(x, y)
         if (entry === 1) { cell.classList.add('red') }
         else if (entry === -1) { cell.classList.add('blue') }
-        cell.id = `${x} ${y}`
+
+        cell.dataset.x = x
+        cell.dataset.y = y
 
         row.appendChild(cell)
         this.renderableGrid.set(x, y, cell);
