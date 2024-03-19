@@ -7,10 +7,14 @@ class GameRunner {
     this.getDOMElements()
   }
 
+  clearGame() {
+    this.game.innerHTML = ''
+  }
+
   startGame(engine) {
+    this.clearGame()
     this.engine = engine
     this.game.id = this.engine.name
-    this.game.innerHTML = ''
     this.view = engine.buildView({
       root: this.root,
       container: this.game,
@@ -72,6 +76,15 @@ class GameRunner {
       this.resetGame()
     })
 
+    this.backButton = document.createElement('button')
+    this.backButton.id = 'back'
+    this.backButton.innerHTML = 'BACK'
+    this.backButton.addEventListener('click', (event) => {
+      this.clearGame()
+      this.app.openMenu()
+    })
+
     buttons.appendChild(this.resetButton)
+    buttons.appendChild(this.backButton)
   }
 }

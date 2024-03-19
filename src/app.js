@@ -18,8 +18,7 @@ class App {
     this.menu.initialize(gameEntries)
     this.runner.getDOMElements()
 
-    this.menu.menuWindow.classList.remove('hidden')
-    this.runner.container.classList.add('hidden')
+    this.openMenu()
   }
 
   startGame(r, rules) {
@@ -27,6 +26,11 @@ class App {
     this.runner.container.classList.remove('hidden')
     let engine = r(rules)
     this.runner.startGame(engine)
+  }
+
+  openMenu() {
+    this.menu.menuWindow.classList.remove('hidden')
+    this.runner.container.classList.add('hidden')
   }
 }
 
