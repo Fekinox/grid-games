@@ -73,7 +73,6 @@ div#gamecenter {
 }
 
 div#status {
-  grid-area: 4 / 2;
   text-align: center;
   margin: 10px;
   height: 40px;
@@ -223,7 +222,6 @@ div.entry {
 /* Grid for Tic Tac Toe-like games. */
 div#tttgrid {
   text-align: center;
-  grid-area: 2 / 2 / 3 / 3;
   display: flex;
   flex-direction: column;
   gap: 8px;
