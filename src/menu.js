@@ -1,6 +1,7 @@
 const gameEntries = [
   TeeThreeEngine.getEntry(),
   TeeFourEngine.getEntry(),
+  TeeFourEngine.getEntry(),
 ]
 
 class Menu {

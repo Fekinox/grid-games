@@ -24,7 +24,7 @@ body {
   color: white;
   font-family: monospace, sans-serif;
 
-  font-size: 24px;
+  font-size: 20px;
   text-transform: uppercase;
 }
 
@@ -39,6 +39,8 @@ div#container {
   text-align: center;
   background-color: var(--background-color);
   height: 100%;
+  padding: 50px;
+  width: 720px;
 }
 
 div#gameview {
@@ -78,19 +80,15 @@ div#status {
   line-height: 40px;
 }
 
-section.button-hbox {
+div.buttons-hbox {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-div#gameview section.button-hbox {
-  grid-area: 5 / 2;
+  gap: 10px;
 }
 
 button, input[type='submit'] {
   padding: 0.5em 1em;
-  margin: 1em;
   background-color: var(--dark-background-color);
   border: 0;
   color: white;
@@ -100,6 +98,8 @@ button, input[type='submit'] {
   text-transform: uppercase;
   font-size: 20px;
   font-family: monospace, sans-serif;
+  max-width: 200px;
+  white-space: normal;
 
   transition:
     background-color 0.2s ease,
@@ -115,6 +115,27 @@ button:hover, input[type='submit']:hover {
 button:active, input[type='submit']:active {
   background-color: #ba2e4e;
   color: var(--dark-background-color);
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input[type='number'] {
+  max-width: 3em;
+  background-color: var(--dark-background-color);
+  color: white;
+  border: 0;
+}
+
+input[type='number']:invalid {
+  border-bottom: 2px solid var(--player1-color);
 }
 
 span#statusline {
@@ -145,14 +166,19 @@ div#gamemenu {
 
 section#gameselect {
   position: relative;
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 120px);
-  gap: 40px;
+  grid-template-columns: repeat(3, 25%);
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
 }
 
 div.gameentry {
+  min-height: 50px;
   position: relative;
   background-color: var(--light-background-color);
+  padding: 10px;
 }
 
 div.gameentry div.gamedesc {
@@ -161,6 +187,7 @@ div.gameentry div.gamedesc {
   left: 0;
   right: 0;
   z-index: 1;
+  padding: 10px;
 }
 
 div.gameentry:hover div.gamedesc {
@@ -191,10 +218,6 @@ form.popup {
 div.entry {
   display: flex;
   justify-content: space-between;
-}
-
-input[type='number'] {
-  max-width: 3em;
 }
 /* Grid for Tic Tac Toe-like games. */
 div#tttgrid {

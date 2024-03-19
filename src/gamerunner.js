@@ -68,8 +68,8 @@ class GameRunner {
       { id: 'statusline', parent: status, })
 
     // Buttons
-    let buttons = elementBuild('section',
-      { classList: 'button-hbox', parent: this.container, })
+    let buttons = elementBuild('div',
+      { classList: 'buttons-hbox', parent: this.container, })
 
     this.resetButton = elementBuild('button', {
       id: 'reset',
