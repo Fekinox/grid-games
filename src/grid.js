@@ -74,14 +74,11 @@ class Grid {
     const endY = y + dy*(length - 1)
     if (!this.inBounds(endX, endY) || this.get(x, y) !== elem) { return null }
 
-    let res = [{
-      x: x,
-      y: y,
-    }]
+    let res = []
 
-    let xx = x + dx
-    let yy = y + dy
-    let steps = 1
+    let xx = x
+    let yy = y
+    let steps = 0
 
     while (this.inBounds(xx, yy) && steps < length) {
       if (this.get(xx, yy) !== elem) { return null }
@@ -91,6 +88,7 @@ class Grid {
       })
       xx += dx
       yy += dy
+      steps += 1
     }
 
     return res

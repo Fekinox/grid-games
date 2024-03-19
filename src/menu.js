@@ -23,23 +23,33 @@ class Menu {
   }
 
   buildGameEntry(entry) {
-    let elem = document.createElement('div')
-    elem.classList.add('gameentry')
+    let elem = elementBuild('div', {
+      classList: 'gameentry',
+    })
 
     elem.innerHTML += entry.name
+    elem.addEventListener('click', (event) => {
+      app.startGame(entry.run, entry.settings.getDefaultRules())
+    })
 
-    let desc = document.createElement('div')
-    desc.classList.add('gamedesc')
-    elem.appendChild(desc)
+    let desc = elementBuild('div', {
+      classList: 'gamedesc',
+      parent: elem,
+    })
 
     desc.innerHTML += entry.description
 
-    let settingsButton = document.createElement('button')
-    settingsButton.innerHTML = 'Settings'
-    desc.appendChild(settingsButton)
+    let settingsButton = elementBuild('button', {
+      parent: desc,
+      attributes: {
+        innerHTML: 'Settings',
+      }
+    })
 
-    elem.addEventListener('click', (event) => {
-      app.startGame(entry.run, entry.settings.getDefaultRules())
+    settingsButton.addEventListener('click', (event) => {
+      app.addPopup(entry.settings.buildSettingsMenu(app, entry.run))
+      event.stopPropagation()
+      event.preventDefault()
     })
 
     return elem

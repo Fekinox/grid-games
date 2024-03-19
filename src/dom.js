@@ -12,8 +12,8 @@ function elementBuild(tag, spec) {
   }
 
   // Set classes
-  if (Object.hasOwn(spec, 'classes')) {
-    spec.classes.forEach((c) => {
+  if (Object.hasOwn(spec, 'classList')) {
+    spec.classList.split(' ').forEach((c) => {
       elem.classList.add(c)
     })
   }

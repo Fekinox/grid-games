@@ -26,7 +26,7 @@ body {
   text-transform: uppercase;
 }
 
-div#gamemenu.hidden, div#gameview.hidden {
+div#gamemenu.hidden, div#gameview.hidden, div#dimmer.hidden {
   display: none
 }
 
@@ -397,6 +397,7 @@ div#dimmer {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 }
 
 form.popup {

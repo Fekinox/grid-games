@@ -13,17 +13,16 @@ class GameRules {
     )
   }
 
-  buildSettingsMenu(app, name) {
+  buildSettingsMenu(app, run) {
     let form = elementBuild('form', {
-      id: name,
-      classes: ['popup'],
+      classList: 'popup',
     })
 
     let fields = []
 
     this.entries.forEach((entry) => {
       let area = elementBuild('div', {
-        classes: ['entry'],
+        classList: 'entry',
         parent: form,
       })
 
@@ -43,7 +42,7 @@ class GameRules {
     })
 
     let buttons = elementBuild('div', {
-      classes: ['buttons-hbox'],
+      classList: 'buttons-hbox',
       parent: form,
     })
 
@@ -51,24 +50,13 @@ class GameRules {
       parent: buttons,
       attributes: {
         type: 'submit',
-        value: 'submit',
-      }
-    })
-
-    let closeButton = elementBuild('button', {
-      parent: buttons,
-      classes: ['close'],
-      attributes: {
-        innerHTML: 'close',
-        onclick: (event) => {
-          form.remove()
-        },
+        value: 'Play with modified rules',
       }
     })
 
     let toDefaultButton = elementBuild('button', {
       parent: buttons,
-      classes: ['todefault'],
+      classList: 'todefault',
       attributes: {
         innerHTML: 'default',
         onclick: (event) => {
@@ -87,6 +75,17 @@ class GameRules {
       }
     })
 
+    let closeButton = elementBuild('button', {
+      parent: buttons,
+      classList: 'close',
+      attributes: {
+        innerHTML: 'close',
+        onclick: (event) => {
+          app.clearPopup()
+        },
+      }
+    })
+
     form.onsubmit = (event) => {
       event.preventDefault()
       let rules = fields.reduce(
@@ -101,7 +100,8 @@ class GameRules {
           }
           return rules
         }, {})
-      console.log(rules)
+      app.clearPopup()
+      app.startGame(run, rules)
     }
 
     return form
