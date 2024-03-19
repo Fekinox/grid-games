@@ -360,7 +360,7 @@ div#gamemenu {
   border-radius: 16px;
 }
 
-section.gameselect {
+section#gameselect {
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 120px);
@@ -369,8 +369,6 @@ section.gameselect {
 
 div.gameentry {
   position: relative;
-  left: 0;
-  right: 0;
   background-color: var(--light-background-color);
 }
 

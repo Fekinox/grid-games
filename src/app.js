@@ -9,6 +9,7 @@
 // games)
 
 let runner = new GameRunner()
+let menu = new Menu()
 
 document.addEventListener('DOMContentLoaded', (event) => {
   // runner.startGame(new TeeFourEngine({
@@ -16,9 +17,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
   //   height: 4,
   //   toWin: 4,
   // }))
-  runner.startGame(new TeeThreeEngine({
-    width: 3,
-    height: 3,
-    toWin: 3,
-  }))
+  // runner.startGame(new TeeThreeEngine({
+  //   width: 3,
+  //   height: 3,
+  //   toWin: 3,
+  // }))
+  menu.initialize(gameEntries)
 })
