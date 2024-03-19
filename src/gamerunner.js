@@ -17,7 +17,6 @@ class GameRunner {
     this.clearGame()
     this.entry = gameEntry
     this.engine = gameEntry.run(rules)
-    console.log(this.engine)
     this.game.id = this.engine.name
     this.view = this.engine.buildView({
       root: this.root,
@@ -70,7 +69,7 @@ class GameRunner {
 
     // Buttons
     let buttons = elementBuild('section',
-      { id: 'buttons', parent: this.container, })
+      { classList: 'button-hbox', parent: this.container, })
 
     this.resetButton = elementBuild('button', {
       id: 'reset',

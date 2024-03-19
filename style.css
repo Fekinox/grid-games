@@ -1,3 +1,5 @@
+/* --- GLOBAL --- */
+
 :root {
   --player1-color: #ed456f;
   --player2-color: #5572e6;
@@ -6,7 +8,7 @@
   --light-background-color: #363745;
   --dark-background-color: #121314;
 
-  --hover-color: #ffffff;
+  --hover-color: white;
 }
 
 body {
@@ -39,10 +41,15 @@ div#container {
   height: 100%;
 }
 
+div#gameview {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 div#center {
   display: flex;
-  grid-template-rows: 50px max-content 50px;
-  grid-template-columns: 50px max-content 50px;
   justify-content: center;
   align-items: center;
   padding: 50px;
@@ -52,7 +59,6 @@ div#gamecenter {
   display: flex;
   justify-content: center;
   align-items: center;
-  grid-area: 2 / 2;
 
   min-width: 600px;
   min-height: 600px;
@@ -64,32 +70,6 @@ div#gamecenter {
   overflow: hidden hidden;
 }
 
-div.game#teefour {
-  display: grid;
-  grid-template-rows: 50px max-content 50px;
-  grid-template-columns: 50px max-content 50px;
-  width: max-content;
-  height: max-content;
-  gap: 8px;
-}
-
-div.game#teethree {
-  display: grid;
-  grid-template-rows: 50px max-content 50px;
-  grid-template-columns: 50px max-content 50px;
-  width: max-content;
-  height: max-content;
-  gap: 8px;
-}
-
-div#tttgrid {
-  text-align: center;
-  grid-area: 2 / 2 / 3 / 3;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
 div#status {
   grid-area: 4 / 2;
   text-align: center;
@@ -98,11 +78,131 @@ div#status {
   line-height: 40px;
 }
 
-section#buttons {
-  grid-area: 5 / 2;
+section.button-hbox {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+div#gameview section.button-hbox {
+  grid-area: 5 / 2;
+}
+
+button, input[type='submit'] {
+  padding: 0.5em 1em;
+  margin: 1em;
+  background-color: var(--dark-background-color);
+  border: 0;
+  color: white;
+  grid-area: 4 / 2 / 4 / 3;
+  justify-self: center;
+
+  text-transform: uppercase;
+  font-size: 20px;
+  font-family: monospace, sans-serif;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease
+  ;
+}
+
+button:hover, input[type='submit']:hover {
+  background-color: var(--player1-color);
+  color: var(--dark-background-color);
+}
+
+button:active, input[type='submit']:active {
+  background-color: #ba2e4e;
+  color: var(--dark-background-color);
+}
+
+span#statusline {
+  transition: border-bottom-width 0.2s ease;
+}
+
+span#statusline.win-red {
+  border-bottom: 3px solid var(--player1-color);
+}
+
+span#statusline.win-blue {
+  border-bottom: 3px solid var(--player2-color);
+}
+
+span#statusline.tie {
+  border-bottom: 3px solid white;
+}
+
+div#gamemenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: var(--background-color);
+  border-radius: 16px;
+}
+
+section#gameselect {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 120px);
+  gap: 40px;
+}
+
+div.gameentry {
+  position: relative;
+  background-color: var(--light-background-color);
+}
+
+div.gameentry div.gamedesc {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+div.gameentry:hover div.gamedesc {
+  display: block;
+  background-color: inherit;
+}
+
+div#dimmer {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0000003f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+form.popup {
+  background-color: var(--light-background-color);
+  padding: 20px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+}
+
+div.entry {
+  display: flex;
+  justify-content: space-between;
+}
+
+input[type='number'] {
+  max-width: 3em;
+}
+/* Grid for Tic Tac Toe-like games. */
+div#tttgrid {
+  text-align: center;
+  grid-area: 2 / 2 / 3 / 3;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 div.tttrow {
@@ -189,36 +289,6 @@ i.red, i.blue {
   margin-right: 10px;
   vertical-align: -0.2px;
 }
-
-button#reset {
-  padding: 0.5em 1em;
-  margin: 1em;
-  background-color: var(--dark-background-color);
-  border: 0;
-  color: white;
-  grid-area: 4 / 2 / 4 / 3;
-  justify-self: center;
-
-  text-transform: uppercase;
-  font-size: 20px;
-  font-family: monospace, sans-serif;
-
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease
-  ;
-}
-
-button#reset:hover {
-  color: var(--player1-color);
-  color: var(--dark-background-color);
-}
-
-button#reset:active {
-  background-color: #ba2e4e;
-  color: var(--dark-background-color);
-}
-
 @keyframes popin {
   from {
     font-size: 0;
@@ -229,20 +299,22 @@ button#reset:active {
   }
 }
 
-span#statusline {
-  transition: border-bottom-width 0.2s ease;
+div.game#teethree {
+  display: grid;
+  grid-template-rows: 50px max-content 50px;
+  grid-template-columns: 50px max-content 50px;
+  width: max-content;
+  height: max-content;
+  gap: 8px;
 }
 
-span#statusline.win-red {
-  border-bottom: 3px solid var(--player1-color)
-}
-
-span#statusline.win-blue {
-  border-bottom: 3px solid var(--player2-color)
-}
-
-span#statusline.tie {
-  border-bottom: 3px solid white
+div.game#teefour {
+  display: grid;
+  grid-template-rows: 50px max-content 50px;
+  grid-template-columns: 50px max-content 50px;
+  width: max-content;
+  height: max-content;
+  gap: 8px;
 }
 
 button.expand {
@@ -252,6 +324,9 @@ button.expand {
   padding: 0;
   justify-content: center;
   align-items: center;
+
+  width: 100%;
+  height: 100%;
 
   display: flex;
 }
@@ -287,53 +362,10 @@ button.expand {
   height: 70%;
 }
 
-div.hscroll, div.vscroll {
-  background-color: var(--background-color);
-  padding: 5px;
-  border-radius: 16px;
-}
-
-div.hscroll:hover, div.vscroll:hover {
-  background-color: var(--dark-background-color);
-}
-
-div.hscroll-indicator, div.vscroll-indicator {
-  background-color: var(--background-color);
-  border-radius: 16px;
-}
-
-div.hscroll-indicator {
-  height: 100%;
-  width: 10%;
-}
-
-div.vscroll-indicator {
-  height: 10%;
-  width: 100%;
-}
-
-div#vscroll-left {
-  grid-area: 2 / 1;
-}
-
-div#vscroll-right {
-  grid-area: 2 / 3;
-}
-
-div#hscroll-top {
-  grid-area: 1 / 2;
-}
-
-div#hscroll-bottom {
-  grid-area: 3 / 2;
-}
-
 button.expand:hover#up .hoverbox,
 button.expand:hover#down .hoverbox,
 button.expand:hover#left .hoverbox,
 button.expand:hover#right .hoverbox {
-  /* justify-self: stretch; */
-  /* align-self: stretch; */
   width: 100%;
   height: 100%;
 }
@@ -352,68 +384,4 @@ button#left {
 
 button#right {
   grid-area: 2 / 3;
-}
-
-div#gamemenu {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background-color: var(--background-color);
-  border-radius: 16px;
-}
-
-section#gameselect {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(3, 120px);
-  gap: 40px;
-}
-
-div.gameentry {
-  position: relative;
-  background-color: var(--light-background-color);
-}
-
-div.gameentry div.gamedesc {
-  display: none;
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 1;
-}
-
-div.gameentry:hover div.gamedesc {
-  display: block;
-  background-color: inherit;
-}
-
-div#dimmer {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  background-color: #0000003f;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
-
-form.popup {
-  background-color: var(--light-background-color);
-  padding: 20px; 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
-}
-
-div.entry {
-  display: flex;
-  justify-content: space-between;
-}
-
-input[type='number'] {
-  max-width: 3em;
 }
