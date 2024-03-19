@@ -25,11 +25,10 @@ class App {
     this.openMenu()
   }
 
-  startGame(r, rules) {
+  startGame(entry, rules) {
     this.menu.menuWindow.classList.add('hidden')
     this.runner.container.classList.remove('hidden')
-    let engine = r(rules)
-    this.runner.startGame(engine)
+    this.runner.startGame(entry, rules)
   }
 
   openMenu() {
@@ -51,15 +50,5 @@ class App {
 let app = new App()
 
 document.addEventListener('DOMContentLoaded', (event) => {
-  // runner.startGame(new TeeFourEngine({
-  //   width: 4,
-  //   height: 4,
-  //   toWin: 4,
-  // }))
-  // runner.startGame(new TeeThreeEngine({
-  //   width: 3,
-  //   height: 3,
-  //   toWin: 3,
-  // }))
   app.initialize()
 })

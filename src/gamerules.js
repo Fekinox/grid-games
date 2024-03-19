@@ -13,7 +13,7 @@ class GameRules {
     )
   }
 
-  buildSettingsMenu(app, run) {
+  buildSettingsMenu(app, submitHook) {
     let form = elementBuild('form', {
       classList: 'popup',
     })
@@ -101,7 +101,7 @@ class GameRules {
           return rules
         }, {})
       app.clearPopup()
-      app.startGame(run, rules)
+      submitHook(rules)
     }
 
     return form

@@ -1,6 +1,7 @@
 class GameRunner {
   constructor(app) {
     this.app = app
+    this.entry = null
   }
 
   initialize() {
@@ -9,13 +10,16 @@ class GameRunner {
 
   clearGame() {
     this.game.innerHTML = ''
+    this.entry = null
   }
 
-  startGame(engine) {
+  startGame(gameEntry, rules) {
     this.clearGame()
-    this.engine = engine
+    this.entry = gameEntry
+    this.engine = gameEntry.run(rules)
+    console.log(this.engine)
     this.game.id = this.engine.name
-    this.view = engine.buildView({
+    this.view = this.engine.buildView({
       root: this.root,
       container: this.game,
       status: this.statusLine,
@@ -44,47 +48,61 @@ class GameRunner {
     this.container = document.getElementById('gameview')
 
     // Game central container
-    let center = document.createElement('div')
-    center.id = 'center'
-    let gamecenter = document.createElement('div')
-    gamecenter.id = 'gamecenter'
-    this.game = document.createElement('div')
-    this.game.classList.add('game')
+    let center = elementBuild('div', {
+      parent: this.container,
+      id: 'center',
+    })
 
+    let gamecenter = elementBuild('div', {
+      id: 'gamecenter',
+      parent: center,
+    })
 
-    this.container.appendChild(center)
-    center.appendChild(gamecenter)
-    gamecenter.appendChild(this.game)
+    this.game = elementBuild('div', {
+      parent: gamecenter,
+      classList: 'game',
+    })
     
     // Status
-    let status = document.createElement('div')
-    this.statusLine = document.createElement('span')
-    status.id = 'status'
-    this.statusLine.id = 'statusline'
-    status.appendChild(this.statusLine)
-    this.container.appendChild(status)
+    let status = elementBuild('div', { id: 'status', parent: this.container, })
+    this.statusLine = elementBuild('span',
+      { id: 'statusline', parent: status, })
 
     // Buttons
-    let buttons = document.createElement('section')
-    buttons.id = 'buttons'
-    this.container.appendChild(buttons)
+    let buttons = elementBuild('section',
+      { id: 'buttons', parent: this.container, })
 
-    this.resetButton = document.createElement('button')
-    this.resetButton.id = 'reset'
-    this.resetButton.innerHTML = 'RESET'
+    this.resetButton = elementBuild('button', {
+      id: 'reset',
+      parent: buttons,
+      attributes: { innerHTML: 'RESET', }
+    })
     this.resetButton.addEventListener('click', (event) => {
       this.resetGame()
     })
 
-    this.backButton = document.createElement('button')
-    this.backButton.id = 'back'
-    this.backButton.innerHTML = 'BACK'
+    this.backButton = elementBuild('button', {
+      id: 'back',
+      parent: buttons,
+      attributes: { innerHTML: 'BACK', }
+    })
     this.backButton.addEventListener('click', (event) => {
       this.clearGame()
       this.app.openMenu()
     })
 
-    buttons.appendChild(this.resetButton)
-    buttons.appendChild(this.backButton)
+    this.updateRulesButton = elementBuild('button', {
+      id: 'updateRules',
+      parent: buttons,
+      attributes: { innerHTML: 'UPDATE RULES', }
+    })
+    this.updateRulesButton.addEventListener('click', (event) => {
+      let menu = this.entry.settings.buildSettingsMenu(this.app,
+        (rules) => {
+          this.startGame(this.entry, rules)
+        }
+      )
+      app.addPopup(menu)
+    })
   }
 }

@@ -29,7 +29,7 @@ class Menu {
 
     elem.innerHTML += entry.name
     elem.addEventListener('click', (event) => {
-      app.startGame(entry.run, entry.settings.getDefaultRules())
+      app.startGame(entry, entry.settings.getDefaultRules())
     })
 
     let desc = elementBuild('div', {
@@ -47,7 +47,12 @@ class Menu {
     })
 
     settingsButton.addEventListener('click', (event) => {
-      app.addPopup(entry.settings.buildSettingsMenu(app, entry.run))
+      let menu = entry.settings.buildSettingsMenu(this.app, 
+        (rules) => {
+          this.app.startGame(entry, rules)
+        }
+      )
+      app.addPopup(menu)
       event.stopPropagation()
       event.preventDefault()
     })
