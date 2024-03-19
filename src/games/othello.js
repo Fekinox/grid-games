@@ -76,7 +76,7 @@ class OthelloEngine {
 
     // (x, y) is a legal move if
     return dirs.map((dir) => {
-      const line = this.grid.lineQuery(x, y, dir.x, dir.y, null)
+      const line = this.grid.lineQuery(x, y, dir.x, dir.y)
       let res = {
         toRemove: []
       }
@@ -122,6 +122,11 @@ class OthelloEngine {
       lines.length === 0) { return }
     
     this.grid.set(x, y, this.turn)
+    lines.forEach((line) => {
+      line.toRemove.forEach((position) => {
+        this.grid.set(position.x, position.y, this.turn)
+      })
+    })
     this.turn *= -1
   }
 

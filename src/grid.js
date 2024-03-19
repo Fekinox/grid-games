@@ -26,34 +26,14 @@ class Grid {
   // Scans the grid in the given direction (dx, dy) and returns the results as
   // an array of objects (x, y, elem). dx and dy are assumed to have absolute
   // value at most 1.
-  // If length is null, it will seek until it hits the edge of the grid.
-  // If length is not null, it will seek as far as length, and return null if
-  // it cannot go that far.
-  lineQuery(x, y, dx, dy, length = null) {
-    let curLength = length
-    if (length === null) {
-      let maxExtentX =
-        (dx > 0)
-        ? (this.width - x - 1)
-        : (x + 1)
-      let maxExtentY = 
-        (dy > 0)
-        ? (this.height - y)
-        : (y + 1)
-      curLength = Math.min(maxExtentX, maxExtentY)
-    }
-
-    const endX = x + dx*(curLength - 1)
-    const endY = y + dy*(curLength - 1)
-    if (!this.inBounds(endX, endY)) { return null }
-
+  lineQuery(x, y, dx, dy) {
     let res = []
 
     let xx = x
     let yy = y
     let steps = 0
 
-    while (this.inBounds(xx, yy) && steps < curLength) {
+    while (this.inBounds(xx, yy)) {
       res.push({
         x: xx,
         y: yy,
