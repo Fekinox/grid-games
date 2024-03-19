@@ -34,11 +34,11 @@ class Grid {
     if (length === null) {
       let maxExtentX =
         (dx > 0)
-        ? (this.width - x)
+        ? (this.width - x - 1)
         : (x + 1)
       let maxExtentY = 
         (dy > 0)
-        ? (this.height - x)
+        ? (this.height - y)
         : (y + 1)
       curLength = Math.min(maxExtentX, maxExtentY)
     }
@@ -47,15 +47,11 @@ class Grid {
     const endY = y + dy*(curLength - 1)
     if (!this.inBounds(endX, endY)) { return null }
 
-    let res = [{
-      x: x,
-      y: y,
-      elem: this.get(x, y)
-    }]
+    let res = []
 
-    let xx = x + dx
-    let yy = y + dy
-    let steps = 1
+    let xx = x
+    let yy = y
+    let steps = 0
 
     while (this.inBounds(xx, yy) && steps < curLength) {
       res.push({
@@ -63,6 +59,9 @@ class Grid {
         y: yy,
         elem: this.get(xx, yy)
       })
+      xx += dx
+      yy += dy
+      steps += 1
     }
 
     return res

@@ -90,6 +90,7 @@ div.buttons-hbox {
 button, input[type='submit'] {
   font-size: 20px;
   padding: 0.5em 1em;
+  border-radius: 4px;
   background-color: var(--dark-background-color);
   border: 0;
   color: white;
@@ -176,6 +177,7 @@ section#gameselect {
 }
 
 div.gameentry {
+  border-radius: 8px;
   min-height: 50px;
   position: relative;
   background-color: var(--light-background-color);
@@ -185,6 +187,8 @@ div.gameentry {
 div.gameentry div.gamedesc {
   display: none;
   position: absolute;
+  background: inherit;
+  border-radius: inherit;
   left: 0;
   right: 0;
   z-index: 1;
@@ -236,8 +240,8 @@ div.tttrow {
 div.tttcell {
   display: inline-flex;
   position: relative;
-  min-width: 100px;
-  min-height: 100px;
+  min-width: 50px;
+  min-height: 50px;
   background-color: var(--mid-background-color);
   justify-content: center;
   align-items: center;
@@ -271,7 +275,7 @@ div.filledcell::after {
   text-rendering: auto;
   position: absolute;
   font: var(--fa-font-solid);
-  font-size: 70px;
+  font-size: 40px;
 
   animation-name: popin;
   animation-duration: 0.2s;
@@ -318,7 +322,7 @@ i.red, i.blue {
   }
 
   to {
-    font-size: 70px;
+    font-size: 40px;
   }
 }
 

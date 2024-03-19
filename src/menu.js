@@ -1,7 +1,7 @@
 const gameEntries = [
   TeeThreeEngine.getEntry(),
   TeeFourEngine.getEntry(),
-  TeeFourEngine.getEntry(),
+  OthelloEngine.getEntry(),
 ]
 
 class Menu {
