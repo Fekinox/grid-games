@@ -93,7 +93,6 @@ button, input[type='submit'] {
   background-color: var(--dark-background-color);
   border: 0;
   color: white;
-  grid-area: 4 / 2 / 4 / 3;
   justify-self: center;
 
   text-transform: uppercase;
@@ -325,9 +324,7 @@ i.red, i.blue {
 }
 
 div.game#teethree {
-  display: grid;
-  grid-template-rows: 50px max-content 50px;
-  grid-template-columns: 50px max-content 50px;
+  padding: 50px;
   width: max-content;
   height: max-content;
   gap: 8px;
