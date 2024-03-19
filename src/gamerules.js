@@ -31,6 +31,7 @@ class GameRules {
       fields.push({
         name: entry.name,
         field: field,
+        default: entry.default
       })
 
       area.appendChild(label)
@@ -38,10 +39,42 @@ class GameRules {
       form.appendChild(area)
     })
 
+    let buttons = document.createElement('div')
+    buttons.class = 'buttons-hbox'
+
     let submitButton = document.createElement('input')
     submitButton.type = 'submit'
     submitButton.value = 'submit'
-    form.appendChild(submitButton)
+
+    let closeButton = document.createElement('button')
+    closeButton.class = 'close'
+    closeButton.innerHTML = 'close'
+    closeButton.onclick = (event) => {
+      form.remove()
+    }
+
+    let toDefaultButton = document.createElement('button')
+    toDefaultButton.class = 'todefault'
+    toDefaultButton.innerHTML = 'default'
+    toDefaultButton.onclick = (event) => {
+      fields.forEach((elem) => {
+        switch(elem.field.type) {
+          case 'checkbox':
+            elem.field.checked = elem.default
+            break;
+          case 'number':
+            elem.field.value = elem.default
+            break;
+        }
+      })
+      event.preventDefault()
+    }
+
+    buttons.appendChild(submitButton)
+    buttons.appendChild(closeButton)
+    buttons.appendChild(toDefaultButton)
+    form.appendChild(buttons)
+
 
     form.onsubmit = (event) => {
       event.preventDefault()
@@ -87,9 +120,9 @@ class GameRuleEntry {
 
   buildInputField() {
     let res = document.createElement('input')
-    res.value = this.default
     switch(this.type.name) {
       case 'integer':
+        res.value = this.default
         res.type = 'number'
         res.step = 1
         res.required = true
@@ -100,6 +133,7 @@ class GameRuleEntry {
         break;
       case 'boolean':
         res.type = 'checkbox'
+        res.checked = this.default
         break;
     }
     return res
