@@ -30,7 +30,7 @@ div#container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  line-height: 0;
+  text-align: center;
   background-color: var(--background-color);
   border-radius: 16px;
 }
@@ -348,4 +348,41 @@ button#left {
 
 button#right {
   grid-area: 2 / 3;
+}
+
+div#gamemenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: var(--background-color);
+  border-radius: 16px;
+}
+
+section.gameselect {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 120px);
+  gap: 40px;
+}
+
+div.gameentry {
+  position: relative;
+  left: 0;
+  right: 0;
+  background-color: var(--light-background-color);
+}
+
+div.gameentry div.gamedesc {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+div.gameentry:hover div.gamedesc {
+  display: block;
+  background-color: inherit;
 }

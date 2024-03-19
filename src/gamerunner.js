@@ -29,7 +29,7 @@ class GameRunner {
 
   getDOMElements() {
     this.root = document.querySelector(':root')
-    let container = document.getElementById('container')
+    let container = document.getElementById('gameview')
 
     // Game central container
     let center = document.createElement('div')
