@@ -1,10 +1,13 @@
 const gameEntries = [
   TeeThreeEngine.getEntry(),
   TeeFourEngine.getEntry(),
-  TeeThreeEngine.getEntry(),
 ]
 
 class Menu {
+  constructor(app) {
+    this.app = app
+  }
+
   initialize(entries) {
     this.getDOMElements()
     entries.forEach((entry) => {
@@ -14,6 +17,7 @@ class Menu {
   }
 
   getDOMElements() {
+    this.menuWindow = document.getElementById('gamemenu')
     this.gameSelect = document.getElementById('gameselect')
     this.globalSettingsButton = document.getElementById('globalsettings')
   }
@@ -33,6 +37,10 @@ class Menu {
     let settingsButton = document.createElement('button')
     settingsButton.innerHTML = 'Settings'
     desc.appendChild(settingsButton)
+
+    elem.addEventListener('click', (event) => {
+      app.startGame(entry.run, entry.settings.getDefaultRules())
+    })
 
     return elem
   }

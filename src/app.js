@@ -8,8 +8,29 @@
 // TODO: Add a proper menu system (this'll give me practice with writing other
 // games)
 
-let runner = new GameRunner()
-let menu = new Menu()
+class App {
+  constructor() {
+    this.runner = new GameRunner(this)
+    this.menu = new Menu(this)
+  }
+
+  initialize() {
+    this.menu.initialize(gameEntries)
+    this.runner.getDOMElements()
+
+    this.menu.menuWindow.classList.remove('hidden')
+    this.runner.container.classList.add('hidden')
+  }
+
+  startGame(r, rules) {
+    this.menu.menuWindow.classList.add('hidden')
+    this.runner.container.classList.remove('hidden')
+    let engine = r(rules)
+    this.runner.startGame(engine)
+  }
+}
+
+let app = new App()
 
 document.addEventListener('DOMContentLoaded', (event) => {
   // runner.startGame(new TeeFourEngine({
@@ -22,5 +43,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
   //   height: 3,
   //   toWin: 3,
   // }))
-  menu.initialize(gameEntries)
+  app.initialize()
 })

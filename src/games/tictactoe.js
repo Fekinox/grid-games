@@ -46,15 +46,12 @@ class TeeThreeEngine {
           type: {
             name: 'boolean',
           },
-          default: 3,
+          default: false,
         }),
       ]),
-      run: function(rules) {
-        TeeThreeEngine(rules)
-      }
+      run: (rules) => new TeeThreeEngine(rules),
     }
   }
-   
 
   // Resets all game parameters.
   reset() {

@@ -26,13 +26,17 @@ body {
   text-transform: uppercase;
 }
 
+div#gamemenu.hidden, div#gameview.hidden {
+  display: none
+}
+
 div#container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
   background-color: var(--background-color);
-  border-radius: 16px;
+  height: 100%;
 }
 
 div#center {

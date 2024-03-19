@@ -1,8 +1,16 @@
 class GameRunner {
-  startGame(engine) {
+  constructor(app) {
+    this.app = app
+  }
+
+  initialize() {
     this.getDOMElements()
+  }
+
+  startGame(engine) {
     this.engine = engine
     this.game.id = this.engine.name
+    this.game.innerHTML = ''
     this.view = engine.buildView({
       root: this.root,
       container: this.game,
@@ -29,7 +37,7 @@ class GameRunner {
 
   getDOMElements() {
     this.root = document.querySelector(':root')
-    let container = document.getElementById('gameview')
+    this.container = document.getElementById('gameview')
 
     // Game central container
     let center = document.createElement('div')
@@ -40,7 +48,7 @@ class GameRunner {
     this.game.classList.add('game')
 
 
-    container.appendChild(center)
+    this.container.appendChild(center)
     center.appendChild(gamecenter)
     gamecenter.appendChild(this.game)
     
@@ -50,12 +58,12 @@ class GameRunner {
     status.id = 'status'
     this.statusLine.id = 'statusline'
     status.appendChild(this.statusLine)
-    container.appendChild(status)
+    this.container.appendChild(status)
 
     // Buttons
     let buttons = document.createElement('section')
     buttons.id = 'buttons'
-    container.appendChild(buttons)
+    this.container.appendChild(buttons)
 
     this.resetButton = document.createElement('button')
     this.resetButton.id = 'reset'

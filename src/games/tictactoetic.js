@@ -20,7 +20,7 @@ class TeeFourEngine {
             name: 'integer',
             lowerBound: 2,
           },
-          default: 3,
+          default: 4,
         }),
         new GameRuleEntry({
           name: "height",
@@ -29,7 +29,7 @@ class TeeFourEngine {
             name: 'integer',
             lowerBound: 2,
           },
-          default: 3,
+          default: 4,
         }),
         new GameRuleEntry({
           name: "toWin",
@@ -38,7 +38,7 @@ class TeeFourEngine {
             name: 'integer',
             lowerBound: 2,
           },
-          default: 3,
+          default: 4,
         }),
         new GameRuleEntry({
           name: "misere",
@@ -46,12 +46,10 @@ class TeeFourEngine {
           type: {
             name: 'boolean',
           },
-          default: 3,
+          default: false,
         }),
       ]),
-      run: function(rules) {
-        TeeFourEngine(rules)
-      }
+      run: (rules) => new TeeFourEngine(rules),
     }
   }
 
