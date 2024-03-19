@@ -14,18 +14,23 @@ class GameRules {
   }
 
   buildSettingsMenu(app, name) {
-    let form = document.createElement('form')
-    form.classList.add('popup')
-    form.id = name
+    let form = elementBuild('form', {
+      id: name,
+      classes: ['popup'],
+    })
 
     let fields = []
 
     this.entries.forEach((entry) => {
-      let area = document.createElement('div')
-      area.classList.add('entry')
+      let area = elementBuild('div', {
+        classes: ['entry'],
+        parent: form,
+      })
 
-      let label = document.createElement('label')
-      label.innerHTML = entry.desc
+      let label = elementBuild('label', { 
+        parent: area,
+        attributes: { innerHTML: entry.desc, },
+      })
 
       let field = entry.buildInputField()
       fields.push({
@@ -34,47 +39,53 @@ class GameRules {
         default: entry.default
       })
 
-      area.appendChild(label)
       area.appendChild(field)
-      form.appendChild(area)
     })
 
-    let buttons = document.createElement('div')
-    buttons.class = 'buttons-hbox'
+    let buttons = elementBuild('div', {
+      classes: ['buttons-hbox'],
+      parent: form,
+    })
 
-    let submitButton = document.createElement('input')
-    submitButton.type = 'submit'
-    submitButton.value = 'submit'
+    let submitButton = elementBuild('input', {
+      parent: buttons,
+      attributes: {
+        type: 'submit',
+        value: 'submit',
+      }
+    })
 
-    let closeButton = document.createElement('button')
-    closeButton.class = 'close'
-    closeButton.innerHTML = 'close'
-    closeButton.onclick = (event) => {
-      form.remove()
-    }
+    let closeButton = elementBuild('button', {
+      parent: buttons,
+      classes: ['close'],
+      attributes: {
+        innerHTML: 'close',
+        onclick: (event) => {
+          form.remove()
+        },
+      }
+    })
 
-    let toDefaultButton = document.createElement('button')
-    toDefaultButton.class = 'todefault'
-    toDefaultButton.innerHTML = 'default'
-    toDefaultButton.onclick = (event) => {
-      fields.forEach((elem) => {
-        switch(elem.field.type) {
-          case 'checkbox':
-            elem.field.checked = elem.default
-            break;
-          case 'number':
-            elem.field.value = elem.default
-            break;
+    let toDefaultButton = elementBuild('button', {
+      parent: buttons,
+      classes: ['todefault'],
+      attributes: {
+        innerHTML: 'default',
+        onclick: (event) => {
+          fields.forEach((elem) => {
+            switch(elem.field.type) {
+              case 'checkbox':
+                elem.field.checked = elem.default
+                break;
+              case 'number':
+                elem.field.value = elem.default
+                break;
+            }
+          })
+          event.preventDefault()
         }
-      })
-      event.preventDefault()
-    }
-
-    buttons.appendChild(submitButton)
-    buttons.appendChild(closeButton)
-    buttons.appendChild(toDefaultButton)
-    form.appendChild(buttons)
-
+      }
+    })
 
     form.onsubmit = (event) => {
       event.preventDefault()
@@ -103,19 +114,6 @@ class GameRuleEntry {
     this.desc = spec.desc || 'Unknown'
     this.type = spec.type
     this.default = spec.default
-  }
-
-  validate(str) {
-    switch(this.type.name) {
-      case 'integer':
-        if (!/^(0|[1-9]\d*)$/.test(str)) { return false }
-        const n = Number(str)
-        const lo = this.type.lowerBound || 0
-        const hi = this.type.upperBound
-        return (lo === undefined || n >= lo) && (hi === undefined || n >= hi)
-      default:
-        return true;
-    }
   }
 
   buildInputField() {
