@@ -408,3 +408,12 @@ form.popup {
   justify-content: center;
   align-items: stretch;
 }
+
+div.entry {
+  display: flex;
+  justify-content: space-between;
+}
+
+input[type='number'] {
+  max-width: 3em;
+}

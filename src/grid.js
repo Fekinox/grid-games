@@ -68,7 +68,7 @@ class Grid {
     return res
   }
 
-  // Searches the grid for k consecutive elements in a row.
+  // Searches the grid for k consecutive elements equal to `elem` in a row.
   kInARow(x, y, dx, dy, length, elem) {
     const endX = x + dx*(length - 1)
     const endY = y + dy*(length - 1)
