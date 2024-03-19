@@ -49,6 +49,7 @@ class OthelloEngine {
     this.grid = new Grid(this.width, this.height)
     this.turn = 1
     this.outcome = null
+    console.log(this.outcome)
 
     // In Othello, set center of board to
     // 0 1
@@ -103,12 +104,15 @@ class OthelloEngine {
     }
   }
 
-  // The game will end when neither player can make a legal move.
-  checkWin(player) {
+  // The game will end if one of two conditions hold:
+  // - The board consists of only empty spaces and one player's color
+  // - There are no legal moves either player can make
+  checkWin() {
     // Count up the number of player 1 tiles, then the number of player 2 tiles.
     // If they are equal, it is a tie game.
     let player1Tiles = []
     let player2Tiles = []
+    let legalMoves = 0
 
     for (let y = 0; y < this.grid.height; y++) {
       for (let x = 0; x < this.grid.width; x++) {
@@ -116,7 +120,7 @@ class OthelloEngine {
         if (this.grid.get(x, y) === null &&
           (this.linesToDarks(x, y, this.turn) ||
            this.linesToDarks(x, y, -this.turn))) {
-          return null
+          legalMoves += 1
         }
         else if (this.grid.get(x, y) === 1) {
           player1Tiles.push({ x: x, y: y })
@@ -126,22 +130,36 @@ class OthelloEngine {
       }
     }
 
-    if (player1Tiles.length > player2Tiles.length) { 
-      return {
-        player: 1,
-        tiles: player1Tiles
-      }
-    } else if (player1Tiles.length < player2Tiles.length) { 
-      return {
-        player: -1,
-        tiles: player2Tiles
-      }
-    } else {
-      return {
-        player: 0,
-        tiles: []
+    if (player1Tiles.length === 0) {
+        return {
+          player: -1,
+          tiles: player2Tiles
+        }
+    } else if (player2Tiles.length === 0) {
+        return {
+          player: 1,
+          tiles: player1Tiles
+        }
+    } else if (legalMoves === 0) {
+      if (player1Tiles.length > player2Tiles.length) { 
+        return {
+          player: 1,
+          tiles: player1Tiles
+        }
+      } else if (player1Tiles.length < player2Tiles.length) { 
+        return {
+          player: -1,
+          tiles: player2Tiles
+        }
+      } else {
+        return {
+          player: 0,
+          tiles: []
+        }
       }
     }
+
+    return null
   }
   
 
@@ -157,11 +175,18 @@ class OthelloEngine {
         this.grid.set(position.x, position.y, this.turn)
       })
     })
-    this.turn *= -1
+
+    const win = this.checkWin()
+    if (win !== null) {
+      this.outcome = win
+      console.log(this.outcome)
+    } else {
+      this.turn *= -1
+    }
   }
 
   buildView(domElems) {
-    return new TeeThreeView(domElems, this)
+    return new OthelloView(domElems, this)
   }
 }
 

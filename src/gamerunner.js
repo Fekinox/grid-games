@@ -33,6 +33,7 @@ class GameRunner {
       this.resetGame()
     } else {
       this.engine.update(action)
+      console.log(action)
       this.view.render(this.engine)
     }
   }
