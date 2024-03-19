@@ -48,4 +48,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
   //   toWin: 3,
   // }))
   app.initialize()
+
+  let d = document.getElementById('dimmer')
+  let settings =
+    TeeThreeEngine.getEntry()
+    .settings
+    .buildSettingsMenu(null, 'ttt-settings')
+  d.appendChild(settings)
 })

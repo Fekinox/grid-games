@@ -388,3 +388,22 @@ div.gameentry:hover div.gamedesc {
   display: block;
   background-color: inherit;
 }
+
+div#dimmer {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0000003f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+form.popup {
+  background-color: var(--light-background-color);
+  padding: 20px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+}
