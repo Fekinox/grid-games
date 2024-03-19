@@ -7,11 +7,11 @@ module.exports = function(grunt) {
       build: {
         src: [
           'src/gamerules.js',
+          'src/games/*.js',
+          'src/gamerunner.js',
           'src/menu.js',
           'src/grid.js',
-          'src/gamerunner.js',
           'src/scrolling.js',
-          'src/games/*.js',
           'src/game.js',
           'src/app.js',
         ],

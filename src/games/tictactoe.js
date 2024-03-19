@@ -8,6 +8,54 @@ class TeeThreeEngine {
     this.reset()
   }
 
+  static getEntry() {
+    return {
+      name: "Tic Tac Toe",
+      description: "3 by 3 board. Get 3 in a row to win.",
+      settings: new GameRules([
+        new GameRuleEntry({
+          name: "width",
+          desc: "Board Width",
+          type: {
+            name: 'integer',
+            lowerBound: 2,
+          },
+          default: 3,
+        }),
+        new GameRuleEntry({
+          name: "height",
+          desc: "Board Height",
+          type: {
+            name: 'integer',
+            lowerBound: 2,
+          },
+          default: 3,
+        }),
+        new GameRuleEntry({
+          name: "toWin",
+          desc: "Tiles to win",
+          type: {
+            name: 'integer',
+            lowerBound: 2,
+          },
+          default: 3,
+        }),
+        new GameRuleEntry({
+          name: "misere",
+          desc: "Misere rules",
+          type: {
+            name: 'boolean',
+          },
+          default: 3,
+        }),
+      ]),
+      run: function(rules) {
+        TeeThreeEngine(rules)
+      }
+    }
+  }
+   
+
   // Resets all game parameters.
   reset() {
     this.grid = new Grid(this.width, this.height)
