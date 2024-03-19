@@ -84,6 +84,7 @@ div.buttons-hbox {
   justify-content: center;
   align-items: center;
   gap: 10px;
+  margin: 20px 0;
 }
 
 button, input[type='submit'] {
@@ -335,6 +336,10 @@ div.game#teefour {
   width: max-content;
   height: max-content;
   gap: 8px;
+}
+
+div.game#teefour div#tttgrid {
+  grid-area: 2 / 2;
 }
 
 button.expand {

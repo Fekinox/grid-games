@@ -29,14 +29,18 @@ class Menu {
     })
 
     elem.innerHTML += entry.name
+
     elem.addEventListener('click', (event) => {
       app.startGame(entry, entry.settings.getDefaultRules())
     })
+
 
     let desc = elementBuild('div', {
       classList: 'gamedesc',
       parent: elem,
     })
+
+    desc.appendChild(elementBuild('hr', {}))
 
     desc.innerHTML += entry.description
 
