@@ -61,7 +61,7 @@ class OthelloEngine {
     this.grid.set(centerX+1, centerY, 1)
   }
 
-  linesToDarks(x, y) {
+  linesToDarks(x, y, player) {
     if (this.grid.get(x, y) !== null) { return [] }
     const dirs = [
       { x: 1, y: 1, },
@@ -81,10 +81,10 @@ class OthelloEngine {
         toRemove: []
       }
       for (let i = 1; i < line.length; i++) {
-        if (line[i].elem === -this.turn) { 
+        if (line[i].elem === -player) { 
           res.toRemove.push({x: line[i].x, y: line[i].y})
         }
-        else if (line[i].elem === this.turn) {
+        else if (line[i].elem === player) {
           res.darkPosition = {x: line[i].x, y: line[i].y}
           return res
         } else {
@@ -103,20 +103,50 @@ class OthelloEngine {
     }
   }
 
-  // Check for all possible wins and return the first win.
+  // The game will end when neither player can make a legal move.
   checkWin(player) {
-    let wins = this.grid.allKInARows(this.toWin, player)
-    return (wins.length !== 0)
-    ? {
-      player: (!this.misere) ? this.turn : -this.turn,
-      tiles: wins[0],
+    // Count up the number of player 1 tiles, then the number of player 2 tiles.
+    // If they are equal, it is a tie game.
+    let player1Tiles = []
+    let player2Tiles = []
+
+    for (let y = 0; y < this.grid.height; y++) {
+      for (let x = 0; x < this.grid.width; x++) {
+        // Game is not over if a legal move can be made
+        if (this.grid.get(x, y) === null &&
+          (this.linesToDarks(x, y, this.turn) ||
+           this.linesToDarks(x, y, -this.turn))) {
+          return null
+        }
+        else if (this.grid.get(x, y) === 1) {
+          player1Tiles.push({ x: x, y: y })
+        } else if (this.grid.get(x, y) === -1) {
+          player2Tiles.push({ x: x, y: y })
+        }
+      }
     }
-    : null
+
+    if (player1Tiles.length > player2Tiles.length) { 
+      return {
+        player: 1,
+        tiles: player1Tiles
+      }
+    } else if (player1Tiles.length < player2Tiles.length) { 
+      return {
+        player: -1,
+        tiles: player2Tiles
+      }
+    } else {
+      return {
+        player: 0,
+        tiles: []
+      }
+    }
   }
   
 
   makeMove(x, y) {
-    const lines = this.linesToDarks(x, y)
+    const lines = this.linesToDarks(x, y, this.turn)
     if (this.grid.get(x, y) !== null ||
       this.outcome !== null ||
       lines.length === 0) { return }
