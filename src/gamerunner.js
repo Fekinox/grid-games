@@ -19,6 +19,7 @@ class GameRunner {
     this.p1score = 0
     this.p2score = 0
     this.ties = 0
+    this.scoreboard.update(this.p1score, this.p2score, this.ties)
   }
 
   startGame(gameEntry, rules) {
