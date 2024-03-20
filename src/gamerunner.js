@@ -5,12 +5,20 @@ class GameRunner {
   }
 
   initialize() {
+    this.p1score = 0
+    this.p2score = 0
+    this.ties = 0
+
     this.getDOMElements()
   }
 
   clearGame() {
     this.game.innerHTML = ''
     this.entry = null
+
+    this.p1score = 0
+    this.p2score = 0
+    this.ties = 0
   }
 
   startGame(gameEntry, rules) {
@@ -32,6 +40,19 @@ class GameRunner {
   handleAction(action) {
     if (action.name === 'reset' || action === 'reset') {
       this.resetGame()
+    } else if (action.name === 'gameOver') {
+      switch(action.winner) {
+        case 1:
+          this.p1score += 1
+          break;
+        case -1:
+          this.p2score += 1
+          break;
+        case 0:
+          this.ties += 1
+          break;
+      }
+      this.scoreboard.update(this.p1score, this.p2score, this.ties)
     } else {
       this.engine.update(action)
       console.log(action)
@@ -69,6 +90,8 @@ class GameRunner {
     this.statusLine = elementBuild('span',
       { id: 'statusline', parent: status, })
 
+    this.scoreboard = new Scoreboard(this.container)
+
     // Buttons
     let buttons = elementBuild('div',
       { classList: 'buttons-hbox', parent: this.container, })
@@ -104,6 +127,19 @@ class GameRunner {
         }
       )
       app.addPopup(menu)
+    })
+
+    this.hardResetButton = elementBuild('button', {
+      id: 'hardReset',
+      parent: buttons,
+      attributes: { innerHTML: 'RESET SCORES', }
+    })
+    this.hardResetButton.addEventListener('click', (event) => {
+      this.resetGame()
+      this.p1score = 0
+      this.p2score = 0
+      this.ties = 0
+      this.scoreboard.update(this.p1score, this.p2score, this.ties)
     })
   }
 }

@@ -63,6 +63,7 @@ class OthelloEngine {
 
     this.currentPlayerLegalMoves = new Grid(this.width, this.height)
     this.setCurrentPlayerLegalMoves()
+
   }
 
   matchesAt(x, y, player) {
@@ -208,6 +209,13 @@ class OthelloEngine {
           })
         }, 3000)
       }
+    }
+
+    if (this.outcome !== null) {
+      this.sendAction({
+        name: 'gameOver',
+        winner: this.outcome.player
+      })
     }
   }
 

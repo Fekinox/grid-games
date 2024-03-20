@@ -33,8 +33,8 @@ body {
   text-transform: uppercase;
 }
 
-div#gamemenu.hidden, div#gameview.hidden, div#dimmer.hidden {
-  display: none
+.hidden {
+  display: none !important;
 }
 
 div#container {
@@ -134,15 +134,25 @@ input[type=number] {
 }
 
 input[type='number'] {
-  max-width: 3em;
+  max-width: 2em;
   background-color: var(--bg-1);
   color: white;
   border: 0;
   font-size: 20px;
+  border-radius: 4px;
+  text-align: right;
+  padding: 4px;
 }
 
 input[type='number']:invalid {
   border-bottom: 2px solid var(--player1-color);
+}
+
+div.scorecontainer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 3em;
+  gap: 0.5em;
 }
 
 span#statusline {
@@ -223,6 +233,7 @@ form.popup {
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
+  gap: 10px;
 }
 
 div.entry {

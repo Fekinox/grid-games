@@ -95,6 +95,13 @@ class TeeFourEngine {
     } else {
       this.turn *= -1;
     }
+
+    if (this.outcome !== null) {
+      this.sendAction({
+        name: 'gameOver',
+        winner: this.outcome.player
+      })
+    }
   }
 
   expand(dir) {
