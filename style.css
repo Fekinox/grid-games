@@ -290,24 +290,29 @@ div.tttrow:last-child div.tttcell:last-child {
   border-bottom-right-radius: 16px;
 }
 
-div.filledcell::after {
-  display: inline-block;
-  text-rendering: auto;
-  position: absolute;
-  font: var(--fa-font-solid);
-  font-size: 40px;
+/* div.filledcell::after { */
+/*   display: inline-block; */
+/*   text-rendering: auto; */
+/*   position: absolute; */
+/*   font: var(--fa-font-solid); */
+/*   font-size: 40px; */
 
-  animation-name: popin;
-  animation-duration: 0.2s;
-  animation-timing-function: ease;
-}
+/*   animation-name: popin; */
+/*   animation-duration: 0.2s; */
+/*   animation-timing-function: ease; */
+/* } */
 
-div.tttcell.red::after, div.tttcell.win-red::after {
-  content: 'X';
-}
+/* div.tttcell.red::after, div.tttcell.win-red::after { */
+/*   content: 'X'; */
+/* } */
 
-div.tttcell.blue::after, div.tttcell.win-blue::after {
-  content: 'O';
+/* div.tttcell.blue::after, div.tttcell.win-blue::after { */
+/*   content: 'O'; */
+/* } */
+
+div.tttcell.red, div.tttcell.win-red,
+div.tttcell.blue, div.tttcell.win-blue {
+  font-size: 50px;
 }
 
 div.hoverable:hover {

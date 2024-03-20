@@ -146,8 +146,8 @@ class TeeThreeView {
         let cell = document.createElement('div')
         cell.classList.add('tttcell')
         let entry = engine.grid.get(x, y)
-        if (entry === 1) { cell.classList.add('red') }
-        else if (entry === -1) { cell.classList.add('blue') }
+        if (entry === 1) { cell.classList.add('red', 'bx', 'bx-x') }
+        else if (entry === -1) { cell.classList.add('blue', 'bx', 'bx-radio-circle') }
 
         cell.dataset.x = x
         cell.dataset.y = y
@@ -189,10 +189,10 @@ class TeeThreeView {
           ? 'win-'
           : ''
         if (entry === 1) { 
-          cell.classList.add(`${winPrefix}red`, 'filledcell')
+          cell.classList.add(`${winPrefix}red`, 'bx', 'bx-x')
         }
         else if (entry === -1) {
-          cell.classList.add(`${winPrefix}blue`, 'filledcell')
+          cell.classList.add(`${winPrefix}blue`, 'bx', 'bx-radio-circle')
         }
         else if (!this.outcome) { cell.classList.add('hoverable') }
       }
@@ -235,9 +235,9 @@ class TeeThreeView {
 
   inlineIndicator(color) {
     if (color === 1) {
-      return '<i class=\'red fa-solid fa-x\'></i>'
+      return '<i class=\'red bx bx-x\'></i>'
     } else {
-      return '<i class=\'blue fa-solid fa-o\'></i>'
+      return '<i class=\'blue bx bx-radio-circle\'></i>'
     }
   }
 }
