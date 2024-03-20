@@ -24,6 +24,7 @@ class GameRunner {
       status: this.statusLine,
     })
 
+    this.engine.sendAction = (action) => this.handleAction(action)
     this.view.sendAction = (action) => this.handleAction(action)
     this.view.render(this.engine)
   }

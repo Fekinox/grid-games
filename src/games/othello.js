@@ -60,10 +60,12 @@ class OthelloEngine {
     this.grid.set(centerX+1, centerY+1, -1)
     this.grid.set(centerX, centerY+1, 1)
     this.grid.set(centerX+1, centerY, 1)
+
+    this.currentPlayerLegalMoves = new Grid(this.width, this.height)
+    this.setCurrentPlayerLegalMoves()
   }
 
-  linesToDarks(x, y, player) {
-    if (this.grid.get(x, y) !== null) { return [] }
+  matchesAt(x, y, player) {
     const dirs = [
       { x: 1, y: 1, },
       { x: 1, y: 0, },
@@ -93,13 +95,29 @@ class OthelloEngine {
         }
       }
       return null
-    }).filter((l) => l !== null)
+    }).filter((l) => l !== null && l.toRemove.length > 0)
+  }
+
+  setCurrentPlayerLegalMoves(player) {
+    this.hasLegalMoves = false
+    for (let y = 0; y < this.grid.height; y++) {
+      for (let x = 0; x < this.grid.width; x++) {
+        const nonNull = this.grid.get(x, y) === null
+        const matches = this.matchesAt(x, y, this.turn).length !== 0
+        if (nonNull && matches) { this.hasLegalMoves = true }
+        this.currentPlayerLegalMoves.set(x, y, nonNull && matches)
+      }
+    }
   }
 
   update(action) {
     switch(action.name) {
       case 'move':
         this.makeMove(action.x, action.y)
+        break;
+      case 'pass':
+        this.turn *= -1
+        this.setCurrentPlayerLegalMoves()
         break;
     }
   }
@@ -118,8 +136,8 @@ class OthelloEngine {
       for (let x = 0; x < this.grid.width; x++) {
         // Game is not over if a legal move can be made
         if (this.grid.get(x, y) === null &&
-          (this.linesToDarks(x, y, this.turn) ||
-           this.linesToDarks(x, y, -this.turn))) {
+          (this.matchesAt(x, y, this.turn) ||
+           this.matchesAt(x, y, -this.turn))) {
           legalMoves += 1
         }
         else if (this.grid.get(x, y) === 1) {
@@ -164,7 +182,7 @@ class OthelloEngine {
   
 
   makeMove(x, y) {
-    const lines = this.linesToDarks(x, y, this.turn)
+    const lines = this.matchesAt(x, y, this.turn)
     if (this.grid.get(x, y) !== null ||
       this.outcome !== null ||
       lines.length === 0) { return }
@@ -182,6 +200,14 @@ class OthelloEngine {
       console.log(this.outcome)
     } else {
       this.turn *= -1
+      this.setCurrentPlayerLegalMoves()
+      if (!this.hasLegalMoves) {
+        window.setTimeout(() => {
+          this.sendAction({
+            name: 'pass',
+          })
+        }, 3000)
+      }
     }
   }
 
@@ -258,6 +284,7 @@ class OthelloView {
         let cell = this.renderableGrid.get(x, y)
         cell.className = 'tttcell'
         const entry = engine.grid.get(x, y)
+        const isLegal = engine.currentPlayerLegalMoves.get(x, y)
 
         const winPrefix =
           (engine.outcome &&
@@ -272,13 +299,16 @@ class OthelloView {
         else if (entry === -1) {
           cell.classList.add(`${winPrefix}blue`, 'filledcell')
         }
-        else if (!this.outcome) { cell.classList.add('hoverable') }
+        else if (!this.outcome && isLegal) { 
+          cell.classList.add('hoverable')
+          cell.classList.add('legalmove')
+        }
       }
     }
 
     let hover = ''
     if (engine.outcome && engine.outcome.player !== undefined) {
-      hover = 'var(--background-color)'
+      hover = 'var(--bg-2)'
     } else if (engine.turn === 1) {
       hover = 'var(--player1-color)'
     } else {
@@ -291,7 +321,11 @@ class OthelloView {
   
   // Renders the current game status line beneath the grid.
   renderStatus(engine) {
-    if (engine.outcome === null) {
+    if (!engine.hasLegalMoves) {
+      this.status.innerHTML =
+        `${this.inlineIndicator(engine.turn)} HAS NO LEGAL MOVES, PASS.`
+      this.status.className = ''
+    } else if (engine.outcome === null) {
       this.status.innerHTML =
         `${this.inlineIndicator(engine.turn)} TO MOVE`
       this.status.className = ''
