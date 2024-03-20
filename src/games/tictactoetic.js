@@ -133,11 +133,16 @@ class TeeFourView {
     this.gameContainer = domElems.container
     this.status = domElems.status
 
+    this.dragging = false
+    this.selectedTile = null
+
     // Build grid
     this.gridItem = document.createElement('div')
     this.gridItem.id = 'tttgrid'
     this.gameContainer.appendChild(this.gridItem)
+
     this.gridItem.addEventListener('click', (evt) => {
+      if (this.isTranslating()) { return }
       const target = evt.target
       if (!target.classList.contains('tttcell')) { return }
 
@@ -164,6 +169,7 @@ class TeeFourView {
       button.appendChild(hbox)
       this.gameContainer.appendChild(button)
       button.addEventListener('click', (event) => {
+        if (this.isTranslating()) { return }
         this.sendAction({
           name: 'expand',
           dir: dir

@@ -35,7 +35,14 @@ class GameRunner {
 
     this.engine.sendAction = (action) => this.handleAction(action)
     this.view.sendAction = (action) => this.handleAction(action)
+    this.view.isTranslating = () => {
+      return this.viewport.dirty
+    }
     this.view.render(this.engine)
+
+    this.viewport.translateX = 0
+    this.viewport.translateY = 0
+    this.viewport.update()
   }
 
   handleAction(action) {
@@ -56,14 +63,15 @@ class GameRunner {
       this.scoreboard.update(this.p1score, this.p2score, this.ties)
     } else {
       this.engine.update(action)
-      console.log(action)
       this.view.render(this.engine)
+      this.viewport.update()
     }
   }
 
   resetGame() {
     this.engine.reset()
     this.view.render(this.engine)
+    this.viewport.update()
   }
 
   getDOMElements() {
@@ -71,19 +79,15 @@ class GameRunner {
     this.container = document.getElementById('gameview')
 
     // Game central container
-    let center = elementBuild('div', {
-      parent: this.container,
-      id: 'center',
-    })
-
-    let gamecenter = elementBuild('div', {
-      id: 'gamecenter',
-      parent: center,
-    })
-
     this.game = elementBuild('div', {
-      parent: gamecenter,
       classList: 'game',
+    })
+
+    this.viewport = new Viewport(this.container, this.game)
+
+    window.addEventListener('resize', (event) => {
+      this.viewport.update()
+      console.log('resize')
     })
     
     // Status

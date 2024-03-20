@@ -235,6 +235,7 @@ class OthelloView {
     this.gridItem.id = 'tttgrid'
     this.gameContainer.appendChild(this.gridItem)
     this.gridItem.addEventListener('click', (evt) => {
+      if (this.isTranslating()) { return }
       const target = evt.target
       if (!target.classList.contains('tttcell')) { return }
 
