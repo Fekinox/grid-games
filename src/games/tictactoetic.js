@@ -62,13 +62,14 @@ class TeeFourEngine {
   }
 
   update(action) {
+    if (this.outcome !== null) { return false; }
+
     switch(action.name) {
       case 'move':
-        this.makeMove(action.x, action.y)
-        break;
+        return this.makeMove(action.x, action.y)
       case 'expand':
         this.expand(action.dir)
-        break;
+        return true
     }
   }
 
@@ -85,7 +86,9 @@ class TeeFourEngine {
   
 
   makeMove(x, y) {
-    if (this.grid.get(x, y) !== null || this.outcome !== null) { return }
+    if (this.grid.get(x, y) !== null || this.outcome !== null) { 
+        return false
+    }
     
     this.grid.set(x, y, this.turn)
     
@@ -102,6 +105,8 @@ class TeeFourEngine {
         winner: this.outcome.player
       })
     }
+
+    return true
   }
 
   expand(dir) {
