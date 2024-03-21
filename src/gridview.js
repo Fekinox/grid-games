@@ -10,18 +10,12 @@ class GridView {
     // object with an x attribute representing the column and a y attribute
     // representing the row.
     this.onclick = (pos) => {
-      console.log(`Clicked on cell (${pos.x} ${pos.y})`)
     }
 
     // onhover - Fired when the focused element changes (i.e. the element that
     // the player is hovering over). Either returns null (if there is no
     // element) or the position of that element.
     this.onhover = (pos) => {
-      if (pos === null) {
-        console.log(`No longer hovering`)
-      } else {
-        console.log(`Hovering over cell (${pos.x} ${pos.y})`)
-      }
     }
 
     this.gridItem = elementBuild('div', {
@@ -113,13 +107,5 @@ class GridView {
         cell.classList.add(c)
       }
     }
-  }
-
-  contains(x, y, className) {
-    this.renderableGrid.get(x, y).classList.contains(className)
-  }
-
-  remove(x, y, className) {
-    this.renderableGrid.get(x, y).classList.remove(className)
   }
 }

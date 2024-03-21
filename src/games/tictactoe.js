@@ -120,24 +120,6 @@ class TeeThreeView {
 
     this.internalGrid = engine.grid.clone()
 
-    // Build grid
-    // this.gridItem = document.createElement('div')
-    // this.gridItem.id = 'tttgrid'
-    // this.gameContainer.appendChild(this.gridItem)
-    // this.gridItem.addEventListener('click', (evt) => {
-    //   if (this.isTranslating()) { return }
-    //   const target = evt.target
-    //   if (!target.classList.contains('tttcell')) { return }
-
-    //   this.sendAction({
-    //     name: 'move',
-    //     x: Number(target.dataset.x),
-    //     y: Number(target.dataset.y),
-    //   })
-    // })
-
-    // this.rebuildGrid(engine)
-
     this.gridView = new GridView(
       this.gameContainer,
       () => { return this.isTranslating() },
@@ -158,29 +140,6 @@ class TeeThreeView {
   }
 
   rebuildGrid(engine) {
-    // this.gridItem.innerHTML = '';
-    // this.renderableGrid = new Grid(engine.grid.width, engine.grid.height)
-    // for (let y = 0; y < engine.grid.height; y++) {
-    //   let row = document.createElement('div')
-    //   row.classList.add('tttrow')
-    //   for (let x = 0; x < engine.grid.width; x++) {
-    //     let cell = document.createElement('div')
-    //     cell.classList.add('tttcell')
-    //     let entry = engine.grid.get(x, y)
-    //     if (entry === 1) { cell.classList.add('red', 'bx', 'bx-x') }
-    //     else if (entry === -1) { cell.classList.add('blue', 'bx', 'bx-radio-circle') }
-
-    //     cell.dataset.x = x
-    //     cell.dataset.y = y
-
-    //     row.appendChild(cell)
-    //     this.renderableGrid.set(x, y, cell);
-    //   }
-    //   this.gridItem.appendChild(row)
-    // }
-
-    // this.lastWidth = engine.grid.width
-    // this.lastHeight = engine.grid.height
     let newRenderableGrid = new Grid(engine.grid.width, engine.grid.height)
 
     for (let y = 0; y < engine.grid.height; y++) {
@@ -202,33 +161,6 @@ class TeeThreeView {
 
   // Updates the view with the current game state.
   render(engine) {
-    // if (engine.grid.width !== this.lastWidth ||
-    //     engine.grid.height !== this.lastHeight) {
-    //   this.rebuildGrid(engine)
-    // }
-    // for (let y = 0; y < engine.grid.height; y++) {
-    //   for (let x = 0; x < engine.grid.width; x++) {
-    //     let cell = this.renderableGrid.get(x, y)
-    //     cell.className = 'tttcell'
-    //     const entry = engine.grid.get(x, y)
-
-    //     const winPrefix =
-    //       (engine.outcome &&
-    //        engine.outcome.tiles.some((p) => 
-    //         p.x === x && p.y === y  
-    //        ))
-    //       ? 'win-'
-    //       : ''
-    //     if (entry === 1) { 
-    //       cell.classList.add(`${winPrefix}red`, 'bx', 'bx-x')
-    //     }
-    //     else if (entry === -1) {
-    //       cell.classList.add(`${winPrefix}blue`, 'bx', 'bx-radio-circle')
-    //     }
-    //     else if (!this.outcome) { cell.classList.add('hoverable') }
-    //   }
-    // }
-
     for (let y = 0; y < engine.grid.height; y++) {
       for (let x = 0; x < engine.grid.width; x++) {
         const entry = engine.grid.get(x, y)
