@@ -513,6 +513,22 @@ div.hoverable.legalmove:hover {
   background-color: var(--hover-color);
 }
 
+div.flippedcell {
+  animation-name: invert;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+}
+
+@keyframes invert {
+  from {
+    rotate: 1turn;
+  }
+
+  to {
+    rotate: 0;
+  }
+}
+
 /* Media queries */
 @media (max-aspect-ratio: 1 / 1), (max-width: 500px) {
   div#container {

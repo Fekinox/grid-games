@@ -308,6 +308,7 @@ class OthelloView {
           ? 'win-'
           : ''
 
+        // Add flipping animation
         if (entry !== oldEntry) {
           newClassList += 'newcell '
         }
