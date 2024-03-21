@@ -19,6 +19,13 @@ class Grid {
     this.grid[this.index(x, y)] = v
   }
 
+  // Shallow copy
+  clone() {
+    let clone = new Grid(this.width, this.height)
+    clone.grid = [...this.grid]
+    return clone
+  }
+
   inBounds(x, y) {
     return 0 <= x && x < this.width && 0 <= y && y < this.height
   }

@@ -118,70 +118,120 @@ class TeeThreeView {
     this.gameContainer = domElems.container
     this.status = domElems.status
 
-    // Build grid
-    this.gridItem = document.createElement('div')
-    this.gridItem.id = 'tttgrid'
-    this.gameContainer.appendChild(this.gridItem)
-    this.gridItem.addEventListener('click', (evt) => {
-      if (this.isTranslating()) { return }
-      const target = evt.target
-      if (!target.classList.contains('tttcell')) { return }
+    this.internalGrid = engine.grid.clone()
 
+    // Build grid
+    // this.gridItem = document.createElement('div')
+    // this.gridItem.id = 'tttgrid'
+    // this.gameContainer.appendChild(this.gridItem)
+    // this.gridItem.addEventListener('click', (evt) => {
+    //   if (this.isTranslating()) { return }
+    //   const target = evt.target
+    //   if (!target.classList.contains('tttcell')) { return }
+
+    //   this.sendAction({
+    //     name: 'move',
+    //     x: Number(target.dataset.x),
+    //     y: Number(target.dataset.y),
+    //   })
+    // })
+
+    // this.rebuildGrid(engine)
+
+    this.gridView = new GridView(
+      this.gameContainer,
+      () => { return this.isTranslating() },
+    )
+
+    this.gridView.buildNewGrid(
+      this.internalGrid,
+      'hoverable'
+    )
+
+    this.gridView.onclick = (pos) => {
       this.sendAction({
         name: 'move',
-        x: Number(target.dataset.x),
-        y: Number(target.dataset.y),
+        x: pos.x,
+        y: pos.y,
       })
-    })
-
-    this.rebuildGrid(engine)
+    }
   }
 
   rebuildGrid(engine) {
-    this.gridItem.innerHTML = '';
-    this.renderableGrid = new Grid(engine.grid.width, engine.grid.height)
+    // this.gridItem.innerHTML = '';
+    // this.renderableGrid = new Grid(engine.grid.width, engine.grid.height)
+    // for (let y = 0; y < engine.grid.height; y++) {
+    //   let row = document.createElement('div')
+    //   row.classList.add('tttrow')
+    //   for (let x = 0; x < engine.grid.width; x++) {
+    //     let cell = document.createElement('div')
+    //     cell.classList.add('tttcell')
+    //     let entry = engine.grid.get(x, y)
+    //     if (entry === 1) { cell.classList.add('red', 'bx', 'bx-x') }
+    //     else if (entry === -1) { cell.classList.add('blue', 'bx', 'bx-radio-circle') }
+
+    //     cell.dataset.x = x
+    //     cell.dataset.y = y
+
+    //     row.appendChild(cell)
+    //     this.renderableGrid.set(x, y, cell);
+    //   }
+    //   this.gridItem.appendChild(row)
+    // }
+
+    // this.lastWidth = engine.grid.width
+    // this.lastHeight = engine.grid.height
+    let newRenderableGrid = new Grid(engine.grid.width, engine.grid.height)
+
     for (let y = 0; y < engine.grid.height; y++) {
-      let row = document.createElement('div')
-      row.classList.add('tttrow')
       for (let x = 0; x < engine.grid.width; x++) {
-        let cell = document.createElement('div')
-        cell.classList.add('tttcell')
-        let entry = engine.grid.get(x, y)
-        if (entry === 1) { cell.classList.add('red', 'bx', 'bx-x') }
-        else if (entry === -1) { cell.classList.add('blue', 'bx', 'bx-radio-circle') }
-
-        cell.dataset.x = x
-        cell.dataset.y = y
-
-        row.appendChild(cell)
-        this.renderableGrid.set(x, y, cell);
+        const entry = engine.grid.get(x, y)
+        if (entry === 1) {
+          newRenderableGrid.set(x, y, 'red bx bx-x')
+        } else if (entry === -1) {
+          newRenderableGrid.set(x, y, 'blue bx bx-radio-circle')
+        }
       }
-      this.gridItem.appendChild(row)
     }
 
-    this.lastWidth = engine.grid.width
-    this.lastHeight = engine.grid.height
-
-    // Set transform to scale inner contents to 600px
-    const maxLen = Math.max(
-        this.gameContainer.clientWidth,
-        this.gameContainer.clientHeight,
-    )
-    // this.scaleWindow(600/maxLen)
+    this.internalGrid = engine.grid.clone()
+    this.gridView.buildNewGrid(newRenderableGrid, 'hoverable')
   }
 
   // Updates the view with the current game state.
   render(engine) {
-    if (engine.grid.width !== this.lastWidth ||
-        engine.grid.height !== this.lastHeight) {
-      this.rebuildGrid(engine)
-    }
+    // if (engine.grid.width !== this.lastWidth ||
+    //     engine.grid.height !== this.lastHeight) {
+    //   this.rebuildGrid(engine)
+    // }
+    // for (let y = 0; y < engine.grid.height; y++) {
+    //   for (let x = 0; x < engine.grid.width; x++) {
+    //     let cell = this.renderableGrid.get(x, y)
+    //     cell.className = 'tttcell'
+    //     const entry = engine.grid.get(x, y)
+
+    //     const winPrefix =
+    //       (engine.outcome &&
+    //        engine.outcome.tiles.some((p) => 
+    //         p.x === x && p.y === y  
+    //        ))
+    //       ? 'win-'
+    //       : ''
+    //     if (entry === 1) { 
+    //       cell.classList.add(`${winPrefix}red`, 'bx', 'bx-x')
+    //     }
+    //     else if (entry === -1) {
+    //       cell.classList.add(`${winPrefix}blue`, 'bx', 'bx-radio-circle')
+    //     }
+    //     else if (!this.outcome) { cell.classList.add('hoverable') }
+    //   }
+    // }
+
     for (let y = 0; y < engine.grid.height; y++) {
       for (let x = 0; x < engine.grid.width; x++) {
-        let cell = this.renderableGrid.get(x, y)
-        cell.className = 'tttcell'
         const entry = engine.grid.get(x, y)
-
+        const oldEntry = this.internalGrid.get(x, y)
+        let newClassList = ''
         const winPrefix =
           (engine.outcome &&
            engine.outcome.tiles.some((p) => 
@@ -189,13 +239,20 @@ class TeeThreeView {
            ))
           ? 'win-'
           : ''
-        if (entry === 1) { 
-          cell.classList.add(`${winPrefix}red`, 'bx', 'bx-x')
+
+        if (entry === 1) {
+          newClassList += `${winPrefix}red bx bx-x`
+        } else if (entry === -1) {
+          newClassList += `${winPrefix}blue bx bx-radio-circle`
+        } else if (!engine.outcome) {
+          newClassList += `hoverable`
         }
-        else if (entry === -1) {
-          cell.classList.add(`${winPrefix}blue`, 'bx', 'bx-radio-circle')
+
+        if (entry !== oldEntry) {
+          newClassList += ' newcell'
         }
-        else if (!this.outcome) { cell.classList.add('hoverable') }
+
+        this.gridView.update(x, y, newClassList)
       }
     }
 
