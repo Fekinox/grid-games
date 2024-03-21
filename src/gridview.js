@@ -83,11 +83,11 @@ class GridView {
 
         if (entry !== null) {
           for (const c of entry.split(' ')) {
-            cell.classList.add(c)
+            if (c !== '') { cell.classList.add(c) }
           }
         } else {
           for (const d of defaults) {
-            cell.classList.add(d)
+            if (d !== '') { cell.classList.add(d) }
           }
         }
 

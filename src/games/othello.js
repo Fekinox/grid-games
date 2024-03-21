@@ -51,7 +51,6 @@ class OthelloEngine {
     this.grid = new Grid(this.width, this.height)
     this.turn = 1
     this.outcome = null
-    console.log(this.outcome)
 
     // In Othello, set center of board to
     // 0 1
@@ -200,7 +199,6 @@ class OthelloEngine {
     const win = this.checkWin()
     if (win !== null) {
       this.outcome = win
-      console.log(this.outcome)
     } else {
       this.turn *= -1
       this.setCurrentPlayerLegalMoves()
@@ -234,35 +232,20 @@ class OthelloView {
     this.gameContainer = domElems.container
     this.status = domElems.status
 
-    // Build grid
-    this.gridItem = document.createElement('div')
-    this.gridItem.id = 'tttgrid'
-    this.gameContainer.appendChild(this.gridItem)
-    this.gridItem.addEventListener('click', (evt) => {
-      if (this.isTranslating()) { return }
-      const target = evt.target
-      if (!target.classList.contains('tttcell')) { return }
+    this.internalGrid = engine.grid.clone()
 
-      this.sendAction({
-        name: 'move',
-        x: Number(target.dataset.x),
-        y: Number(target.dataset.y),
-      })
-    })
-  }
+    this.gridView = new GridView(
+      this.gameContainer,
+      () => { return this.isTranslating() },
+    )
 
-  // Updates the view with the current game state.
-  render(engine) {
-    if (engine.grid.width !== this.lastWidth ||
-        engine.grid.height !== this.lastHeight) {
-      this.rebuildGrid(engine)
-    }
+    let theGrid = new Grid(engine.grid.width, engine.grid.height)
+
     for (let y = 0; y < engine.grid.height; y++) {
       for (let x = 0; x < engine.grid.width; x++) {
-        let cell = this.renderableGrid.get(x, y)
-        cell.className = 'tttcell'
         const entry = engine.grid.get(x, y)
         const isLegal = engine.currentPlayerLegalMoves.get(x, y)
+        let newClassList = ''
 
         const winPrefix =
           (engine.outcome &&
@@ -271,16 +254,74 @@ class OthelloView {
            ))
           ? 'win-'
           : ''
-        if (entry === 1) { 
-          cell.classList.add(`${winPrefix}red`, 'bx', 'bx-x')
+
+        if (entry === 1) {
+          newClassList += `${winPrefix}red bx bx-x`
+        } else if (entry === -1) {
+          newClassList += `${winPrefix}blue bx bx-radio-circle`
+        } else if (!engine.outcome && isLegal) {
+          newClassList += `hoverable legalmove`
         }
-        else if (entry === -1) {
-          cell.classList.add(`${winPrefix}blue`, 'bx', 'bx-radio-circle')
+
+        theGrid.set(x, y, newClassList)
+      }
+    }
+
+    this.gridView.buildNewGrid(
+      theGrid,
+      ''
+    )
+
+    this.gridView.onclick = (pos) => {
+      this.sendAction({
+        name: 'move',
+        x: pos.x,
+        y: pos.y,
+      })
+    }
+
+    this.gridView.onhover = (pos) => {
+      if (pos !== null) {
+        this.sendAction({
+          name: 'hover',
+          x: pos.x,
+          y: pos.y,
+        })
+      }
+    }
+  }
+
+  // Updates the view with the current game state.
+  render(engine) {
+    for (let y = 0; y < engine.grid.height; y++) {
+      for (let x = 0; x < engine.grid.width; x++) {
+        const entry = engine.grid.get(x, y)
+        const oldEntry = this.internalGrid.get(x, y)
+        const isLegal = engine.currentPlayerLegalMoves.get(x, y)
+        let newClassList = ''
+
+        const winPrefix =
+          (engine.outcome &&
+           engine.outcome.tiles.some((p) => 
+            p.x === x && p.y === y  
+           ))
+          ? 'win-'
+          : ''
+
+        if (entry !== oldEntry) {
+          newClassList += 'newcell '
         }
-        else if (!this.outcome && isLegal) { 
-          cell.classList.add('hoverable')
-          cell.classList.add('legalmove')
+
+        if (entry === 1) {
+          newClassList += `${winPrefix}red bx bx-x`
+        } else if (entry === -1) {
+          newClassList += `${winPrefix}blue bx bx-radio-circle`
+        } else if (!engine.outcome && isLegal) {
+          newClassList += `hoverable legalmove`
         }
+
+        this.gridView.update(x, y, newClassList)
+        this.internalGrid.set(x, y, entry)
       }
     }
 
