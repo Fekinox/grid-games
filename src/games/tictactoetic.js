@@ -59,6 +59,8 @@ class TeeFourEngine {
     this.grid = new Grid(this.initWidth, this.initHeight)
     this.turn = 1
     this.outcome = null
+
+    this.lastExpansion = null
   }
 
   update(action) {
@@ -66,8 +68,10 @@ class TeeFourEngine {
 
     switch(action.name) {
       case 'move':
+        this.lastExpansion = null
         return this.makeMove(action.x, action.y)
       case 'expand':
+        this.lastExpansion = action.dir
         this.expand(action.dir)
         return true
     }
@@ -138,27 +142,25 @@ class TeeFourView {
     this.gameContainer = domElems.container
     this.status = domElems.status
 
-    this.dragging = false
-    this.selectedTile = null
+    this.internalGrid = engine.grid.clone()
 
-    // Build grid
-    this.gridItem = document.createElement('div')
-    this.gridItem.id = 'tttgrid'
-    this.gameContainer.appendChild(this.gridItem)
+    this.gridView = new GridView(
+      this.gameContainer,
+      () => { return this.isTranslating() },
+    )
 
-    this.gridItem.addEventListener('click', (evt) => {
-      if (this.isTranslating()) { return }
-      const target = evt.target
-      if (!target.classList.contains('tttcell')) { return }
+    this.gridView.buildNewGrid(
+      this.internalGrid,
+      'hoverable'
+    )
 
+    this.gridView.onclick = (pos) => {
       this.sendAction({
         name: 'move',
-        x: Number(target.dataset.x),
-        y: Number(target.dataset.y),
+        x: pos.x,
+        y: pos.y,
       })
-    })
-
-    this.rebuildGrid(engine)
+    }
 
     // Expansion buttons
     for (const dir of ['up', 'down', 'left', 'right']) {
@@ -184,49 +186,50 @@ class TeeFourView {
   }
 
   rebuildGrid(engine) {
-    this.gridItem.innerHTML = '';
-    this.renderableGrid = new Grid(engine.grid.width, engine.grid.height)
+    let newRenderableGrid = new Grid(engine.grid.width, engine.grid.height)
+
     for (let y = 0; y < engine.grid.height; y++) {
-      let row = document.createElement('div')
-      row.classList.add('tttrow')
       for (let x = 0; x < engine.grid.width; x++) {
-        let cell = document.createElement('div')
-        cell.classList.add('tttcell')
-        let entry = engine.grid.get(x, y)
-        if (entry === 1) { cell.classList.add('red') }
-        else if (entry === -1) { cell.classList.add('blue') }
+        let newClassList = ''
+        const entry = engine.grid.get(x, y)
 
-        cell.dataset.x = x
-        cell.dataset.y = y
+        // Check if this is a new cell added from an expansion
+        if (engine.lastExpansion !== null &&
+          (engine.lastExpansion === 'up' && y === 0 ||
+           engine.lastExpansion === 'down' && y === engine.grid.height-1 ||
+          engine.lastExpansion === 'left' && x === 0 ||
+           engine.lastExpansion === 'right' && x === engine.grid.width-1 )) {
+          newClassList += 'expandedcell '
+        }
 
-        row.appendChild(cell)
-        this.renderableGrid.set(x, y, cell);
+        if (entry === 1) {
+          newClassList += 'red bx bx-x'
+        } else if (entry === -1) {
+          newClassList += 'blue bx bx-radio-circle'
+        } else {
+          newClassList += 'hoverable'
+        }
+
+        newRenderableGrid.set(x, y, newClassList)
       }
-      this.gridItem.appendChild(row)
     }
 
-    this.lastWidth = engine.grid.width
-    this.lastHeight = engine.grid.height
-
-    // Set transform to scale inner contents to 600px
-    const maxLen = Math.max(
-        this.gameContainer.clientWidth,
-        this.gameContainer.clientHeight,
-    )
-    // this.scaleWindow(600/maxLen)
+    this.internalGrid = engine.grid.clone()
+    this.gridView.buildNewGrid(newRenderableGrid, 'hoverable')
   }
 
   // Updates the view with the current game state.
   render(engine) {
-    if (engine.grid.width !== this.lastWidth ||
-        engine.grid.height !== this.lastHeight) {
+    if (engine.grid.width !== this.internalGrid.width ||
+        engine.grid.height !== this.internalGrid.height) {
       this.rebuildGrid(engine)
+      return
     }
     for (let y = 0; y < engine.grid.height; y++) {
       for (let x = 0; x < engine.grid.width; x++) {
-        let cell = this.renderableGrid.get(x, y)
-        cell.className = 'tttcell'
         const entry = engine.grid.get(x, y)
+        const oldEntry = this.internalGrid.get(x, y)
+        let newClassList = ''
 
         const winPrefix =
           (engine.outcome &&
@@ -235,13 +238,21 @@ class TeeFourView {
            ))
           ? 'win-'
           : ''
-        if (entry === 1) { 
-          cell.classList.add(`${winPrefix}red`, 'bx', 'bx-x')
+
+        if (entry !== oldEntry) {
+          newClassList += 'newcell '
         }
-        else if (entry === -1) {
-          cell.classList.add(`${winPrefix}blue`, 'bx', 'bx-radio-circle')
+
+        if (entry === 1) {
+          newClassList += `${winPrefix}red bx bx-x`
+        } else if (entry === -1) {
+          newClassList += `${winPrefix}blue bx bx-radio-circle`
+        } else if (!engine.outcome) {
+          newClassList += `hoverable`
         }
-        else if (!this.outcome) { cell.classList.add('hoverable') }
+
+        this.gridView.update(x, y, newClassList)
+        this.internalGrid.set(x, y, entry)
       }
     }
 
