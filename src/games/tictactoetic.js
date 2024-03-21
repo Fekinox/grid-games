@@ -231,10 +231,10 @@ class TeeFourView {
           ? 'win-'
           : ''
         if (entry === 1) { 
-          cell.classList.add(`${winPrefix}red`, 'filledcell')
+          cell.classList.add(`${winPrefix}red`, 'bx', 'bx-x')
         }
         else if (entry === -1) {
-          cell.classList.add(`${winPrefix}blue`, 'filledcell')
+          cell.classList.add(`${winPrefix}blue`, 'bx', 'bx-radio-circle')
         }
         else if (!this.outcome) { cell.classList.add('hoverable') }
       }
@@ -277,9 +277,9 @@ class TeeFourView {
 
   inlineIndicator(color) {
     if (color === 1) {
-      return '<i class=\'red fa-solid fa-x\'></i>'
+      return '<i class=\'red bx bx-x\'></i>'
     } else {
-      return '<i class=\'blue fa-solid fa-o\'></i>'
+      return '<i class=\'blue bx bx-radio-circle\'></i>'
     }
   }
 }
