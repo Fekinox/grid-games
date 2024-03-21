@@ -249,41 +249,6 @@ class OthelloView {
         y: Number(target.dataset.y),
       })
     })
-
-    this.rebuildGrid(engine)
-  }
-
-  rebuildGrid(engine) {
-    this.gridItem.innerHTML = '';
-    this.renderableGrid = new Grid(engine.grid.width, engine.grid.height)
-    for (let y = 0; y < engine.grid.height; y++) {
-      let row = document.createElement('div')
-      row.classList.add('tttrow')
-      for (let x = 0; x < engine.grid.width; x++) {
-        let cell = document.createElement('div')
-        cell.classList.add('tttcell')
-        let entry = engine.grid.get(x, y)
-        if (entry === 1) { cell.classList.add('red') }
-        else if (entry === -1) { cell.classList.add('blue') }
-
-        cell.dataset.x = x
-        cell.dataset.y = y
-
-        row.appendChild(cell)
-        this.renderableGrid.set(x, y, cell);
-      }
-      this.gridItem.appendChild(row)
-    }
-
-    this.lastWidth = engine.grid.width
-    this.lastHeight = engine.grid.height
-
-    // Set transform to scale inner contents to 600px
-    const maxLen = Math.max(
-        this.gameContainer.clientWidth,
-        this.gameContainer.clientHeight,
-    )
-    // this.scaleWindow(600/maxLen)
   }
 
   // Updates the view with the current game state.
