@@ -2,6 +2,8 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0c21a3ac-0377-457d-9af7-5b00c2be33de/deploy-status)](https://app.netlify.com/sites/fekinox-grid-games/deploys)
 
+![Vercel](https://vercelbadge.vercel.app/api/Fekinox/tic-tac-toe-tic)
+
 A variant of Tic Tac Toe implemented by Will Fowlkes, and designed by a friend of his.
 
 ## Rules
