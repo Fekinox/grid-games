@@ -103,10 +103,11 @@ class OthelloEngine {
     this.hasLegalMoves = false
     for (let y = 0; y < this.grid.height; y++) {
       for (let x = 0; x < this.grid.width; x++) {
-        const nonNull = this.grid.get(x, y) === null
-        const matches = this.matchesAt(x, y, this.turn).length !== 0
-        if (nonNull && matches) { this.hasLegalMoves = true }
-        this.currentPlayerLegalMoves.set(x, y, nonNull && matches)
+        const legal =
+          (this.grid.get(x, y) === null &&
+           this.matchesAt(x, y, this.turn).length !== 0)
+        if (legal) { this.hasLegalMoves = true }
+        this.currentPlayerLegalMoves.set(x, y, legal)
       }
     }
   }
@@ -114,12 +115,11 @@ class OthelloEngine {
   update(action) {
     switch(action.name) {
       case 'move':
-        this.makeMove(action.x, action.y)
-        break;
+        return this.makeMove(action.x, action.y)
       case 'pass':
         this.turn *= -1
         this.setCurrentPlayerLegalMoves()
-        break;
+        return true;
     }
   }
 
@@ -186,7 +186,7 @@ class OthelloEngine {
     const lines = this.matchesAt(x, y, this.turn)
     if (this.grid.get(x, y) !== null ||
       this.outcome !== null ||
-      lines.length === 0) { return }
+      lines.length === 0) { return false }
     
     this.grid.set(x, y, this.turn)
     lines.forEach((line) => {
@@ -217,6 +217,8 @@ class OthelloEngine {
         winner: this.outcome.player
       })
     }
+
+    return true
   }
 
   buildView(domElems) {
