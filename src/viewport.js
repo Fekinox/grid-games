@@ -121,10 +121,12 @@ class Viewport {
   setTranslate() {
     if (Math.abs(this.translateX - this.lastTranslateX) > 1e-6 ||
         Math.abs(this.translateY - this.lastTranslateY) > 1e-6) {
-      this.gameView.animate(
-        { translate: `${this.translateX}px ${this.translateY}px` },
-        { duration: 100, fill: 'forwards' }
-      )
+      // this.gameView.animate(
+      //   { translate: `${this.translateX}px ${this.translateY}px` },
+      //   { duration: 100, fill: 'forwards' }
+      // )
+      this.gameView.style.translate = 
+        `${this.translateX}px ${this.translateY}px`
 
       this.lastTranslateX = this.translateX
       this.lastTranslateY = this.translateY
@@ -152,10 +154,13 @@ class Viewport {
   }
 
   hardReset() {
+    this.updateViewportSize()
     this.rescale()
     this.refreshExtents()
     this.translateX = 0
     this.translateY = 0
-    this.setTranslate()
+    this.lastTranslateX = 0
+    this.lastTranslateY = 0
+    this.gameView.style.translate = '0'
   }
 }
