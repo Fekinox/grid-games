@@ -10,10 +10,15 @@ class Viewport {
     this.dirty = false
 
     this.scaleFactor = 1.0
+    this.trueScaleFactor = 1.0
 
     // The base size of a game element in pixels. In this case, the base
     // game element size is based around the size of a grid cell.
     this.minElementSize = 32
+
+    this.lastTranslateX = 0
+    this.lastTranslateY = 0
+    this.lastScale = 1.0
 
     // Build and obtain corresponding DOM elements
     this.center = elementBuild('div', {
@@ -32,7 +37,7 @@ class Viewport {
     this.gameView = gameView
     this.gameCenter.appendChild(this.gameView)
 
-    this.setTransform()
+    this.update()
 
     this.center.addEventListener('mousedown', (event) => {
       this.center.dataset.mouseDownX = event.clientX
@@ -105,10 +110,12 @@ class Viewport {
     this.yExtents = this.gameView.clientHeight / 2
 
     // Disable translation in certain axes if it's too small in that dimension
-    if (this.gameView.clientWidth - this.gameCenter.clientWidth < 0.01) {
+    if (this.gameView.clientWidth * this.lastScale
+        - this.gameCenter.clientWidth < 0.01) {
       this.xExtents = 0
     }
-    if (this.gameView.clientHeight - this.gameCenter.clientHeight < 0.01) {
+    if (this.gameView.clientHeight * this.lastScale
+        - this.gameCenter.clientHeight < 0.01) {
       this.yExtents = 0
     }
 
@@ -135,13 +142,23 @@ class Viewport {
     let minScaleFactor = this.minElementSize / viewportMaxDimension
 
     // The true scale factor cannot be smaller than the min.
-    let trueScaleFactor = Math.max(this.scaleFactor, minScaleFactor)
-    this.gameView.style.scale = `${trueScaleFactor * 100}%`
+    this.trueScaleFactor = Math.max(this.scaleFactor, minScaleFactor)
 
-    this.gameView.animate(
-      { translate: `${this.translateX}px ${this.translateY}px` },
-      { duration: 100, fill: 'forwards' }
-    )
+    if (Math.abs(this.trueScaleFactor - this.lastScale) > 1e-6) {
+      this.gameView.style.scale = `${this.trueScaleFactor * 100}%`
+      this.lastScale = this.trueScaleFactor
+    }
+
+    if (Math.abs(this.translateX - this.lastTranslateX) > 1e-6 ||
+        Math.abs(this.translateY - this.lastTranslateY) > 1e-6) {
+      this.gameView.animate(
+        { translate: `${this.translateX}px ${this.translateY}px` },
+        { duration: 100, fill: 'forwards' }
+      )
+
+      this.lastTranslateX = this.translateX
+      this.lastTranslateY = this.translateY
+    }
     // this.gameView.style.translate = `${this.translateX}px ${this.translateY}px`
   }
 }
