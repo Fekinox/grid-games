@@ -5,15 +5,15 @@ class Viewport {
     this.dragX = 0
     this.dragY = 0
 
+    this.minTranslateDistancePx = 40
+
     this.dirty = false
 
     this.scaleFactor = 1.0
 
-    // The viewport will attempt to scale the game view to a size of at most
-    // minScaleFactor and keep it centered. 
-    // If it has to scale the game view any smaller, it will not do so, and it
-    // can then be translated.
-    this.minScaleFactor = 1.0
+    // The base size of a game element in pixels. In this case, the base
+    // game element size is based around the size of a grid cell.
+    this.minElementSize = 32
 
     // Build and obtain corresponding DOM elements
     this.center = elementBuild('div', {
@@ -58,24 +58,29 @@ class Viewport {
       const deltaX = event.clientX - Number(this.center.dataset.mouseDownX)
       const deltaY = event.clientY - Number(this.center.dataset.mouseDownY)
 
-      this.translateX = this.dragX + deltaX
-      this.translateY = this.dragY + deltaY
+      let currentTX = this.dragX + deltaX
+      let currentTY = this.dragY + deltaY
 
-      this.translateX = Math.min(this.xExtents,
-        Math.max(-this.xExtents, this.translateX))
-      this.translateY = Math.min(this.yExtents,
-        Math.max(-this.yExtents, this.translateY))
+      currentTX = Math.min(this.xExtents,
+        Math.max(-this.xExtents, currentTX))
+      currentTY = Math.min(this.yExtents,
+        Math.max(-this.yExtents, currentTY))
 
       if (!this.dirty) {
-        const distance = Math.abs(this.translateX - this.dragX) +
-          Math.abs(this.translateY - this.dragY)
+        const distance = Math.pow(currentTX - this.dragX, 2) +
+          Math.pow(currentTY - this.dragY, 2)
 
-        if (distance > 0.01) {
+        if (Math.sqrt(distance) > this.minTranslateDistancePx) {
           this.dirty = true
         }
+
       }
 
-      this.update()
+      if (this.dirty) {
+        this.translateX = currentTX
+        this.translateY = currentTY
+        this.update()
+      }
     })
   }
 
@@ -115,12 +120,28 @@ class Viewport {
   }
 
   setTransform() {
-    let trueScaleFactor = Math.max(this.scaleFactor, this.minScaleFactor)
+    // Font size from stylesheet is equal to the viewport's longest dimension,
+    // so compute that quantity.
+    let viewportMaxDimension =
+      Math.max(
+        Math.max(document.documentElement.clientWidth || 0,
+               window.innerWidth || 0),
+        Math.max(document.documentElement.clientHeight || 0,
+               window.innerHeight || 0)
+      )
+
+    // Obtain the minimum scale factor by getting the ratio between the
+    // minimum element size and the viewport's max dimension.
+    let minScaleFactor = this.minElementSize / viewportMaxDimension
+
+    // The true scale factor cannot be smaller than the min.
+    let trueScaleFactor = Math.max(this.scaleFactor, minScaleFactor)
     this.gameView.style.scale = `${trueScaleFactor * 100}%`
 
     this.gameView.animate(
       { translate: `${this.translateX}px ${this.translateY}px` },
       { duration: 100, fill: 'forwards' }
     )
+    // this.gameView.style.translate = `${this.translateX}px ${this.translateY}px`
   }
 }

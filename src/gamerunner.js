@@ -46,9 +46,7 @@ class GameRunner {
   }
 
   handleAction(action) {
-    if (action.name === 'reset' || action === 'reset') {
-      this.resetGame()
-    } else if (action.name === 'gameOver') {
+    if (action.name === 'gameOver') {
       switch(action.winner) {
         case 1:
           this.p1score += 1
@@ -62,9 +60,11 @@ class GameRunner {
       }
       this.scoreboard.update(this.p1score, this.p2score, this.ties)
     } else {
-      this.engine.update(action)
-      this.view.render(this.engine)
-      this.viewport.update()
+      const updated = this.engine.update(action)
+      if (updated) {
+        this.view.render(this.engine)
+        this.viewport.update()
+      }
     }
   }
 

@@ -57,6 +57,7 @@ div#gameview {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 }
 
 div#center {
@@ -67,6 +68,8 @@ div#center {
   margin: 50px;
   padding: 32px;
   border-radius: 32px;
+
+  font-size: 100vmax;
 }
 
 div#gamecenter {
@@ -249,45 +252,46 @@ div#tttgrid {
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.25em;
 }
 
 div.tttrow {
   display: flex;
-  gap: 8px;
+  gap: 0.25em;
 }
 
 div.tttcell {
   display: inline-flex;
   position: relative;
-  min-width: 50px;
-  min-height: 50px;
+  min-width: 1.0em;
+  min-height: 1.0em;
   background-color: var(--bg-4);
   justify-content: center;
   align-items: center;
+  font-size: 1.5em;
 
   transition: 
     background-color 0.2s ease
   ;
 
-  border-radius: 4px;
+  border-radius: 0.125em;
 }
 
 /* Bigger border radii on corners */
 div.tttrow:first-child div.tttcell:first-child {
-  border-top-left-radius: 16px;
+  border-top-left-radius: 0.5em;
 }
 
 div.tttrow:first-child div.tttcell:last-child {
-  border-top-right-radius: 16px;
+  border-top-right-radius: 0.5em;
 }
 
 div.tttrow:last-child div.tttcell:first-child {
-  border-bottom-left-radius: 16px;
+  border-bottom-left-radius: 0.5em;
 }
 
 div.tttrow:last-child div.tttcell:last-child {
-  border-bottom-right-radius: 16px;
+  border-bottom-right-radius: 0.5em;
 }
 
 /* div.filledcell::after { */
@@ -312,7 +316,6 @@ div.tttrow:last-child div.tttcell:last-child {
 
 div.tttcell.red, div.tttcell.win-red,
 div.tttcell.blue, div.tttcell.win-blue {
-  font-size: 50px;
 }
 
 div.hoverable:hover {
@@ -354,16 +357,15 @@ i.red, i.blue {
 div.game#teethree {
   width: max-content;
   height: max-content;
-  gap: 8px;
 }
 
 div.game#teefour {
   display: grid;
-  grid-template-rows: 50px max-content 50px;
-  grid-template-columns: 50px max-content 50px;
+  grid-template-rows: 1em max-content 1em;
+  grid-template-columns: 1em max-content 1em;
   width: max-content;
   height: max-content;
-  gap: 8px;
+  gap: 0.25em;
 }
 
 div.game#teefour div#tttgrid {
