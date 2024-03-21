@@ -139,26 +139,6 @@ class TeeThreeView {
     }
   }
 
-  rebuildGrid(engine) {
-    let newRenderableGrid = new Grid(engine.grid.width, engine.grid.height)
-
-    for (let y = 0; y < engine.grid.height; y++) {
-      for (let x = 0; x < engine.grid.width; x++) {
-        const entry = engine.grid.get(x, y)
-        if (entry === 1) {
-          newRenderableGrid.set(x, y, 'red bx bx-x')
-        } else if (entry === -1) {
-          newRenderableGrid.set(x, y, 'blue bx bx-radio-circle')
-        } else {
-          newRenderableGrid.set(x, y, 'hoverable')
-        }
-      }
-    }
-
-    this.internalGrid = engine.grid.clone()
-    this.gridView.buildNewGrid(newRenderableGrid, 'hoverable')
-  }
-
   // Updates the view with the current game state.
   render(engine) {
     for (let y = 0; y < engine.grid.height; y++) {
