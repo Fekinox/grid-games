@@ -134,6 +134,8 @@ class Viewport {
     // The true scale factor cannot be smaller than the min.
     this.trueScaleFactor = Math.max(this.scaleFactor, minScaleFactor)
 
+    console.log(this.trueScaleFactor)
+
     if (Math.abs(this.trueScaleFactor - this.lastScale) > 1e-6) {
       this.gameView.style.scale = `${this.trueScaleFactor * 100}%`
       this.lastScale = this.trueScaleFactor
@@ -155,6 +157,6 @@ class Viewport {
   updateViewportSize() {
     this.viewportSize =
       Math.max(this.center.clientWidth, this.center.clientHeight)
-    this.center.style.fontSize = this.viewportSize
+    this.center.style.fontSize = `${this.viewportSize}px`
   }
 }

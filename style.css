@@ -68,6 +68,8 @@ div#center {
   margin: 50px;
   padding: 32px;
   border-radius: 32px;
+
+  font-size: 100vw;
 }
 
 div#gamecenter {
@@ -440,6 +442,24 @@ button#left {
 
 button#right {
   grid-area: 2 / 3;
+}
+
+.expandedcell {
+  animation-name: newcellspin;
+  animation-duration: 0.2s;
+  animation-timing-function: ease;
+}
+
+@keyframes newcellspin {
+  from {
+    rotate: 0.5turn;
+    scale: 0
+  }
+
+  to {
+    rotate: 0;
+    scale: 1;
+  }
 }
 
 /* Othello */
