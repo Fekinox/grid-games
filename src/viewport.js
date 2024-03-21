@@ -86,30 +86,20 @@ class Viewport {
       if (this.dirty) {
         this.translateX = currentTX
         this.translateY = currentTY
-        this.update()
+        this.setTranslate()
       }
     })
   }
 
   update() {
-    this.refreshScaleFactor()
-    this.setTransform()
+    this.rescale()
     this.refreshExtents()
-  }
-
-  refreshScaleFactor() {
-    // Get the ratio of the gameCenter container's width&height and the size of
-    // the largest dimension of the gameview.
-
-    let xScaling = this.gameCenter.clientWidth/this.gameView.clientWidth
-    let yScaling = this.gameCenter.clientHeight/this.gameView.clientHeight
-
-    this.scaleFactor = Math.min(xScaling, yScaling)
+    this.setTranslate()
   }
 
   refreshExtents() {
-    this.xExtents = this.gameView.clientWidth / 2
-    this.yExtents = this.gameView.clientHeight / 2
+    this.xExtents = this.lastScale * this.gameView.clientWidth / 2
+    this.yExtents = this.lastScale * this.gameView.clientHeight / 2
 
     // Disable translation in certain axes if it's too small in that dimension
     if (this.gameView.clientWidth * this.lastScale
@@ -128,19 +118,7 @@ class Viewport {
       Math.max(-this.yExtents, this.translateY))
   }
 
-  setTransform() {
-    let minScaleFactor = this.minElementSize / this.viewportSize
-
-    // The true scale factor cannot be smaller than the min.
-    this.trueScaleFactor = Math.max(this.scaleFactor, minScaleFactor)
-
-    console.log(this.trueScaleFactor)
-
-    if (Math.abs(this.trueScaleFactor - this.lastScale) > 1e-6) {
-      this.gameView.style.scale = `${this.trueScaleFactor * 100}%`
-      this.lastScale = this.trueScaleFactor
-    }
-
+  setTranslate() {
     if (Math.abs(this.translateX - this.lastTranslateX) > 1e-6 ||
         Math.abs(this.translateY - this.lastTranslateY) > 1e-6) {
       this.gameView.animate(
@@ -151,12 +129,33 @@ class Viewport {
       this.lastTranslateX = this.translateX
       this.lastTranslateY = this.translateY
     }
-    // this.gameView.style.translate = `${this.translateX}px ${this.translateY}px`
   }
 
   updateViewportSize() {
     this.viewportSize =
       Math.max(this.center.clientWidth, this.center.clientHeight)
     this.center.style.fontSize = `${this.viewportSize}px`
+  }
+
+  rescale() {
+    let xScaling = this.gameCenter.clientWidth/this.gameView.clientWidth
+    let yScaling = this.gameCenter.clientHeight/this.gameView.clientHeight
+
+    this.scaleFactor = Math.min(xScaling, yScaling)
+    let minScaleFactor = this.minElementSize / this.viewportSize
+
+    let finalScaleFactor = Math.max(this.scaleFactor, minScaleFactor)
+    if (Math.abs(finalScaleFactor, this.lastScale) > 1e-6) {
+      this.gameView.style.scale = `${finalScaleFactor}`
+      this.lastScale = finalScaleFactor
+    }
+  }
+
+  hardReset() {
+    this.rescale()
+    this.refreshExtents()
+    this.translateX = 0
+    this.translateY = 0
+    this.setTranslate()
   }
 }

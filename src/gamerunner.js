@@ -71,7 +71,7 @@ class GameRunner {
   resetGame() {
     this.engine.reset()
     this.view.render(this.engine)
-    this.viewport.update()
+    this.viewport.hardReset()
   }
 
   getDOMElements() {
