@@ -190,6 +190,8 @@ class TeeThreeView {
           newRenderableGrid.set(x, y, 'red bx bx-x')
         } else if (entry === -1) {
           newRenderableGrid.set(x, y, 'blue bx bx-radio-circle')
+        } else {
+          newRenderableGrid.set(x, y, 'hoverable')
         }
       }
     }
@@ -232,6 +234,7 @@ class TeeThreeView {
         const entry = engine.grid.get(x, y)
         const oldEntry = this.internalGrid.get(x, y)
         let newClassList = ''
+
         const winPrefix =
           (engine.outcome &&
            engine.outcome.tiles.some((p) => 
@@ -239,6 +242,10 @@ class TeeThreeView {
            ))
           ? 'win-'
           : ''
+
+        if (entry !== oldEntry) {
+          newClassList += 'newcell '
+        }
 
         if (entry === 1) {
           newClassList += `${winPrefix}red bx bx-x`
@@ -248,11 +255,8 @@ class TeeThreeView {
           newClassList += `hoverable`
         }
 
-        if (entry !== oldEntry) {
-          newClassList += ' newcell'
-        }
-
         this.gridView.update(x, y, newClassList)
+        this.internalGrid.set(x, y, entry)
       }
     }
 

@@ -114,4 +114,12 @@ class GridView {
       }
     }
   }
+
+  contains(x, y, className) {
+    this.renderableGrid.get(x, y).classList.contains(className)
+  }
+
+  remove(x, y, className) {
+    this.renderableGrid.get(x, y).classList.remove(className)
+  }
 }
