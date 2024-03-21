@@ -86,8 +86,8 @@ class GameRunner {
     this.viewport = new Viewport(this.container, this.game)
 
     window.addEventListener('resize', (event) => {
+      this.viewport.updateViewportSize()
       this.viewport.update()
-      console.log('resize')
     })
     
     // Status

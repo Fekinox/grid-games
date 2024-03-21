@@ -37,6 +37,8 @@ class Viewport {
     this.gameView = gameView
     this.gameCenter.appendChild(this.gameView)
 
+    this.updateViewportSize()
+
     this.update()
 
     this.center.addEventListener('mousedown', (event) => {
@@ -127,19 +129,7 @@ class Viewport {
   }
 
   setTransform() {
-    // Font size from stylesheet is equal to the viewport's longest dimension,
-    // so compute that quantity.
-    let viewportMaxDimension =
-      Math.max(
-        Math.max(document.documentElement.clientWidth || 0,
-               window.innerWidth || 0),
-        Math.max(document.documentElement.clientHeight || 0,
-               window.innerHeight || 0)
-      )
-
-    // Obtain the minimum scale factor by getting the ratio between the
-    // minimum element size and the viewport's max dimension.
-    let minScaleFactor = this.minElementSize / viewportMaxDimension
+    let minScaleFactor = this.minElementSize / this.viewportSize
 
     // The true scale factor cannot be smaller than the min.
     this.trueScaleFactor = Math.max(this.scaleFactor, minScaleFactor)
@@ -160,5 +150,11 @@ class Viewport {
       this.lastTranslateY = this.translateY
     }
     // this.gameView.style.translate = `${this.translateX}px ${this.translateY}px`
+  }
+
+  updateViewportSize() {
+    this.viewportSize =
+      Math.max(this.center.clientWidth, this.center.clientHeight)
+    this.center.style.fontSize = this.viewportSize
   }
 }

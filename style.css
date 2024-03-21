@@ -68,8 +68,6 @@ div#center {
   margin: 50px;
   padding: 32px;
   border-radius: 32px;
-
-  font-size: 100vmax;
 }
 
 div#gamecenter {
@@ -263,12 +261,11 @@ div.tttrow {
 div.tttcell {
   display: inline-flex;
   position: relative;
-  min-width: 1.0em;
-  min-height: 1.0em;
+  min-width: 1em;
+  min-height: 1em;
   background-color: var(--bg-4);
   justify-content: center;
   align-items: center;
-  font-size: 1.5em;
 
   transition: 
     background-color 0.2s ease
