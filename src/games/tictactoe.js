@@ -141,6 +141,20 @@ class TeeThreeView {
 
   // Updates the view with the current game state.
   render(engine) {
+    if (engine.outcome === null) {
+      this.gameContainer.classList.remove('p1-win')
+      this.gameContainer.classList.remove('p2-win')
+      this.gameContainer.classList.remove('tie-game')
+    } else {
+      if (engine.outcome.player === 1) {
+        this.gameContainer.classList.add('p1-win')
+      } else if (engine.outcome.player === -1) {
+        this.gameContainer.classList.add('p2-win')
+      } else {
+        this.gameContainer.classList.add('tie-game')
+      }
+    }
+
     for (let y = 0; y < engine.grid.height; y++) {
       for (let x = 0; x < engine.grid.width; x++) {
         const entry = engine.grid.get(x, y)

@@ -344,6 +344,13 @@ i.red, i.blue {
   margin-right: 10px;
   vertical-align: -0.2px;
 }
+
+div.tie-game div.tttcell {
+  animation-name: tiewiggle;
+  animation-iteration-count: 2;
+  animation-duration: 0.2s;
+}
+
 @keyframes popin {
   from {
     font-size: 0;
@@ -351,6 +358,34 @@ i.red, i.blue {
 
   to {
     font-size: 40px;
+  }
+}
+
+@keyframes winspin {
+  from {
+    rotate: 1turn;
+  }
+
+  to {
+    rotate: 0;
+  }
+}
+
+@keyframes tiewiggle {
+  from {
+    rotate: 0;
+  }
+
+  25% {
+    rotate: 20deg;
+  }
+
+  75% {
+    rotate: -20deg;
+  }
+
+  to {
+    rotate: 0;
   }
 }
 
@@ -447,7 +482,13 @@ button#right {
 .expandedcell {
   animation-name: newcellspin;
   animation-duration: 0.2s;
-  animation-timing-function: ease;
+  animation-timing-function: ease-out;
+}
+
+.win-red, .win-blue {
+  animation-name: winspin;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
 }
 
 @keyframes newcellspin {
