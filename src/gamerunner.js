@@ -13,7 +13,7 @@ class GameRunner {
   }
 
   clearGame() {
-    this.game.innerHTML = ''
+    this.game.textContent= ''
     this.entry = null
 
     this.p1score = 0
@@ -27,22 +27,27 @@ class GameRunner {
     this.entry = gameEntry
     this.engine = gameEntry.run(rules)
     this.game.id = this.engine.name
-    this.view = this.engine.buildView({
-      root: this.root,
-      container: this.game,
-      status: this.statusLine,
-    })
-
     this.engine.sendAction = (action) => this.handleAction(action)
-    this.view.sendAction = (action) => this.handleAction(action)
-    this.view.isTranslating = () => {
-      return this.viewport.dirty
-    }
+
+    this.resetView()
     this.view.render(this.engine)
 
     this.viewport.translateX = 0
     this.viewport.translateY = 0
     this.viewport.update()
+  }
+
+  resetView() {
+    this.game.textContent = ''
+    this.view = this.engine.buildView({
+      root: this.root,
+      container: this.game,
+      status: this.statusLine,
+    })
+    this.view.sendAction = (action) => this.handleAction(action)
+    this.view.isTranslating = () => {
+      return this.viewport.dirty
+    }
   }
 
   handleAction(action) {
@@ -70,6 +75,8 @@ class GameRunner {
 
   resetGame() {
     this.engine.reset()
+    this.game.textContent = ''
+    this.resetView()
     this.view.render(this.engine)
     this.viewport.hardReset()
   }

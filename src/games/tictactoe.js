@@ -128,9 +128,10 @@ class TeeThreeView {
       () => { return this.isTranslating() },
     )
 
-    this.gridView.buildNewGrid(
-      this.internalGrid,
-      'hoverable'
+    this.gridView.buildNewGrid(engine.grid.width, engine.grid.height,
+      (x, y, cell) => {
+        cell.classList.add('hoverable')
+      }
     )
 
     this.gridView.onclick = (pos) => {

@@ -11,8 +11,8 @@ const animations = {
   },
   winSpin: {
     frames: [
-      { rotate: '1turn' },
-      { rotate: '0turn' },
+      { rotate: '1turn', scale: 1.5, },
+      { rotate: '0turn', scale: 1, },
     ],
     timing: {
       duration: 500,
@@ -43,8 +43,8 @@ const animations = {
   },
   invert: {
     frames: [
-      { rotate: '1turn' },
-      { rotate: '0turn' },
+      { rotate: '1turn', scale: '0' },
+      { rotate: '0turn', scale: '1' },
     ],
     timing: {
       duration: 500,

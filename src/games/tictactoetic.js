@@ -149,9 +149,10 @@ class TeeFourView {
       () => { return this.isTranslating() },
     )
 
-    this.gridView.buildNewGrid(
-      this.internalGrid,
-      'hoverable'
+    this.gridView.buildNewGrid(engine.grid.width, engine.grid.height,
+      (x, y, cell) => {
+        cell.classList.add('hoverable')
+      }
     )
 
     this.gridView.onclick = (pos) => {
@@ -186,42 +187,31 @@ class TeeFourView {
   }
 
   rebuildGrid(engine) {
-    let newRenderableGrid = new Grid(engine.grid.width, engine.grid.height)
-
-    for (let y = 0; y < engine.grid.height; y++) {
-      for (let x = 0; x < engine.grid.width; x++) {
-        let newClassList = ''
+    let expDir = null
+    if (engine.lastAction !== null && engine.lastAction.name === 'expand') {
+      expDir = engine.lastAction.dir
+    }
+    this.gridView.buildNewGrid(engine.grid.width, engine.grid.height,
+      (x, y, cell) => {
         const entry = engine.grid.get(x, y)
 
         if (entry === 1) {
-          newClassList += 'red bx bx-x'
+          cell.classList.add('red', 'bx', 'bx-x')
         } else if (entry === -1) {
-          newClassList += 'blue bx bx-radio-circle'
+          cell.classList.add('blue', 'bx', 'bx-radio-circle')
         } else {
-          newClassList += 'hoverable'
+          cell.classList.add('hoverable')
         }
 
-        newRenderableGrid.set(x, y, newClassList)
+        if (expDir !== null && (expDir === 'up' && y === 0 ||
+          expDir === 'down' && y === engine.grid.height-1 ||
+          expDir === 'left' && x === 0 ||
+          expDir === 'right' && x === engine.grid.width-1 )) {
+          applyAnimation(cell, 'expandSpin')
+        }
       }
-    }
-
+    )
     this.internalGrid = engine.grid.clone()
-    this.gridView.buildNewGrid(newRenderableGrid, 'hoverable')
-
-    if (engine.lastAction !== null && engine.lastAction.name === 'expand') {
-      let exp = engine.lastAction
-      for (let y = 0; y < engine.grid.height; y++) {
-        for (let x = 0; x < engine.grid.width; x++) {
-          // Check if this is a new cell added from an expansion
-            if (exp.dir === 'up' && y === 0 ||
-              exp.dir === 'down' && y === engine.grid.height-1 ||
-              exp.dir === 'left' && x === 0 ||
-              exp.dir === 'right' && x === engine.grid.width-1 ) {
-              this.gridView.animate(x, y, 'expandSpin')
-            }
-        }
-      }
-    }
   }
 
   // Updates the view with the current game state.

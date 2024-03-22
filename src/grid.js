@@ -1,10 +1,16 @@
 class Grid {
-  constructor(width, height) {
+  constructor(width, height, mapFun = null) {
     this.width = width
     this.height = height
+    let f = () => null
+    if (mapFun !== null) { 
+      f = (v, idx) => {
+        return mapFun(idx % this.width, Math.floor(idx / this.width))
+      }
+    } 
     this.grid = 
       Array.from({ length: this.width * this.height },
-      () => null)
+      f)
   }
 
   index(x, y) {

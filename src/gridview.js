@@ -61,39 +61,37 @@ class GridView {
     })
   }
 
-  buildNewGrid(grid, defaultClasses) {
+  buildNewGrid(width, height, buildFn = null) {
+    let newFun = (x, y, cell) => {}
+
+    if (buildFn !== null) {
+      newFun = buildFn
+    }
+
     this.gridItem.textContent = ''
     this.renderableGrid = 
-      new Grid(grid.width, grid.height)
-
-    const defaults = defaultClasses.split(' ')
-
-    for (let y = 0; y < grid.height; y++) {
-      let row = elementBuild('div', {
-        classList: 'tttrow',
-        parent: this.gridItem,
-      })
-      for (let x = 0; x < grid.width; x++) {
+      new Grid(width, height,
+      (x, y) => {
         let cell = elementBuild('div', {
           classList: 'tttcell',
-          parent: row,
         })
-        this.renderableGrid.set(x, y, cell);
-        let entry = grid.get(x, y)
-
-        if (entry !== null) {
-          for (const c of entry.split(' ')) {
-            if (c !== '') { cell.classList.add(c) }
-          }
-        } else {
-          for (const d of defaults) {
-            if (d !== '') { cell.classList.add(d) }
-          }
-        }
 
         cell.dataset.x = x
         cell.dataset.y = y
 
+        newFun(x, y, cell)
+
+        return cell
+      })
+
+    for (let y = 0; y < height; y++) {
+      let row = elementBuild('div', {
+        classList: 'tttrow',
+        parent: this.gridItem,
+      })
+      for (let x = 0; x < width; x++) {
+        let cell = this.renderableGrid.get(x, y);
+        row.appendChild(cell)
       }
     }
   }

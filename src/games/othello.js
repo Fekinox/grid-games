@@ -243,38 +243,7 @@ class OthelloView {
       () => { return this.isTranslating() },
     )
 
-    let theGrid = new Grid(engine.grid.width, engine.grid.height)
-
-    for (let y = 0; y < engine.grid.height; y++) {
-      for (let x = 0; x < engine.grid.width; x++) {
-        const entry = engine.grid.get(x, y)
-        const isLegal = engine.currentPlayerLegalMoves.get(x, y)
-        let newClassList = ''
-
-        const winPrefix =
-          (engine.outcome &&
-           engine.outcome.tiles.some((p) => 
-            p.x === x && p.y === y  
-           ))
-          ? 'win-'
-          : ''
-
-        if (entry === 1) {
-          newClassList += `${winPrefix}red bx bx-x`
-        } else if (entry === -1) {
-          newClassList += `${winPrefix}blue bx bx-radio-circle`
-        } else if (!engine.outcome && isLegal) {
-          newClassList += `hoverable legalmove`
-        }
-
-        theGrid.set(x, y, newClassList)
-      }
-    }
-
-    this.gridView.buildNewGrid(
-      theGrid,
-      ''
-    )
+    this.gridView.buildNewGrid(engine.grid.width, engine.grid.height)
 
     this.gridView.onclick = (pos) => {
       this.sendAction({
@@ -302,9 +271,9 @@ class OthelloView {
       switch (engine.lastAction.name) {
         case 'move': {
           delay = (x, y) => {
-            const dist = Math.abs(x - engine.lastAction.x) +
-              Math.abs(y - engine.lastAction.y)
-            return 50 * dist;
+            const dist = Math.max(Math.abs(x - engine.lastAction.x),
+              Math.abs(y - engine.lastAction.y))
+            return dist;
           }
         }
       }
@@ -334,7 +303,7 @@ class OthelloView {
         if (entry !== oldEntry) {
           if (oldEntry !== null) {
             this.gridView.animate(x, y, 'invert', {
-              delay: Math.max(0, delay(x, y) - 50)
+              delay: Math.max(0, 50 * (delay(x, y) - 1))
             })
           } else {
             this.gridView.animate(x, y, 'newCell')
