@@ -64,7 +64,7 @@ class OthelloEngine {
     this.grid.set(centerX, centerY+1, 1)
     this.grid.set(centerX+1, centerY, 1)
 
-    this.currentPlayerLegalMoves = new Grid(this.width, this.height)
+    this.currentPlayerLegalMoves = new Grid(this.grid.width, this.grid.height)
     this.setCurrentPlayerLegalMoves()
 
   }
@@ -91,15 +91,20 @@ class OthelloEngine {
     }).filter((l) => l !== null && l.toRemove.length > 0)
   }
 
-  setCurrentPlayerLegalMoves(player) {
+  setCurrentPlayerLegalMoves() {
     this.hasLegalMoves = false
     for (let y = 0; y < this.grid.height; y++) {
       for (let x = 0; x < this.grid.width; x++) {
-        const legal =
-          (this.grid.get(x, y) === null &&
-           this.matchesAt(x, y, this.turn).length !== 0)
-        if (legal) { this.hasLegalMoves = true }
-        this.currentPlayerLegalMoves.set(x, y, legal)
+        if (this.grid.get(x, y) !== null) {
+          this.currentPlayerLegalMoves.set(x, y, [])
+          continue
+        }
+        let moves = this.matchesAt(x, y, this.turn)
+        if (moves.length !== 0) {
+          this.hasLegalMoves = true
+        }
+        this.currentPlayerLegalMoves.set(x, y,
+          moves)
       }
     }
   }
@@ -226,6 +231,9 @@ class OthelloView {
     this.status = domElems.status
 
     this.internalGrid = engine.grid.clone()
+    this.legalMoves = engine.currentPlayerLegalMoves
+    this.hoverboxes = new Grid(engine.grid.width, engine.grid.height,
+      () => false)
 
     this.gridView = new GridView(
       this.gameContainer,
@@ -243,13 +251,7 @@ class OthelloView {
     }
 
     this.gridView.onhover = (pos) => {
-      if (pos !== null) {
-        this.sendAction({
-          name: 'hover',
-          x: pos.x,
-          y: pos.y,
-        })
-      }
+      this.handleHover(pos)
     }
   }
 
@@ -274,7 +276,7 @@ class OthelloView {
       for (let x = 0; x < engine.grid.width; x++) {
         const entry = engine.grid.get(x, y)
         const oldEntry = this.internalGrid.get(x, y)
-        const isLegal = engine.currentPlayerLegalMoves.get(x, y)
+        const isLegal = engine.currentPlayerLegalMoves.get(x, y).length !== 0
         let newClassList = ''
 
         let winPrefix = ''
@@ -297,6 +299,11 @@ class OthelloView {
             this.gridView.animate(x, y, 'bounceIn', {
               delay: Math.max(0, 50 * (delay(x, y) - 1))
             })
+            const hbox = this.gridView.getHbox(x, y)
+            hbox.getAnimations().forEach((anim) => {
+              anim.cancel()
+            })
+            this.hoverboxes.set(x, y, false)
           } else {
             this.gridView.animate(x, y, 'newCell')
           }
@@ -332,6 +339,51 @@ class OthelloView {
     this.rootElement.style.setProperty('--hover-color', hover)
     
     this.renderStatus(engine)
+  }
+
+  handleHover(pos) {
+    let swapTiles = []
+
+    if (pos !== null) {
+      const swaps = this.legalMoves.get(pos.x, pos.y)
+
+      swaps.forEach((swap) => {
+        swap.toRemove.forEach((tile) => {
+          if (!swapTiles.some((p) => 
+            p.x === tile.x && p.y === tile.y
+          )) {
+            swapTiles.push(tile)
+          }
+        })
+      })
+    }
+
+    for (let y = 0; y < this.legalMoves.height; y++) {
+      for (let x = 0; x < this.legalMoves.width; x++) {
+        const inSwapTiles = swapTiles.some((p) => 
+          p.x === x && p.y === y
+        )
+        const hboxVisible = this.hoverboxes.get(x, y)
+        let hbox = this.gridView.getHbox(x, y)
+
+        if (!hboxVisible && inSwapTiles) {
+          applyAnimation(hbox, 'quarterTurn', {
+            duration: 300,
+          })
+          applyAnimation(hbox, 'fadeIn', {
+            duration: 300,
+          })
+        } else if (hboxVisible && !inSwapTiles) {
+          applyAnimation(hbox, 'quarterTurn', {
+            duration: 300,
+          })
+          applyAnimation(hbox, 'fadeOut', {
+            duration: 300,
+          })
+        }
+        this.hoverboxes.set(x, y, inSwapTiles)
+      }
+    }
   }
   
   // Renders the current game status line beneath the grid.
