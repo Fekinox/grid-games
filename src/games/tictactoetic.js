@@ -339,6 +339,7 @@ class TeeFourView {
 
   handleHover(pos) {
     let winningTiles = []
+    let delay = (x, y) => 0
 
     if (pos !== null) {
       const wins = this.potWins.get(pos.x, pos.y)
@@ -352,6 +353,12 @@ class TeeFourView {
           }
         })
       })
+
+      delay = (x, y) => {
+        const dist = Math.abs(x - pos.x) +
+          Math.abs(y - pos.y)
+        return 50 * dist;
+      }
     }
 
     for (let y = 0; y < this.potWins.height; y++) {
@@ -365,9 +372,11 @@ class TeeFourView {
         if (!hboxVisible && inWinTiles) {
           applyAnimation(hbox, 'quarterTurn', {
             duration: 300,
+            delay: delay(x, y),
           })
           applyAnimation(hbox, 'fadeIn', {
             duration: 300,
+            delay: delay(x, y),
           })
         } else if (hboxVisible && !inWinTiles) {
           applyAnimation(hbox, 'quarterTurn', {

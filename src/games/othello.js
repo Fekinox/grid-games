@@ -343,6 +343,7 @@ class OthelloView {
 
   handleHover(pos) {
     let swapTiles = []
+    let delay = (x, y) => 0
 
     if (pos !== null) {
       const swaps = this.legalMoves.get(pos.x, pos.y)
@@ -356,6 +357,12 @@ class OthelloView {
           }
         })
       })
+
+      delay = (x, y) => {
+        const dist = Math.max(Math.abs(x - pos.x),
+          Math.abs(y - pos.y))
+        return Math.max(0, 50 * (dist - 1))
+      }
     }
 
     for (let y = 0; y < this.legalMoves.height; y++) {
@@ -369,9 +376,11 @@ class OthelloView {
         if (!hboxVisible && inSwapTiles) {
           applyAnimation(hbox, 'quarterTurn', {
             duration: 300,
+            delay: delay(x, y),
           })
           applyAnimation(hbox, 'fadeIn', {
             duration: 300,
+            delay: delay(x, y),
           })
         } else if (hboxVisible && !inSwapTiles) {
           applyAnimation(hbox, 'quarterTurn', {
