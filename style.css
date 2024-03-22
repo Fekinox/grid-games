@@ -376,7 +376,7 @@ div.game#teefour {
   grid-template-columns: var(--cell-size) max-content var(--cell-size);
   width: max-content;
   height: max-content;
-  gap: calc(var(--cell-size) / 4);
+  gap: calc(var(--unit-size) / 4);
 }
 
 div.game#teefour div#tttgrid {

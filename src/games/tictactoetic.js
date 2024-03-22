@@ -106,7 +106,7 @@ class TeeFourEngine {
   updatePotentialWins(player) {
     if (this.grid.height !== this.potentialWins.height ||
       this.grid.width !== this.potentialWins.width) {
-      this.potentialWins = new Grid(this.grid.height, this.grid.width)
+      this.potentialWins = new Grid(this.grid.width, this.grid.height)
     }
 
     for (let y = 0; y < this.grid.height; y++) {
