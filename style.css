@@ -328,44 +328,6 @@ i.red, i.blue {
   vertical-align: -0.2px;
 }
 
-@keyframes popin {
-  from {
-    font-size: 0;
-  }
-
-  to {
-    font-size: var(--cell-size);
-  }
-}
-
-@keyframes winspin {
-  from {
-    rotate: 1turn;
-  }
-
-  to {
-    rotate: 0;
-  }
-}
-
-@keyframes tiewiggle {
-  from {
-    rotate: 0;
-  }
-
-  25% {
-    rotate: 20deg;
-  }
-
-  75% {
-    rotate: -20deg;
-  }
-
-  to {
-    rotate: 0;
-  }
-}
-
 div.game#teethree {
   width: max-content;
   height: max-content;
@@ -462,18 +424,6 @@ button#right {
   animation-timing-function: ease-out;
 }
 
-@keyframes newcellspin {
-  from {
-    rotate: 0.5turn;
-    scale: 0
-  }
-
-  to {
-    rotate: 0;
-    scale: 1;
-  }
-}
-
 /* Othello */
 
 div.tttcell.legalmove {
@@ -488,16 +438,6 @@ div.flippedcell {
   animation-name: invert;
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
-}
-
-@keyframes invert {
-  from {
-    rotate: 1turn;
-  }
-
-  to {
-    rotate: 0;
-  }
 }
 
 /* Media queries */

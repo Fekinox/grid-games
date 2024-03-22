@@ -40,6 +40,16 @@ const animations = {
       duration: 200,
       easing: 'ease-out',
     }
+  },
+  invert: {
+    frames: [
+      { rotate: '1turn' },
+      { rotate: '0turn' },
+    ],
+    timing: {
+      duration: 500,
+      easing: 'ease-out',
+    }
   }
 }
 

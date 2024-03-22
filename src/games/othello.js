@@ -52,6 +52,8 @@ class OthelloEngine {
     this.turn = 1
     this.outcome = null
 
+    this.lastAction = null
+
     // In Othello, set center of board to
     // 0 1
     // 1 0
@@ -114,6 +116,8 @@ class OthelloEngine {
   }
 
   update(action) {
+    this.lastAction = action
+
     switch(action.name) {
       case 'move':
         return this.makeMove(action.x, action.y)
@@ -293,6 +297,21 @@ class OthelloView {
 
   // Updates the view with the current game state.
   render(engine) {
+    let delay = (x, y) => 0
+    if (engine.lastAction !== null) {
+      switch (engine.lastAction.name) {
+        case 'move': {
+          delay = (x, y) => {
+            const dist = Math.abs(x - engine.lastAction.x) +
+              Math.abs(y - engine.lastAction.y)
+            return 50 * dist;
+          }
+        }
+      }
+    }
+
+    const isTied = (engine.outcome !== null && engine.outcome.player === 0)
+
     for (let y = 0; y < engine.grid.height; y++) {
       for (let x = 0; x < engine.grid.width; x++) {
         const entry = engine.grid.get(x, y)
@@ -300,17 +319,32 @@ class OthelloView {
         const isLegal = engine.currentPlayerLegalMoves.get(x, y)
         let newClassList = ''
 
-        const winPrefix =
-          (engine.outcome &&
-           engine.outcome.tiles.some((p) => 
-            p.x === x && p.y === y  
-           ))
-          ? 'win-'
-          : ''
+        let winPrefix = ''
+        if (engine.outcome &&
+          engine.outcome.tiles.some((p) =>
+            p.x === x && p.y === y)
+        ) {
+          winPrefix = 'win-'
+          this.gridView.animate(x, y, 'winSpin', {
+            delay: delay(x, y),
+          })
+        }
 
         // Add flipping animation
         if (entry !== oldEntry) {
-          newClassList += 'newcell '
+          if (oldEntry !== null) {
+            this.gridView.animate(x, y, 'invert', {
+              delay: Math.max(0, delay(x, y) - 50)
+            })
+          } else {
+            this.gridView.animate(x, y, 'newCell')
+          }
+        }
+
+        if (isTied) {
+          this.gridView.animate(x, y, 'tieWiggle', {
+            delay: delay(x, y),
+          })
         }
 
         if (entry === 1) {
