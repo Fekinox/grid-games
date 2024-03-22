@@ -21,6 +21,7 @@
 
   --unit-size: 100vmax;
   --cell-size: calc(var(--unit-size) * 1.5);
+
   font-size: 20px;
 }
 
@@ -73,6 +74,14 @@ div#center {
   border-radius: 32px;
 
   font-size: 100vw;
+
+  border-color: #ffffff;
+  border-style: solid;
+  border-width: 0;
+
+  transition:
+    border-width 0.2s ease
+  ;
 }
 
 div#gamecenter {
@@ -278,6 +287,34 @@ div.tttcell {
   ;
 
   border-radius: calc(var(--unit-size) / 8);
+
+  z-index: 0;
+}
+
+.bx::before {
+  position: relative;
+  z-index: 99;
+}
+
+div.tttcell.bx::before {
+  position: absolute;
+}
+
+div.cellhoverbox {
+  position: absolute;
+  min-width: 80%;
+  min-height: 80%;
+  scale: 0;
+  border: calc(var(--unit-size) / 16) solid var(--hover-color);
+  border-radius: calc(var(--unit-size) * 0.25);
+  pointer-events: none;
+
+  transition:
+    min-width 0.2s ease,
+    min-height 0.2s ease
+  ;
+
+  z-index: 1;
 }
 
 /* Bigger border radii on corners */

@@ -76,6 +76,11 @@ class GridView {
           classList: 'tttcell',
         })
 
+        let cellHoverBox = elementBuild('div', {
+          classList: 'cellhoverbox',
+          parent: cell,
+        })
+
         cell.dataset.x = x
         cell.dataset.y = y
 

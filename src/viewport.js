@@ -1,5 +1,24 @@
 class Viewport {
   constructor(parentElement, gameView) {
+    this.rootElement = document.querySelector(':root')
+
+    // Build and obtain corresponding DOM elements
+    this.center = elementBuild('div', {
+      parent: parentElement,
+      id: 'center',
+    })
+
+    this.center.dataset.mouseDownX = ''
+    this.center.dataset.mouseDownY = ''
+
+    this.gameCenter = elementBuild('div', {
+      parent: this.center,
+      id: 'gamecenter',
+    })
+
+    this.gameView = gameView
+    this.gameCenter.appendChild(this.gameView)
+
     this.translateX = 0
     this.translateY = 0
     this.dragX = 0
@@ -19,25 +38,6 @@ class Viewport {
     this.lastTranslateX = 0
     this.lastTranslateY = 0
     this.lastScale = 1.0
-
-    this.rootElement = document.querySelector(':root')
-
-    // Build and obtain corresponding DOM elements
-    this.center = elementBuild('div', {
-      parent: parentElement,
-      id: 'center',
-    })
-
-    this.center.dataset.mouseDownX = ''
-    this.center.dataset.mouseDownY = ''
-
-    this.gameCenter = elementBuild('div', {
-      parent: this.center,
-      id: 'gamecenter',
-    })
-
-    this.gameView = gameView
-    this.gameCenter.appendChild(this.gameView)
 
     this.updateViewportSize()
 

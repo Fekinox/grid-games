@@ -189,6 +189,9 @@ class TeeThreeView {
           this.gridView.animate(x, y, 'winSpin', {
             delay: delay(x, y),
           })
+          this.gridView.animate(x, y, 'bounceIn', {
+            delay: delay(x, y),
+          })
         }
 
         if (isTied) {

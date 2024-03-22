@@ -305,6 +305,9 @@ class OthelloView {
             this.gridView.animate(x, y, 'invert', {
               delay: Math.max(0, 50 * (delay(x, y) - 1))
             })
+            this.gridView.animate(x, y, 'bounceIn', {
+              delay: Math.max(0, 50 * (delay(x, y) - 1))
+            })
           } else {
             this.gridView.animate(x, y, 'newCell')
           }
