@@ -9,6 +9,16 @@ class TeeThreeEngine {
     this.reset()
   }
 
+  // Resets all game parameters.
+  reset() {
+    this.grid = new Grid(this.width, this.height)
+    this.turn = 1
+    this.outcome = null
+
+    this.lastAction = null
+    this.potentialWins = new Grid(this.grid.width, this.grid.height, () => [])
+  }
+
   static getEntry() {
     return {
       name: "Tic Tac Toe",
@@ -54,15 +64,6 @@ class TeeThreeEngine {
     }
   }
 
-  // Resets all game parameters.
-  reset() {
-    this.grid = new Grid(this.width, this.height)
-    this.turn = 1
-    this.outcome = null
-
-    this.lastAction = null
-  }
-
   update(action) {
     this.lastAction = action
     switch(action.name) {
@@ -71,17 +72,6 @@ class TeeThreeEngine {
     }
   }
 
-  // Check for all possible wins and return the first win.
-  checkWin(player) {
-    let wins = this.grid.allKInARows(this.toWin, player)
-    return (wins.length !== 0)
-    ? {
-      player: (!this.misere) ? this.turn : -this.turn,
-      tiles: wins[0],
-    }
-    : null
-  }
-  
 
   makeMove(x, y) {
     if (this.grid.get(x, y) !== null || this.outcome !== null) { return false }
@@ -105,9 +95,53 @@ class TeeThreeEngine {
         name: 'gameOver',
         winner: this.outcome.player
       })
+    } else {
+      this.updatePotentialWins(this.turn)
     }
 
     return true
+  }
+
+  // Check for all possible wins and return the first win.
+  checkWin(player) {
+    let wins = this.grid.allKInARows(this.toWin, player)
+    let tiles = []
+    wins.forEach((win) => {
+      win.forEach((tile) => {
+        if (!tiles.some((p) => {
+          return p.x === tile.x && p.y === tile.y
+        })) {
+          tiles.push(tile)
+        }
+      })
+    })
+
+    return (wins.length !== 0)
+    ? {
+      player: (!this.misere) ? this.turn : -this.turn,
+      tiles: tiles,
+    }
+    : null
+  }
+  
+  // Update the potentialWins grid for potential winning moves for the current
+  // player
+  updatePotentialWins(player) {
+    for (let y = 0; y < this.grid.height; y++) {
+      for (let x = 0; x < this.grid.width; x++) {
+        if (this.grid.get(x, y) !== null) {
+          this.potentialWins.set(x, y, [])
+          continue
+        }
+        let wins = Grid.allDirections.map((dir) => {
+          let xx = x + dir.x
+          let yy = y + dir.y
+          return this.grid.kInARow(xx, yy, dir.x, dir.y, this.toWin - 1, player)
+        })
+        .filter((win) => win !== null)
+        this.potentialWins.set(x, y, wins)
+      }
+    }
   }
 
   buildView(domElems) {
@@ -122,6 +156,9 @@ class TeeThreeView {
     this.status = domElems.status
 
     this.internalGrid = engine.grid.clone()
+    this.potWins = engine.potentialWins
+    this.hoverboxes = new Grid(engine.grid.width, engine.grid.height,
+      () => false)
 
     this.gridView = new GridView(
       this.gameContainer,
@@ -141,6 +178,8 @@ class TeeThreeView {
         y: pos.y,
       })
     }
+
+    this.gridView.onhover = (pos) => this.handleHover(pos)
   }
 
   // Updates the view with the current game state.
@@ -228,6 +267,51 @@ class TeeThreeView {
     this.rootElement.style.setProperty('--hover-color', hover)
     
     this.renderStatus(engine)
+  }
+
+  handleHover(pos) {
+    let winningTiles = []
+
+    if (pos !== null) {
+      const wins = this.potWins.get(pos.x, pos.y)
+
+      wins.forEach((win) => {
+        win.forEach((tile) => {
+          if (!winningTiles.some((p) => 
+            p.x === tile.x && p.y === tile.y
+          )) {
+            winningTiles.push(tile)
+          }
+        })
+      })
+    }
+
+    for (let y = 0; y < this.potWins.height; y++) {
+      for (let x = 0; x < this.potWins.width; x++) {
+        const inWinTiles = winningTiles.some((p) => 
+          p.x === x && p.y === y
+        )
+        const hboxVisible = this.hoverboxes.get(x, y)
+        let hbox = this.gridView.getHbox(x, y)
+
+        if (!hboxVisible && inWinTiles) {
+          applyAnimation(hbox, 'quarterTurn', {
+            duration: 300,
+          })
+          applyAnimation(hbox, 'fadeIn', {
+            duration: 300,
+          })
+        } else if (hboxVisible && !inWinTiles) {
+          applyAnimation(hbox, 'quarterTurn', {
+            duration: 300,
+          })
+          applyAnimation(hbox, 'fadeOut', {
+            duration: 300,
+          })
+        }
+        this.hoverboxes.set(x, y, inWinTiles)
+      }
+    }
   }
   
   // Renders the current game status line beneath the grid.

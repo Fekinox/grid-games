@@ -1,4 +1,22 @@
 class Grid {
+  static allDirections = [
+    { x: 1, y: 1, }, // SE
+    { x: 1, y: 0, }, // E
+    { x: 1, y: -1, }, // NE
+    { x: 0, y: -1, }, // N
+    { x: -1, y: -1, }, // NW
+    { x: -1, y: 0, }, // W
+    { x: -1, y: 1, }, // SW
+    { x: 0, y: 1, }, // S
+  ]
+
+  static forwardDirections = [
+    { x: 1, y: 0, }, // E
+    { x: 0, y: 1, }, // S
+    { x: 1, y: -1, }, // NE
+    { x: 1, y: 1, }, // SE
+  ]
+
   constructor(width, height, mapFun = null) {
     this.width = width
     this.height = height
@@ -64,7 +82,9 @@ class Grid {
   kInARow(x, y, dx, dy, length, elem) {
     const endX = x + dx*(length - 1)
     const endY = y + dy*(length - 1)
-    if (!this.inBounds(endX, endY) || this.get(x, y) !== elem) { return null }
+    if (!this.inBounds(endX, endY) ||
+      !this.inBounds(x, y) ||
+      this.get(x, y) !== elem) { return null }
 
     let res = []
 

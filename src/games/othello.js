@@ -70,19 +70,8 @@ class OthelloEngine {
   }
 
   matchesAt(x, y, player) {
-    const dirs = [
-      { x: 1, y: 1, },
-      { x: 1, y: 0, },
-      { x: 1, y: -1, },
-      { x: 0, y: -1, },
-      { x: -1, y: -1, },
-      { x: -1, y: 0, },
-      { x: -1, y: 1, },
-      { x: 0, y: 1, },
-    ]
-
     // (x, y) is a legal move if
-    return dirs.map((dir) => {
+    return Grid.allDirections.map((dir) => {
       const line = this.grid.lineQuery(x, y, dir.x, dir.y)
       let res = {
         toRemove: []

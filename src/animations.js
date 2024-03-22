@@ -57,6 +57,17 @@ const animations = {
       easing: 'ease-out',
     }
   },
+  quarterTurn: {
+    frames: [
+      { rotate: '0.25turn', },
+      { rotate: '0turn', },
+    ],
+    /* https://linear-easing-generator.netlify.app */
+    timing: {
+      duration: 500,
+      easing: 'ease-out',
+    }
+  },
   bounceIn: {
     frames: [
       { scale: 0, },
@@ -65,7 +76,29 @@ const animations = {
     timing: {
       duration: 1000,
       easing: easeOutElastic,
-      fill: 'backwards',
+      fill: 'both',
+    }
+  },
+  fadeIn: {
+    frames: [
+      { scale: 0, },
+      { scale: 1, },
+    ],
+    timing: {
+      duration: 500,
+      easing: 'ease-out',
+      fill: 'both',
+    }
+  },
+  fadeOut: {
+    frames: [
+      { scale: 1, },
+      { scale: 0, },
+    ],
+    timing: {
+      duration: 500,
+      easing: 'ease-out',
+      fill: 'both',
     }
   }
 }
