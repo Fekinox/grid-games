@@ -17,7 +17,10 @@
   --bg-4: #2b2c30;
   --bg-5: #363745;
 
-  --hover-color: var(--bg-3)
+  --hover-color: var(--bg-3);
+
+  --unit-size: 100vmax;
+  --cell-size: calc(var(--unit-size) * 1.5);
   font-size: 20px;
 }
 
@@ -89,6 +92,12 @@ div#status {
   margin: 10px;
   height: 40px;
   line-height: 40px;
+}
+
+div.newcell {
+  animation-name: popin;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
 }
 
 div.buttons-hbox {
@@ -252,46 +261,46 @@ div#tttgrid {
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 0.25em;
+  gap: calc(var(--unit-size) / 4);
 }
 
 div.tttrow {
   display: flex;
-  gap: 0.25em;
+  gap: calc(var(--unit-size) / 4);
 }
 
 div.tttcell {
   display: inline-flex;
   position: relative;
-  min-width: 1em;
-  min-height: 1em;
+  min-width: var(--cell-size);
+  min-height: var(--cell-size);
   background-color: var(--bg-4);
   justify-content: center;
   align-items: center;
-  font-size: 1.5em;
+  font-size: var(--cell-size);
 
   transition: 
     background-color 0.2s ease
   ;
 
-  border-radius: 0.125em;
+  border-radius: calc(var(--unit-size) / 8);
 }
 
 /* Bigger border radii on corners */
 div.tttrow:first-child div.tttcell:first-child {
-  border-top-left-radius: 0.5em;
+  border-top-left-radius: calc(var(--unit-size) / 2);
 }
 
 div.tttrow:first-child div.tttcell:last-child {
-  border-top-right-radius: 0.5em;
+  border-top-right-radius: calc(var(--unit-size) / 2);
 }
 
 div.tttrow:last-child div.tttcell:first-child {
-  border-bottom-left-radius: 0.5em;
+  border-bottom-left-radius: calc(var(--unit-size) / 2);
 }
 
 div.tttrow:last-child div.tttcell:last-child {
-  border-bottom-right-radius: 0.5em;
+  border-bottom-right-radius: calc(var(--unit-size) / 2);
 }
 
 /* div.filledcell::after { */
@@ -357,7 +366,7 @@ div.tie-game div.tttcell {
   }
 
   to {
-    font-size: 40px;
+    font-size: var(--cell-size);
   }
 }
 
@@ -396,11 +405,11 @@ div.game#teethree {
 
 div.game#teefour {
   display: grid;
-  grid-template-rows: 1.5em max-content 1.5em;
-  grid-template-columns: 1.5em max-content 1.5em;
+  grid-template-rows: var(--cell-size) max-content var(--cell-size);
+  grid-template-columns: var(--cell-size) max-content var(--cell-size);
   width: max-content;
   height: max-content;
-  gap: 0.25em;
+  gap: calc(var(--cell-size) / 4);
 }
 
 div.game#teefour div#tttgrid {
@@ -408,7 +417,7 @@ div.game#teefour div#tttgrid {
 }
 
 button.expand {
-  font-size: 1em;
+  font-size: var(--unit-size);
   background-color: var(--bg-2);
   border: 0;
   margin: 0px;
@@ -419,7 +428,7 @@ button.expand {
   max-width: 100%;
   width: 100%;
   height: 100%;
-  border-radius: 0.5em;
+  border-radius: calc(var(--unit-size) / 2);
 
   display: flex;
 }
@@ -432,7 +441,7 @@ button.expand {
   background-color: var(--hover-color);
   width: 0%;
   height: 0%;
-  border-radius: 0.5em;
+  border-radius: calc(var(--unit-size) / 2);
 }
 
 #up .hoverbox {

@@ -20,6 +20,8 @@ class Viewport {
     this.lastTranslateY = 0
     this.lastScale = 1.0
 
+    this.rootElement = document.querySelector(':root')
+
     // Build and obtain corresponding DOM elements
     this.center = elementBuild('div', {
       parent: parentElement,
@@ -136,7 +138,7 @@ class Viewport {
   updateViewportSize() {
     this.viewportSize =
       Math.max(this.center.clientWidth, this.center.clientHeight)
-    this.center.style.fontSize = `${this.viewportSize}px`
+    this.rootElement.style.setProperty('--unit-size', `${this.viewportSize}px`)
   }
 
   rescale() {
