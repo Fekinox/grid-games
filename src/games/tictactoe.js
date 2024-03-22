@@ -130,7 +130,7 @@ class TeeThreeView {
 
     this.gridView.buildNewGrid(engine.grid.width, engine.grid.height,
       (x, y, cell) => {
-        cell.classList.add('hoverable')
+        cell.cell.classList.add('hoverable')
       }
     )
 

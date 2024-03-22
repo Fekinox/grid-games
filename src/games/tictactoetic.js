@@ -151,7 +151,7 @@ class TeeFourView {
 
     this.gridView.buildNewGrid(engine.grid.width, engine.grid.height,
       (x, y, cell) => {
-        cell.classList.add('hoverable')
+        cell.cell.classList.add('hoverable')
       }
     )
 
@@ -196,18 +196,18 @@ class TeeFourView {
         const entry = engine.grid.get(x, y)
 
         if (entry === 1) {
-          cell.classList.add('red', 'bx', 'bx-x')
+          cell.cell.classList.add('red', 'bx', 'bx-x')
         } else if (entry === -1) {
-          cell.classList.add('blue', 'bx', 'bx-radio-circle')
+          cell.cell.classList.add('blue', 'bx', 'bx-radio-circle')
         } else {
-          cell.classList.add('hoverable')
+          cell.cell.classList.add('hoverable')
         }
 
         if (expDir !== null && (expDir === 'up' && y === 0 ||
           expDir === 'down' && y === engine.grid.height-1 ||
           expDir === 'left' && x === 0 ||
           expDir === 'right' && x === engine.grid.width-1 )) {
-          applyAnimation(cell, 'expandSpin')
+          applyAnimation(cell.cell, 'expandSpin')
         }
       }
     )

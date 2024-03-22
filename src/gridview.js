@@ -84,9 +84,14 @@ class GridView {
         cell.dataset.x = x
         cell.dataset.y = y
 
-        newFun(x, y, cell)
+        let obj = {
+          cell: cell,
+          hbox: cellHoverBox,
+        }
 
-        return cell
+        newFun(x, y, obj)
+
+        return obj
       })
 
     for (let y = 0; y < height; y++) {
@@ -96,27 +101,31 @@ class GridView {
       })
       for (let x = 0; x < width; x++) {
         let cell = this.renderableGrid.get(x, y);
-        row.appendChild(cell)
+        row.appendChild(cell.cell)
       }
     }
   }
 
   update(x, y, newClasses) {
     let cell = this.renderableGrid.get(x, y)
-    cell.className = 'tttcell'
+    cell.cell.className = 'tttcell'
     let trimmed = newClasses.trim()
     if (trimmed.length !== 0) {
       for (const c of trimmed.split(' ')) {
-        cell.classList.add(c)
+        cell.cell.classList.add(c)
       }
     }
   }
 
-  get(x, y) {
-    return this.renderableGrid.get(x, y)
+  getCell(x, y) {
+    return this.renderableGrid.get(x, y).cell
+  }
+
+  getHbox(x, y) {
+    return this.renderableGrid.get(x, y).hbox
   }
 
   animate(x, y, animationName, params = {}) {
-    applyAnimation(this.renderableGrid.get(x, y), animationName, params)
+    applyAnimation(this.renderableGrid.get(x, y).cell, animationName, params)
   }
 }
