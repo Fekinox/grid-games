@@ -284,6 +284,7 @@ div.tttcell {
 
   transition: 
     background-color 0.2s ease
+    background 0.2s ease
   ;
 
   border-radius: calc(var(--unit-size) / 8);
@@ -344,10 +345,20 @@ div.hoverable:hover {
 
 .red, div.red {
   color: var(--player1-color);
+  background: linear-gradient(
+    to top,
+    var(--player1-color),
+    var(--bg-3)
+  );
 }
 
 .blue, div.blue {
   color: var(--player2-color);
+  background: linear-gradient(
+    to top,
+    var(--player2-color),
+    var(--bg-3)
+  );
 }
 
 div.tttcell.win-red {
