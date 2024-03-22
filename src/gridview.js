@@ -108,4 +108,12 @@ class GridView {
       }
     }
   }
+
+  get(x, y) {
+    return this.renderableGrid.get(x, y)
+  }
+
+  animate(x, y, animationName, params = {}) {
+    applyAnimation(this.renderableGrid.get(x, y), animationName, params)
+  }
 }
