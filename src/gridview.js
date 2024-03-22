@@ -1,31 +1,27 @@
+// A generic view of a given grid object.
+// - onclick - Fired when the user clicks on a grid cell. Returns the x,y 
+//             position in grid coordinates.
+// - onhover - Fired when the user hovers over a new grid cell. Is either null
+//             if there isn't a currently hovered cell, or the x-y coordinates
+//             of that cell.
 class GridView {
-  constructor(parentElement, disabled) {
+  constructor(parentElement) {
+    // The last focused grid element.
     this.lastFocus = null
 
-    // Event listeners
-    // disabled - Checks if the grid is currently disabled
-    this.disabled = disabled
-
-    // onclick - Fired when the player clicks inside of a cell. Returns an
-    // object with an x attribute representing the column and a y attribute
-    // representing the row.
     this.onclick = (pos) => {
     }
 
-    // onhover - Fired when the focused element changes (i.e. the element that
-    // the player is hovering over). Either returns null (if there is no
-    // element) or the position of that element.
     this.onhover = (pos) => {
     }
 
+    // The container for all the grid's rows and cells.
     this.gridItem = elementBuild('div', {
       id: 'tttgrid',
       parent: parentElement,
     })
 
     this.gridItem.addEventListener('click', (evt) => {
-      if (this.disabled()) { return }
-
       if (!evt.target.classList.contains('tttcell')) { return }
 
       this.onclick({ 
@@ -35,8 +31,6 @@ class GridView {
     })
 
     this.gridItem.addEventListener('mouseover', (evt) => {
-      if (this.disabled()) { return }
-
       let newFocus = null
 
       if (evt.target.classList.contains('tttcell')) {
@@ -61,6 +55,9 @@ class GridView {
     })
   }
 
+  // Rebuilds the grid in the DOM. The provided buildFn will be passed
+  // the x, y, and current cell (as an object containing the cell and hbox)
+  // to initialize the object.
   buildNewGrid(width, height, buildFn = null) {
     let newFun = (x, y, cell) => {}
 

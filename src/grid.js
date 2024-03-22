@@ -1,3 +1,4 @@
+// A 2-dimensional container with a width and a height.
 class Grid {
   static allDirections = [
     { x: 1, y: 1, }, // SE
@@ -17,6 +18,9 @@ class Grid {
     { x: 1, y: 1, }, // SE
   ]
 
+  // Constructs a new grid given a width and a height.
+  // If mapFun is provided, then the (x, y) cell of the grid will be
+  // mapFun(x, y).
   constructor(width, height, mapFun = null) {
     this.width = width
     this.height = height
@@ -31,38 +35,44 @@ class Grid {
       f)
   }
 
+  // Gets the index within the grid array.
   index(x, y) {
     return x + (y * this.width)
   }
 
+  // Returns true if the given coordinates are within the grid bounds.
+  inBounds(x, y) {
+    return 0 <= x && x < this.width && 0 <= y && y < this.height
+  }
+
+  // Retrieve a reference to element (x, y) in the grid. Returns null
+  // if the index is out of bounds.
   get(x, y) {
+    if (!this.inBounds(x, y)) { return null }
     return this.grid[this.index(x, y)]
   }
 
+  // Set the element at (x, y) to the given value. Will do nothing if
+  // the given coordinates are out of bounds.
   set(x, y, v) {
+    if (!this.inBounds(x, y)) { return null }
     this.grid[this.index(x, y)] = v
   }
 
-  // Shallow copy
+  // Produces a shallow copy of the current grid.
   clone() {
     let clone = new Grid(this.width, this.height)
     clone.grid = [...this.grid]
     return clone
   }
 
-  inBounds(x, y) {
-    return 0 <= x && x < this.width && 0 <= y && y < this.height
-  }
-
   // Scans the grid in the given direction (dx, dy) and returns the results as
-  // an array of objects (x, y, elem). dx and dy are assumed to have absolute
-  // value at most 1.
+  // an array of objects (x, y, elem).
   lineQuery(x, y, dx, dy) {
     let res = []
 
     let xx = x
     let yy = y
-    let steps = 0
 
     while (this.inBounds(xx, yy)) {
       res.push({
@@ -72,7 +82,6 @@ class Grid {
       })
       xx += dx
       yy += dy
-      steps += 1
     }
 
     return res
@@ -125,6 +134,9 @@ class Grid {
     return results
   }
 
+  // Replaces the grid with a new grid with dimensions newWidth and newHeight
+  // and the entries of the old grid being placed at (originX, originY), with
+  // all other values being null.
   resize(newWidth, newHeight, originX, originY) {
     let g = this
     let newGrid =

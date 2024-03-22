@@ -190,10 +190,7 @@ class TeeFourView {
     this.hoverboxes = new Grid(engine.grid.width, engine.grid.height,
       () => false)
 
-    this.gridView = new GridView(
-      this.gameContainer,
-      () => { return this.isTranslating() },
-    )
+    this.gridView = new GridView(this.gameContainer)
 
     this.gridView.buildNewGrid(engine.grid.width, engine.grid.height,
       (x, y, cell) => {
@@ -202,6 +199,7 @@ class TeeFourView {
     )
 
     this.gridView.onclick = (pos) => {
+      if (this.isTranslating()) { return }
       this.sendAction({
         name: 'move',
         x: pos.x,
@@ -209,7 +207,10 @@ class TeeFourView {
       })
     }
 
-    this.gridView.onhover = (pos) => this.handleHover(pos)
+    this.gridView.onhover = (pos) => {
+      if (this.isTranslating()) { return }
+      this.handleHover(pos)
+    }
 
     // Expansion buttons
     for (const dir of ['up', 'down', 'left', 'right']) {
