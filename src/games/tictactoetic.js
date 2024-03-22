@@ -60,18 +60,18 @@ class TeeFourEngine {
     this.turn = 1
     this.outcome = null
 
-    this.lastExpansion = null
+    this.lastAction = null
   }
 
   update(action) {
     if (this.outcome !== null) { return false; }
 
+    this.lastAction = action
+
     switch(action.name) {
       case 'move':
-        this.lastExpansion = null
         return this.makeMove(action.x, action.y)
       case 'expand':
-        this.lastExpansion = action.dir
         this.expand(action.dir)
         return true
     }
@@ -193,15 +193,6 @@ class TeeFourView {
         let newClassList = ''
         const entry = engine.grid.get(x, y)
 
-        // Check if this is a new cell added from an expansion
-        if (engine.lastExpansion !== null &&
-          (engine.lastExpansion === 'up' && y === 0 ||
-           engine.lastExpansion === 'down' && y === engine.grid.height-1 ||
-          engine.lastExpansion === 'left' && x === 0 ||
-           engine.lastExpansion === 'right' && x === engine.grid.width-1 )) {
-          newClassList += 'expandedcell '
-        }
-
         if (entry === 1) {
           newClassList += 'red bx bx-x'
         } else if (entry === -1) {
@@ -216,6 +207,21 @@ class TeeFourView {
 
     this.internalGrid = engine.grid.clone()
     this.gridView.buildNewGrid(newRenderableGrid, 'hoverable')
+
+    if (engine.lastAction !== null && engine.lastAction.name === 'expand') {
+      let exp = engine.lastAction
+      for (let y = 0; y < engine.grid.height; y++) {
+        for (let x = 0; x < engine.grid.width; x++) {
+          // Check if this is a new cell added from an expansion
+            if (exp.dir === 'up' && y === 0 ||
+              exp.dir === 'down' && y === engine.grid.height-1 ||
+              exp.dir === 'left' && x === 0 ||
+              exp.dir === 'right' && x === engine.grid.width-1 ) {
+              this.gridView.animate(x, y, 'expandSpin')
+            }
+        }
+      }
+    }
   }
 
   // Updates the view with the current game state.
@@ -225,22 +231,40 @@ class TeeFourView {
       this.rebuildGrid(engine)
       return
     }
+
+    let delay = (x, y) => 0
+    if (engine.lastAction !== null) {
+      switch (engine.lastAction.name) {
+        case 'move': {
+          delay = (x, y) => {
+            const dist = Math.abs(x - engine.lastAction.x) +
+              Math.abs(y - engine.lastAction.y)
+            return 50 * dist;
+          }
+        }
+      }
+    }
+
     for (let y = 0; y < engine.grid.height; y++) {
       for (let x = 0; x < engine.grid.width; x++) {
         const entry = engine.grid.get(x, y)
         const oldEntry = this.internalGrid.get(x, y)
         let newClassList = ''
 
-        const winPrefix =
-          (engine.outcome &&
-           engine.outcome.tiles.some((p) => 
-            p.x === x && p.y === y  
-           ))
-          ? 'win-'
-          : ''
+        let winPrefix = ''
+        if (engine.outcome &&
+          engine.outcome.tiles.some((p) =>
+            p.x === x && p.y === y)
+        ) {
+          winPrefix = 'win-'
+          this.gridView.animate(x, y, 'winSpin', {
+            delay: delay(x, y),
+          })
+        }
+
 
         if (entry !== oldEntry) {
-          newClassList += 'newcell '
+          this.gridView.animate(x, y, 'newCell')
         }
 
         if (entry === 1) {
