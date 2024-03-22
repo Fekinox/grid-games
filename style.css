@@ -283,8 +283,8 @@ div.tttcell {
   font-size: var(--cell-size);
 
   transition: 
+    background .8s ease,
     background-color 0.2s ease
-    background 0.2s ease
   ;
 
   border-radius: calc(var(--unit-size) / 8);
@@ -306,7 +306,7 @@ div.cellhoverbox {
   min-width: 80%;
   min-height: 80%;
   scale: 0;
-  border: calc(var(--unit-size) / 16) solid var(--hover-color);
+  background-color: var(--bg-5);
   border-radius: calc(var(--unit-size) * 0.25);
   pointer-events: none;
 
@@ -347,7 +347,7 @@ div.hoverable:hover {
   color: var(--player1-color);
   background: linear-gradient(
     to top,
-    var(--player1-color),
+    color-mix(in srgb, var(--player1-color) 50%, var(--bg-3) 50%),
     var(--bg-3)
   );
 }
@@ -356,7 +356,7 @@ div.hoverable:hover {
   color: var(--player2-color);
   background: linear-gradient(
     to top,
-    var(--player2-color),
+    color-mix(in srgb, var(--player2-color) 50%, var(--bg-3) 50%),
     var(--bg-3)
   );
 }
