@@ -348,7 +348,7 @@ div.hoverable:hover {
   background: linear-gradient(
     to top,
     color-mix(in srgb, var(--player1-color) 50%, var(--bg-3) 50%),
-    var(--bg-3)
+    var(--bg-4)
   );
 }
 
@@ -357,7 +357,7 @@ div.hoverable:hover {
   background: linear-gradient(
     to top,
     color-mix(in srgb, var(--player2-color) 50%, var(--bg-3) 50%),
-    var(--bg-3)
+    var(--bg-4)
   );
 }
 
