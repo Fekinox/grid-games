@@ -288,8 +288,8 @@ class TeeThreeView {
       });
 
       delay = (x, y) => {
-        const dist = Math.abs(x - pos.x) +
-          Math.abs(y - pos.y);
+        const dist = Math.max(Math.abs(x - pos.x),
+          Math.abs(y - pos.y));
         return 50 * dist;
       };
     }
@@ -301,6 +301,7 @@ class TeeThreeView {
         );
         const hboxVisible = this.hoverboxes.get(x, y);
         let hbox = this.gridView.getHbox(x, y);
+        let cell = this.gridView.getCell(x, y);
 
         if (!hboxVisible && inWinTiles) {
           applyAnimation(hbox, "quarterTurn", {
@@ -311,12 +312,20 @@ class TeeThreeView {
             duration: 300,
             delay: delay(x, y),
           });
+          applyAnimation(cell, "toBlack", {
+            duration: 300,
+            delay: delay(x, y),
+          });
         } else if (hboxVisible && !inWinTiles) {
           applyAnimation(hbox, "quarterTurn", {
             duration: 300,
           });
           applyAnimation(hbox, "fadeOut", {
             duration: 300,
+          });
+          applyAnimation(cell, "toColor", {
+            duration: 300,
+            delay: delay(x, y),
           });
         }
         this.hoverboxes.set(x, y, inWinTiles);

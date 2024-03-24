@@ -100,6 +100,28 @@ const animations = {
       easing: "ease-out",
       fill: "both",
     }
+  },
+  toBlack: {
+    frames: [
+      { color: "var(--content-color)", },
+      { color: "var(--bg-4)", },
+    ],
+    timing: {
+      duration: 300,
+      easing: "ease-out",
+      fill: "both",
+    }
+  },
+  toColor: {
+    frames: [
+      { color: "var(--bg-4)", },
+      { color: "var(--content-color)", },
+    ],
+    timing: {
+      duration: 300,
+      easing: "ease-out",
+      fill: "both",
+    }
   }
 };
 

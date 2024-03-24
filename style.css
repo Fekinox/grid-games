@@ -282,6 +282,9 @@ div.tttcell {
   align-items: center;
   font-size: var(--cell-size);
 
+  color: var(--content-color);
+  --content-color: #ffffff;
+
   transition: 
     background .8s ease,
     background-color 0.2s ease
@@ -306,8 +309,13 @@ div.cellhoverbox {
   min-width: 80%;
   min-height: 80%;
   scale: 0;
+  /* background-color: color-mix(in srgb, var(--bg-5) 50%, */ 
+  /* var(--hoverbox-color) 50%); */
+  background-color: var(--hoverbox-color);
   border-radius: calc(var(--unit-size) * 0.25);
   pointer-events: none;
+
+  --hoverbox-color: #ffffff;
 
   transition:
     min-width 0.2s ease,
@@ -319,14 +327,12 @@ div.cellhoverbox {
 
 div.red div.cellhoverbox,
 div.win-red div.cellhoverbox {
-  background-color: color-mix(in srgb, var(--bg-5) 50%, 
-  var(--player1-color) 50%);
+  --hoverbox-color: var(--player1-color);
 }
 
 div.blue div.cellhoverbox,
 div.win-blue div.cellhoverbox {
-  background-color: color-mix(in srgb, var(--bg-5) 50%, 
-  var(--player2-color) 50%);
+  --hoverbox-color: var(--player2-color);
 }
 
 /* Bigger border radii on corners */
@@ -354,16 +360,24 @@ div.hoverable:hover {
   background-color: var(--hover-color);
 }
 
-.red, div.red {
+.red {
   color: var(--player1-color);
+}
+
+.blue {
+  color: var(--player2-color);
+}
+
+div.red {
+  --content-color: var(--player1-color);
   background: radial-gradient(
     color-mix(in srgb, var(--player1-color) 50%, var(--bg-3) 50%),
     var(--bg-4)
   );
 }
 
-.blue, div.blue {
-  color: var(--player2-color);
+div.blue {
+  --content-color: var(--player2-color);
   background: radial-gradient(
     color-mix(in srgb, var(--player2-color) 50%, var(--bg-3) 50%),
     var(--bg-4)
@@ -371,12 +385,18 @@ div.hoverable:hover {
 }
 
 div.tttcell.win-red {
+  --content-color: var(--bg-4);
+  color: var(--content-color);
   background-color: var(--player1-color);
-  color: var(--bg-4);
 }
 
 div.tttcell.win-blue {
+  --content-color: var(--bg-4);
+  color: var(--content-color);
   background-color: var(--player2-color);
+}
+
+div.tttcell.red.blackicon, div.tttcell.blue.blackicon {
   color: var(--bg-4);
 }
 
