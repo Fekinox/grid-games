@@ -2,12 +2,12 @@
 
 class OthelloEngine {
   constructor(rules) {
-    this.width = rules.width
-    this.height = rules.height
-    this.misere = rules.misere
-    this.name = 'othello'
+    this.width = rules.width;
+    this.height = rules.height;
+    this.misere = rules.misere;
+    this.name = "othello";
 
-    this.reset()
+    this.reset();
   }
 
   static getEntry() {
@@ -19,7 +19,7 @@ class OthelloEngine {
           name: "width",
           desc: "Board Width",
           type: {
-            name: 'integer',
+            name: "integer",
             lowerBound: 6,
           },
           default: 8,
@@ -28,7 +28,7 @@ class OthelloEngine {
           name: "height",
           desc: "Board Height",
           type: {
-            name: 'integer',
+            name: "integer",
             lowerBound: 6,
           },
           default: 8,
@@ -37,88 +37,88 @@ class OthelloEngine {
           name: "misere",
           desc: "Misere rules",
           type: {
-            name: 'boolean',
+            name: "boolean",
           },
           default: false,
         }),
       ]),
       run: (rules) => new OthelloEngine(rules),
-    }
+    };
   }
 
   // Resets all game parameters.
   reset() {
-    this.grid = new Grid(this.width, this.height)
-    this.turn = 1
-    this.outcome = null
+    this.grid = new Grid(this.width, this.height);
+    this.turn = 1;
+    this.outcome = null;
 
-    this.lastAction = null
+    this.lastAction = null;
 
     // In Othello, set center of board to
     // 0 1
     // 1 0
-    let centerX = Math.floor(this.width/2)-1
-    let centerY = Math.floor(this.width/2)-1
-    this.grid.set(centerX, centerY, -1)
-    this.grid.set(centerX+1, centerY+1, -1)
-    this.grid.set(centerX, centerY+1, 1)
-    this.grid.set(centerX+1, centerY, 1)
+    let centerX = Math.floor(this.width/2)-1;
+    let centerY = Math.floor(this.width/2)-1;
+    this.grid.set(centerX, centerY, -1);
+    this.grid.set(centerX+1, centerY+1, -1);
+    this.grid.set(centerX, centerY+1, 1);
+    this.grid.set(centerX+1, centerY, 1);
 
-    this.currentPlayerLegalMoves = new Grid(this.grid.width, this.grid.height)
-    this.setCurrentPlayerLegalMoves()
+    this.currentPlayerLegalMoves = new Grid(this.grid.width, this.grid.height);
+    this.setCurrentPlayerLegalMoves();
 
   }
 
   matchesAt(x, y, player) {
     // (x, y) is a legal move if
     return Grid.allDirections.map((dir) => {
-      const line = this.grid.lineQuery(x, y, dir.x, dir.y)
+      const line = this.grid.lineQuery(x, y, dir.x, dir.y);
       let res = {
         toRemove: []
-      }
+      };
       for (let i = 1; i < line.length; i++) {
         if (line[i].elem === -player) { 
-          res.toRemove.push({x: line[i].x, y: line[i].y})
+          res.toRemove.push({x: line[i].x, y: line[i].y});
         }
         else if (line[i].elem === player) {
-          res.darkPosition = {x: line[i].x, y: line[i].y}
-          return res
+          res.darkPosition = {x: line[i].x, y: line[i].y};
+          return res;
         } else {
-          return null
+          return null;
         }
       }
-      return null
-    }).filter((l) => l !== null && l.toRemove.length > 0)
+      return null;
+    }).filter((l) => l !== null && l.toRemove.length > 0);
   }
 
   setCurrentPlayerLegalMoves() {
-    this.hasLegalMoves = false
+    this.hasLegalMoves = false;
     for (let y = 0; y < this.grid.height; y++) {
       for (let x = 0; x < this.grid.width; x++) {
         if (this.grid.get(x, y) !== null) {
-          this.currentPlayerLegalMoves.set(x, y, [])
-          continue
+          this.currentPlayerLegalMoves.set(x, y, []);
+          continue;
         }
-        let moves = this.matchesAt(x, y, this.turn)
+        let moves = this.matchesAt(x, y, this.turn);
         if (moves.length !== 0) {
-          this.hasLegalMoves = true
+          this.hasLegalMoves = true;
         }
         this.currentPlayerLegalMoves.set(x, y,
-          moves)
+          moves);
       }
     }
   }
 
   update(action) {
-    this.lastAction = action
+    this.lastAction = action;
 
     switch(action.name) {
-      case 'move':
-        return this.makeMove(action.x, action.y)
-      case 'pass':
-        this.turn *= -1
-        this.setCurrentPlayerLegalMoves()
-        return true;
+    case "move":
+      return this.makeMove(action.x, action.y);
+    case "pass":
+      this.turn *= -1;
+      this.setCurrentPlayerLegalMoves();
+      return true;
     }
   }
 
@@ -128,9 +128,9 @@ class OthelloEngine {
   checkWin() {
     // Count up the number of player 1 tiles, then the number of player 2 tiles.
     // If they are equal, it is a tie game.
-    let player1Tiles = []
-    let player2Tiles = []
-    let legalMoves = 0
+    let player1Tiles = [];
+    let player2Tiles = [];
+    let legalMoves = 0;
 
     for (let y = 0; y < this.grid.height; y++) {
       for (let x = 0; x < this.grid.width; x++) {
@@ -138,261 +138,261 @@ class OthelloEngine {
         if (this.grid.get(x, y) === null &&
           (this.matchesAt(x, y, this.turn) ||
            this.matchesAt(x, y, -this.turn))) {
-          legalMoves += 1
+          legalMoves += 1;
         }
         else if (this.grid.get(x, y) === 1) {
-          player1Tiles.push({ x: x, y: y })
+          player1Tiles.push({ x: x, y: y });
         } else if (this.grid.get(x, y) === -1) {
-          player2Tiles.push({ x: x, y: y })
+          player2Tiles.push({ x: x, y: y });
         }
       }
     }
 
     if (player1Tiles.length === 0) {
-        return {
-          player: -1,
-          tiles: player2Tiles
-        }
+      return {
+        player: -1,
+        tiles: player2Tiles
+      };
     } else if (player2Tiles.length === 0) {
-        return {
-          player: 1,
-          tiles: player1Tiles
-        }
+      return {
+        player: 1,
+        tiles: player1Tiles
+      };
     } else if (legalMoves === 0) {
       if (player1Tiles.length > player2Tiles.length) { 
         return {
           player: 1,
           tiles: player1Tiles
-        }
+        };
       } else if (player1Tiles.length < player2Tiles.length) { 
         return {
           player: -1,
           tiles: player2Tiles
-        }
+        };
       } else {
         return {
           player: 0,
           tiles: []
-        }
+        };
       }
     }
 
-    return null
+    return null;
   }
   
 
   makeMove(x, y) {
-    const lines = this.matchesAt(x, y, this.turn)
+    const lines = this.matchesAt(x, y, this.turn);
     if (this.grid.get(x, y) !== null ||
       this.outcome !== null ||
-      lines.length === 0) { return false }
+      lines.length === 0) { return false; }
     
-    this.grid.set(x, y, this.turn)
+    this.grid.set(x, y, this.turn);
     lines.forEach((line) => {
       line.toRemove.forEach((position) => {
-        this.grid.set(position.x, position.y, this.turn)
-      })
-    })
+        this.grid.set(position.x, position.y, this.turn);
+      });
+    });
 
-    const win = this.checkWin()
+    const win = this.checkWin();
     if (win !== null) {
-      this.outcome = win
+      this.outcome = win;
     } else {
-      this.turn *= -1
-      this.setCurrentPlayerLegalMoves()
+      this.turn *= -1;
+      this.setCurrentPlayerLegalMoves();
       if (!this.hasLegalMoves) {
         window.setTimeout(() => {
           this.sendAction({
-            name: 'pass',
-          })
-        }, 3000)
+            name: "pass",
+          });
+        }, 3000);
       }
     }
 
     if (this.outcome !== null) {
       this.sendAction({
-        name: 'gameOver',
+        name: "gameOver",
         winner: this.outcome.player
-      })
+      });
     }
 
-    return true
+    return true;
   }
 
   buildView(domElems) {
-    return new OthelloView(domElems, this)
+    return new OthelloView(domElems, this);
   }
 }
 
 class OthelloView {
   constructor(domElems, engine) {
-    this.rootElement = domElems.root
-    this.gameContainer = domElems.container
-    this.status = domElems.status
+    this.rootElement = domElems.root;
+    this.gameContainer = domElems.container;
+    this.status = domElems.status;
 
-    this.internalGrid = engine.grid.clone()
-    this.legalMoves = engine.currentPlayerLegalMoves
+    this.internalGrid = engine.grid.clone();
+    this.legalMoves = engine.currentPlayerLegalMoves;
     this.hoverboxes = new Grid(engine.grid.width, engine.grid.height,
-      () => false)
+      () => false);
 
-    this.gridView = new GridView(this.gameContainer)
+    this.gridView = new GridView(this.gameContainer);
 
-    this.gridView.buildNewGrid(engine.grid.width, engine.grid.height)
+    this.gridView.buildNewGrid(engine.grid.width, engine.grid.height);
 
     this.gridView.onclick = (pos) => {
-      if (this.isTranslating()) { return }
+      if (this.isTranslating()) { return; }
       this.sendAction({
-        name: 'move',
+        name: "move",
         x: pos.x,
         y: pos.y,
-      })
-    }
+      });
+    };
 
     this.gridView.onhover = (pos) => {
-      if (this.isTranslating()) { return }
-      this.handleHover(pos)
-    }
+      if (this.isTranslating()) { return; }
+      this.handleHover(pos);
+    };
   }
 
   // Updates the view with the current game state.
   render(engine) {
-    let delay = (x, y) => 0
+    let delay = (x, y) => 0;
     if (engine.lastAction !== null) {
       switch (engine.lastAction.name) {
-        case 'move': {
-          delay = (x, y) => {
-            const dist = Math.max(Math.abs(x - engine.lastAction.x),
-              Math.abs(y - engine.lastAction.y))
-            return dist;
-          }
-        }
+      case "move": {
+        delay = (x, y) => {
+          const dist = Math.max(Math.abs(x - engine.lastAction.x),
+            Math.abs(y - engine.lastAction.y));
+          return dist;
+        };
+      }
       }
     }
 
-    const isTied = (engine.outcome !== null && engine.outcome.player === 0)
+    const isTied = (engine.outcome !== null && engine.outcome.player === 0);
 
     for (let y = 0; y < engine.grid.height; y++) {
       for (let x = 0; x < engine.grid.width; x++) {
-        const entry = engine.grid.get(x, y)
-        const oldEntry = this.internalGrid.get(x, y)
-        const isLegal = engine.currentPlayerLegalMoves.get(x, y).length !== 0
-        let newClassList = ''
+        const entry = engine.grid.get(x, y);
+        const oldEntry = this.internalGrid.get(x, y);
+        const isLegal = engine.currentPlayerLegalMoves.get(x, y).length !== 0;
+        let newClassList = "";
 
-        let winPrefix = ''
+        let winPrefix = "";
         if (engine.outcome &&
           engine.outcome.tiles.some((p) =>
             p.x === x && p.y === y)
         ) {
-          winPrefix = 'win-'
-          this.gridView.animate(x, y, 'winSpin', {
+          winPrefix = "win-";
+          this.gridView.animate(x, y, "winSpin", {
             delay: delay(x, y),
-          })
-          this.gridView.animate(x, y, 'bounceIn', {
+          });
+          this.gridView.animate(x, y, "bounceIn", {
             delay: delay(x, y),
-          })
+          });
         }
 
         // Add flipping animation
         if (entry !== oldEntry) {
           if (oldEntry !== null) {
-            this.gridView.animate(x, y, 'invert', {
+            this.gridView.animate(x, y, "invert", {
               delay: Math.max(0, 50 * (delay(x, y) - 1))
-            })
-            this.gridView.animate(x, y, 'bounceIn', {
+            });
+            this.gridView.animate(x, y, "bounceIn", {
               delay: Math.max(0, 50 * (delay(x, y) - 1))
-            })
-            const hbox = this.gridView.getHbox(x, y)
+            });
+            const hbox = this.gridView.getHbox(x, y);
             hbox.getAnimations().forEach((anim) => {
-              anim.cancel()
-            })
-            this.hoverboxes.set(x, y, false)
+              anim.cancel();
+            });
+            this.hoverboxes.set(x, y, false);
           } else {
-            this.gridView.animate(x, y, 'newCell')
+            this.gridView.animate(x, y, "newCell");
           }
         }
 
         if (isTied) {
-          this.gridView.animate(x, y, 'tieWiggle', {
+          this.gridView.animate(x, y, "tieWiggle", {
             delay: delay(x, y),
-          })
+          });
         }
 
         if (entry === 1) {
-          newClassList += `${winPrefix}red bx bx-x`
+          newClassList += `${winPrefix}red bx bx-x`;
         } else if (entry === -1) {
-          newClassList += `${winPrefix}blue bx bx-radio-circle`
+          newClassList += `${winPrefix}blue bx bx-radio-circle`;
         } else if (!engine.outcome && isLegal) {
-          newClassList += `hoverable legalmove`
+          newClassList += "hoverable legalmove";
         }
 
-        this.gridView.update(x, y, newClassList)
-        this.internalGrid.set(x, y, entry)
+        this.gridView.update(x, y, newClassList);
+        this.internalGrid.set(x, y, entry);
       }
     }
 
-    let hover = ''
+    let hover = "";
     if (engine.outcome && engine.outcome.player !== undefined) {
-      hover = 'var(--bg-2)'
+      hover = "var(--bg-2)";
     } else if (engine.turn === 1) {
-      hover = 'var(--player1-color)'
+      hover = "var(--player1-color)";
     } else {
-      hover = 'var(--player2-color)'
+      hover = "var(--player2-color)";
     }
-    this.rootElement.style.setProperty('--hover-color', hover)
+    this.rootElement.style.setProperty("--hover-color", hover);
     
-    this.renderStatus(engine)
+    this.renderStatus(engine);
   }
 
   handleHover(pos) {
-    let swapTiles = []
-    let delay = (x, y) => 0
+    let swapTiles = [];
+    let delay = (x, y) => 0;
 
     if (pos !== null) {
-      const swaps = this.legalMoves.get(pos.x, pos.y)
+      const swaps = this.legalMoves.get(pos.x, pos.y);
 
       swaps.forEach((swap) => {
         swap.toRemove.forEach((tile) => {
           if (!swapTiles.some((p) => 
             p.x === tile.x && p.y === tile.y
           )) {
-            swapTiles.push(tile)
+            swapTiles.push(tile);
           }
-        })
-      })
+        });
+      });
 
       delay = (x, y) => {
         const dist = Math.max(Math.abs(x - pos.x),
-          Math.abs(y - pos.y))
-        return Math.max(0, 50 * (dist - 1))
-      }
+          Math.abs(y - pos.y));
+        return Math.max(0, 50 * (dist - 1));
+      };
     }
 
     for (let y = 0; y < this.legalMoves.height; y++) {
       for (let x = 0; x < this.legalMoves.width; x++) {
         const inSwapTiles = swapTiles.some((p) => 
           p.x === x && p.y === y
-        )
-        const hboxVisible = this.hoverboxes.get(x, y)
-        let hbox = this.gridView.getHbox(x, y)
+        );
+        const hboxVisible = this.hoverboxes.get(x, y);
+        let hbox = this.gridView.getHbox(x, y);
 
         if (!hboxVisible && inSwapTiles) {
-          applyAnimation(hbox, 'quarterTurn', {
+          applyAnimation(hbox, "quarterTurn", {
             duration: 300,
             delay: delay(x, y),
-          })
-          applyAnimation(hbox, 'fadeIn', {
+          });
+          applyAnimation(hbox, "fadeIn", {
             duration: 300,
             delay: delay(x, y),
-          })
+          });
         } else if (hboxVisible && !inSwapTiles) {
-          applyAnimation(hbox, 'quarterTurn', {
+          applyAnimation(hbox, "quarterTurn", {
             duration: 300,
-          })
-          applyAnimation(hbox, 'fadeOut', {
+          });
+          applyAnimation(hbox, "fadeOut", {
             duration: 300,
-          })
+          });
         }
-        this.hoverboxes.set(x, y, inSwapTiles)
+        this.hoverboxes.set(x, y, inSwapTiles);
       }
     }
   }
@@ -401,33 +401,33 @@ class OthelloView {
   renderStatus(engine) {
     if (!engine.hasLegalMoves) {
       this.status.innerHTML =
-        `${this.inlineIndicator(engine.turn)} HAS NO LEGAL MOVES, PASS.`
-      this.status.className = ''
+        `${this.inlineIndicator(engine.turn)} HAS NO LEGAL MOVES, PASS.`;
+      this.status.className = "";
     } else if (engine.outcome === null) {
       this.status.innerHTML =
-        `${this.inlineIndicator(engine.turn)} TO MOVE`
-      this.status.className = ''
+        `${this.inlineIndicator(engine.turn)} TO MOVE`;
+      this.status.className = "";
     } else {
       if (engine.outcome.player === 0) {
-        this.status.innerHTML = 'TIE'
-        this.status.className = 'tie'
+        this.status.innerHTML = "TIE";
+        this.status.className = "tie";
       } else {
         this.status.innerHTML =
-          `${this.inlineIndicator(engine.outcome.player)} WIN`
+          `${this.inlineIndicator(engine.outcome.player)} WIN`;
         const colorTag =
           (engine.outcome.player === 1)
-          ? 'red'
-          : 'blue'
-        this.status.className = `win-${colorTag}`
+            ? "red"
+            : "blue";
+        this.status.className = `win-${colorTag}`;
       }
     }
   }
 
   inlineIndicator(color) {
     if (color === 1) {
-      return '<i class=\'red bx bx-x\'></i>'
+      return "<i class='red bx bx-x'></i>";
     } else {
-      return '<i class=\'blue bx bx-radio-circle\'></i>'
+      return "<i class='blue bx bx-radio-circle'></i>";
     }
   }
 }

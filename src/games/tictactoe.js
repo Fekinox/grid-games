@@ -1,22 +1,22 @@
 class TeeThreeEngine {
   constructor(rules) {
-    this.width = rules.width
-    this.height = rules.height
-    this.toWin = rules.toWin
-    this.misere = rules.misere
-    this.name = 'teethree'
+    this.width = rules.width;
+    this.height = rules.height;
+    this.toWin = rules.toWin;
+    this.misere = rules.misere;
+    this.name = "teethree";
 
-    this.reset()
+    this.reset();
   }
 
   // Resets all game parameters.
   reset() {
-    this.grid = new Grid(this.width, this.height)
-    this.turn = 1
-    this.outcome = null
+    this.grid = new Grid(this.width, this.height);
+    this.turn = 1;
+    this.outcome = null;
 
-    this.lastAction = null
-    this.potentialWins = new Grid(this.grid.width, this.grid.height, () => [])
+    this.lastAction = null;
+    this.potentialWins = new Grid(this.grid.width, this.grid.height, () => []);
   }
 
   static getEntry() {
@@ -28,7 +28,7 @@ class TeeThreeEngine {
           name: "width",
           desc: "Board Width",
           type: {
-            name: 'integer',
+            name: "integer",
             lowerBound: 2,
           },
           default: 3,
@@ -37,7 +37,7 @@ class TeeThreeEngine {
           name: "height",
           desc: "Board Height",
           type: {
-            name: 'integer',
+            name: "integer",
             lowerBound: 2,
           },
           default: 3,
@@ -46,7 +46,7 @@ class TeeThreeEngine {
           name: "toWin",
           desc: "Tiles to win",
           type: {
-            name: 'integer',
+            name: "integer",
             lowerBound: 2,
           },
           default: 3,
@@ -55,73 +55,73 @@ class TeeThreeEngine {
           name: "misere",
           desc: "Misere rules",
           type: {
-            name: 'boolean',
+            name: "boolean",
           },
           default: false,
         }),
       ]),
       run: (rules) => new TeeThreeEngine(rules),
-    }
+    };
   }
 
   update(action) {
-    this.lastAction = action
+    this.lastAction = action;
     switch(action.name) {
-      case 'move':
-        return this.makeMove(action.x, action.y)
+    case "move":
+      return this.makeMove(action.x, action.y);
     }
   }
 
 
   makeMove(x, y) {
-    if (this.grid.get(x, y) !== null || this.outcome !== null) { return false }
+    if (this.grid.get(x, y) !== null || this.outcome !== null) { return false; }
     
-    this.grid.set(x, y, this.turn)
+    this.grid.set(x, y, this.turn);
     
     const win = this.checkWin(this.turn);
     if (win !== null) {
-      this.outcome = win
+      this.outcome = win;
     } else if (this.grid.grid.every((elem) => elem !== null)) {
       this.outcome = {
         player: 0,
         tiles: []
-      }
+      };
     } else {
       this.turn *= -1;
     }
 
     if (this.outcome !== null) {
       this.sendAction({
-        name: 'gameOver',
+        name: "gameOver",
         winner: this.outcome.player
-      })
+      });
     } else {
-      this.updatePotentialWins(this.turn)
+      this.updatePotentialWins(this.turn);
     }
 
-    return true
+    return true;
   }
 
   // Check for all possible wins and return the first win.
   checkWin(player) {
-    let wins = this.grid.allKInARows(this.toWin, player)
-    let tiles = []
+    let wins = this.grid.allKInARows(this.toWin, player);
+    let tiles = [];
     wins.forEach((win) => {
       win.forEach((tile) => {
         if (!tiles.some((p) => {
-          return p.x === tile.x && p.y === tile.y
+          return p.x === tile.x && p.y === tile.y;
         })) {
-          tiles.push(tile)
+          tiles.push(tile);
         }
-      })
-    })
+      });
+    });
 
     return (wins.length !== 0)
-    ? {
-      player: (!this.misere) ? this.turn : -this.turn,
-      tiles: tiles,
-    }
-    : null
+      ? {
+        player: (!this.misere) ? this.turn : -this.turn,
+        tiles: tiles,
+      }
+      : null;
   }
   
   // Update the potentialWins grid for potential winning moves for the current
@@ -130,196 +130,196 @@ class TeeThreeEngine {
     for (let y = 0; y < this.grid.height; y++) {
       for (let x = 0; x < this.grid.width; x++) {
         if (this.grid.get(x, y) !== null) {
-          this.potentialWins.set(x, y, [])
-          continue
+          this.potentialWins.set(x, y, []);
+          continue;
         }
         let wins = Grid.allDirections.map((dir) => {
-          let xx = x + dir.x
-          let yy = y + dir.y
-          return this.grid.kInARow(xx, yy, dir.x, dir.y, this.toWin - 1, player)
+          let xx = x + dir.x;
+          let yy = y + dir.y;
+          return this.grid.kInARow(xx, yy, dir.x, dir.y, this.toWin - 1, player);
         })
-        .filter((win) => win !== null)
-        this.potentialWins.set(x, y, wins)
+          .filter((win) => win !== null);
+        this.potentialWins.set(x, y, wins);
       }
     }
   }
 
   buildView(domElems) {
-    return new TeeThreeView(domElems, this)
+    return new TeeThreeView(domElems, this);
   }
 }
 
 class TeeThreeView {
   constructor(domElems, engine) {
-    this.rootElement = domElems.root
-    this.gameContainer = domElems.container
-    this.status = domElems.status
+    this.rootElement = domElems.root;
+    this.gameContainer = domElems.container;
+    this.status = domElems.status;
 
-    this.internalGrid = engine.grid.clone()
-    this.potWins = engine.potentialWins
+    this.internalGrid = engine.grid.clone();
+    this.potWins = engine.potentialWins;
     this.hoverboxes = new Grid(engine.grid.width, engine.grid.height,
-      () => false)
+      () => false);
 
-    this.gridView = new GridView(this.gameContainer)
+    this.gridView = new GridView(this.gameContainer);
 
     this.gridView.buildNewGrid(engine.grid.width, engine.grid.height,
       (x, y, cell) => {
-        cell.cell.classList.add('hoverable')
+        cell.cell.classList.add("hoverable");
       }
-    )
+    );
 
     this.gridView.onclick = (pos) => {
-      if (this.isTranslating()) { return }
+      if (this.isTranslating()) { return; }
       this.sendAction({
-        name: 'move',
+        name: "move",
         x: pos.x,
         y: pos.y,
-      })
-    }
+      });
+    };
 
     this.gridView.onhover = (pos) => {
-      if (this.isTranslating()) { return }
-      this.handleHover(pos)
-    }
+      if (this.isTranslating()) { return; }
+      this.handleHover(pos);
+    };
   }
 
   // Updates the view with the current game state.
   render(engine) {
-    let delay = (x, y) => 0
+    let delay = (x, y) => 0;
     if (engine.lastAction !== null) {
       switch (engine.lastAction.name) {
-        case 'move': {
-          delay = (x, y) => {
-            const dist = Math.abs(x - engine.lastAction.x) +
-              Math.abs(y - engine.lastAction.y)
-            return 50 * dist;
-          }
-        }
+      case "move": {
+        delay = (x, y) => {
+          const dist = Math.abs(x - engine.lastAction.x) +
+              Math.abs(y - engine.lastAction.y);
+          return 50 * dist;
+        };
+      }
       }
     }
 
     if (engine.outcome === null) {
-      this.gameContainer.classList.remove('p1-win')
-      this.gameContainer.classList.remove('p2-win')
-      this.gameContainer.classList.remove('tie-game')
+      this.gameContainer.classList.remove("p1-win");
+      this.gameContainer.classList.remove("p2-win");
+      this.gameContainer.classList.remove("tie-game");
     } else {
       if (engine.outcome.player === 1) {
-        this.gameContainer.classList.add('p1-win')
+        this.gameContainer.classList.add("p1-win");
       } else if (engine.outcome.player === -1) {
-        this.gameContainer.classList.add('p2-win')
+        this.gameContainer.classList.add("p2-win");
       } else {
-        this.gameContainer.classList.add('tie-game')
+        this.gameContainer.classList.add("tie-game");
       }
     }
 
-    const isTied = (engine.outcome !== null && engine.outcome.player === 0)
+    const isTied = (engine.outcome !== null && engine.outcome.player === 0);
 
     for (let y = 0; y < engine.grid.height; y++) {
       for (let x = 0; x < engine.grid.width; x++) {
-        const entry = engine.grid.get(x, y)
-        const oldEntry = this.internalGrid.get(x, y)
-        let newClassList = ''
+        const entry = engine.grid.get(x, y);
+        const oldEntry = this.internalGrid.get(x, y);
+        let newClassList = "";
 
-        let winPrefix = ''
+        let winPrefix = "";
         if (engine.outcome &&
           engine.outcome.tiles.some((p) =>
             p.x === x && p.y === y)
         ) {
-          winPrefix = 'win-'
-          this.gridView.animate(x, y, 'winSpin', {
+          winPrefix = "win-";
+          this.gridView.animate(x, y, "winSpin", {
             delay: delay(x, y),
-          })
-          this.gridView.animate(x, y, 'bounceIn', {
+          });
+          this.gridView.animate(x, y, "bounceIn", {
             delay: delay(x, y),
-          })
+          });
         }
 
         if (isTied) {
-          this.gridView.animate(x, y, 'tieWiggle', {
+          this.gridView.animate(x, y, "tieWiggle", {
             delay: delay(x, y),
-          })
+          });
         }
 
         if (entry !== oldEntry) {
-          this.gridView.animate(x, y, 'newCell')
+          this.gridView.animate(x, y, "newCell");
         }
 
         if (entry === 1) {
-          newClassList += `${winPrefix}red bx bx-x`
+          newClassList += `${winPrefix}red bx bx-x`;
         } else if (entry === -1) {
-          newClassList += `${winPrefix}blue bx bx-radio-circle`
+          newClassList += `${winPrefix}blue bx bx-radio-circle`;
         } else if (!engine.outcome) {
-          newClassList += `hoverable`
+          newClassList += "hoverable";
         }
 
-        this.gridView.update(x, y, newClassList)
-        this.internalGrid.set(x, y, entry)
+        this.gridView.update(x, y, newClassList);
+        this.internalGrid.set(x, y, entry);
       }
     }
 
-    let hover = ''
+    let hover = "";
     if (engine.outcome && engine.outcome.player !== undefined) {
-      hover = 'var(--background-color)'
+      hover = "var(--background-color)";
     } else if (engine.turn === 1) {
-      hover = 'var(--player1-color)'
+      hover = "var(--player1-color)";
     } else {
-      hover = 'var(--player2-color)'
+      hover = "var(--player2-color)";
     }
-    this.rootElement.style.setProperty('--hover-color', hover)
+    this.rootElement.style.setProperty("--hover-color", hover);
     
-    this.renderStatus(engine)
+    this.renderStatus(engine);
   }
 
   handleHover(pos) {
-    let winningTiles = []
-    let delay = (x, y) => 0
+    let winningTiles = [];
+    let delay = (x, y) => 0;
 
     if (pos !== null) {
-      const wins = this.potWins.get(pos.x, pos.y)
+      const wins = this.potWins.get(pos.x, pos.y);
 
       wins.forEach((win) => {
         win.forEach((tile) => {
           if (!winningTiles.some((p) => 
             p.x === tile.x && p.y === tile.y
           )) {
-            winningTiles.push(tile)
+            winningTiles.push(tile);
           }
-        })
-      })
+        });
+      });
 
       delay = (x, y) => {
         const dist = Math.abs(x - pos.x) +
-          Math.abs(y - pos.y)
+          Math.abs(y - pos.y);
         return 50 * dist;
-      }
+      };
     }
 
     for (let y = 0; y < this.potWins.height; y++) {
       for (let x = 0; x < this.potWins.width; x++) {
         const inWinTiles = winningTiles.some((p) => 
           p.x === x && p.y === y
-        )
-        const hboxVisible = this.hoverboxes.get(x, y)
-        let hbox = this.gridView.getHbox(x, y)
+        );
+        const hboxVisible = this.hoverboxes.get(x, y);
+        let hbox = this.gridView.getHbox(x, y);
 
         if (!hboxVisible && inWinTiles) {
-          applyAnimation(hbox, 'quarterTurn', {
+          applyAnimation(hbox, "quarterTurn", {
             duration: 300,
             delay: delay(x, y),
-          })
-          applyAnimation(hbox, 'fadeIn', {
+          });
+          applyAnimation(hbox, "fadeIn", {
             duration: 300,
             delay: delay(x, y),
-          })
+          });
         } else if (hboxVisible && !inWinTiles) {
-          applyAnimation(hbox, 'quarterTurn', {
+          applyAnimation(hbox, "quarterTurn", {
             duration: 300,
-          })
-          applyAnimation(hbox, 'fadeOut', {
+          });
+          applyAnimation(hbox, "fadeOut", {
             duration: 300,
-          })
+          });
         }
-        this.hoverboxes.set(x, y, inWinTiles)
+        this.hoverboxes.set(x, y, inWinTiles);
       }
     }
   }
@@ -328,29 +328,29 @@ class TeeThreeView {
   renderStatus(engine) {
     if (engine.outcome === null) {
       this.status.innerHTML =
-        `${this.inlineIndicator(engine.turn)} TO MOVE`
-      this.status.className = ''
+        `${this.inlineIndicator(engine.turn)} TO MOVE`;
+      this.status.className = "";
     } else {
       if (engine.outcome.player === 0) {
-        this.status.innerHTML = 'TIE'
-        this.status.className = 'tie'
+        this.status.innerHTML = "TIE";
+        this.status.className = "tie";
       } else {
         this.status.innerHTML =
-          `${this.inlineIndicator(engine.outcome.player)} WIN`
+          `${this.inlineIndicator(engine.outcome.player)} WIN`;
         const colorTag =
           (engine.outcome.player === 1)
-          ? 'red'
-          : 'blue'
-        this.status.className = `win-${colorTag}`
+            ? "red"
+            : "blue";
+        this.status.className = `win-${colorTag}`;
       }
     }
   }
 
   inlineIndicator(color) {
     if (color === 1) {
-      return '<i class=\'red bx bx-x\'></i>'
+      return "<i class='red bx bx-x'></i>";
     } else {
-      return '<i class=\'blue bx bx-radio-circle\'></i>'
+      return "<i class='blue bx bx-radio-circle'></i>";
     }
   }
 }

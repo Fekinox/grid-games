@@ -1,13 +1,13 @@
 /* https://linear-easing-generator.netlify.app */
 const easeOutElastic = `linear(
   0, 1.09 12%, 1.3 17%, 1.28 20%, 0.99 29%, 0.91 35%, 1.03, 0.99 70%, 1
-)`
+)`;
 
 const animations = {
   newCell: {
     frames: [
       { fontSize: 0 },
-      { fontSize: 'var(--cell-size)' },
+      { fontSize: "var(--cell-size)" },
     ],
     timing: {
       duration: 500,
@@ -16,20 +16,20 @@ const animations = {
   },
   winSpin: {
     frames: [
-      { rotate: '1turn', },
-      { rotate: '0turn', },
+      { rotate: "1turn", },
+      { rotate: "0turn", },
     ],
     timing: {
       duration: 500,
-      easing: 'ease-out',
+      easing: "ease-out",
     }
   },
   tieWiggle: {
     frames: [
-      { rotate: '0turn' },
-      { rotate: '20deg', offset: 0.25, },
-      { rotate: '-20deg', offset: 0.75, },
-      { rotate: '0turn' },
+      { rotate: "0turn" },
+      { rotate: "20deg", offset: 0.25, },
+      { rotate: "-20deg", offset: 0.75, },
+      { rotate: "0turn" },
     ],
     timing: {
       duration: 200,
@@ -38,34 +38,34 @@ const animations = {
   },
   expandSpin: {
     frames: [
-      { rotate: '0.5turn', scale: 0 },
-      { rotate: '0turn', scale: 1 },
+      { rotate: "0.5turn", scale: 0 },
+      { rotate: "0turn", scale: 1 },
     ],
     timing: {
       duration: 200,
-      easing: 'ease-out',
+      easing: "ease-out",
     }
   },
   invert: {
     frames: [
-      { rotate: '1turn', },
-      { rotate: '0turn', },
+      { rotate: "1turn", },
+      { rotate: "0turn", },
     ],
     /* https://linear-easing-generator.netlify.app */
     timing: {
       duration: 500,
-      easing: 'ease-out',
+      easing: "ease-out",
     }
   },
   quarterTurn: {
     frames: [
-      { rotate: '0.25turn', },
-      { rotate: '0turn', },
+      { rotate: "0.25turn", },
+      { rotate: "0turn", },
     ],
     /* https://linear-easing-generator.netlify.app */
     timing: {
       duration: 500,
-      easing: 'ease-out',
+      easing: "ease-out",
     }
   },
   bounceIn: {
@@ -76,7 +76,7 @@ const animations = {
     timing: {
       duration: 1000,
       easing: easeOutElastic,
-      fill: 'both',
+      fill: "both",
     }
   },
   fadeIn: {
@@ -86,8 +86,8 @@ const animations = {
     ],
     timing: {
       duration: 500,
-      easing: 'ease-out',
-      fill: 'both',
+      easing: "ease-out",
+      fill: "both",
     }
   },
   fadeOut: {
@@ -97,11 +97,11 @@ const animations = {
     ],
     timing: {
       duration: 500,
-      easing: 'ease-out',
-      fill: 'both',
+      easing: "ease-out",
+      fill: "both",
     }
   }
-}
+};
 
 function applyAnimation(element, animationName, newParams = {}) {
   element.animate(
@@ -110,5 +110,5 @@ function applyAnimation(element, animationName, newParams = {}) {
       ...animations[animationName].timing,
       ...newParams,
     }
-  )
+  );
 }
