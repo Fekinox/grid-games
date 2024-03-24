@@ -13,6 +13,7 @@ A variant of Tic Tac Toe implemented by Will Fowlkes, and designed by a friend o
 
 ## Building
 
+* Install the Grunt cli with `npm install -g grunt-cli`.
 * Install all project dependencies with `npm install`.
 * Run Grunt with `grunt` to concat all the source files together into
   `tttt.js`.
