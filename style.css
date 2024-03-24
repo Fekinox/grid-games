@@ -306,7 +306,6 @@ div.cellhoverbox {
   min-width: 80%;
   min-height: 80%;
   scale: 0;
-  background-color: var(--bg-5);
   border-radius: calc(var(--unit-size) * 0.25);
   pointer-events: none;
 
@@ -316,6 +315,18 @@ div.cellhoverbox {
   ;
 
   z-index: 1;
+}
+
+div.red div.cellhoverbox,
+div.win-red div.cellhoverbox {
+  background-color: color-mix(in srgb, var(--bg-5) 50%, 
+  var(--player1-color) 50%);
+}
+
+div.blue div.cellhoverbox,
+div.win-blue div.cellhoverbox {
+  background-color: color-mix(in srgb, var(--bg-5) 50%, 
+  var(--player2-color) 50%);
 }
 
 /* Bigger border radii on corners */
@@ -345,8 +356,7 @@ div.hoverable:hover {
 
 .red, div.red {
   color: var(--player1-color);
-  background: linear-gradient(
-    to top,
+  background: radial-gradient(
     color-mix(in srgb, var(--player1-color) 50%, var(--bg-3) 50%),
     var(--bg-4)
   );
@@ -354,8 +364,7 @@ div.hoverable:hover {
 
 .blue, div.blue {
   color: var(--player2-color);
-  background: linear-gradient(
-    to top,
+  background: radial-gradient(
     color-mix(in srgb, var(--player2-color) 50%, var(--bg-3) 50%),
     var(--bg-4)
   );
