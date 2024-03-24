@@ -122,6 +122,17 @@ const animations = {
       easing: "ease-out",
       fill: "both",
     }
+  },
+  scoreHighlight: {
+    frames: [
+      { scale: 1.5, },
+      { scale: 1, },
+    ],
+    timing: {
+      duration: 1000,
+      easing: "ease-in",
+      fill: "both",
+    }
   }
 };
 
