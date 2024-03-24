@@ -13,7 +13,7 @@ A variant of Tic Tac Toe implemented by Will Fowlkes, and designed by a friend o
 
 ## Building
 
-* Install the Grunt cli with `npm install -g grunt-cli`.
 * Install all project dependencies with `npm install`.
-* Run Grunt with `grunt` to concat all the source files together into
-  `tttt.js`.
+* Compile all Javascript files with `npm run build`. Add `-- --verbose` for detailed output.
+* All frontend files (HTML page, CSS file, and compiled Javascript) will be placed in the `public` directory.
+* To automatically refresh the files in the `public` directory on update, run `npm run build -- watch`.
