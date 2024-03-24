@@ -396,10 +396,6 @@ div.tttcell.win-blue {
   background-color: var(--player2-color);
 }
 
-div.tttcell.red.blackicon, div.tttcell.blue.blackicon {
-  color: var(--bg-4);
-}
-
 i.red, i.blue {
   margin-right: 10px;
   vertical-align: -0.2px;
