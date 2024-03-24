@@ -11,6 +11,11 @@ class Viewport {
     this.center.dataset.mouseDownX = "";
     this.center.dataset.mouseDownY = "";
 
+    this.gameBackground = elementBuild("div", {
+      parent: this.center,
+      id: "gamebackground",
+    });
+
     this.gameCenter = elementBuild("div", {
       parent: this.center,
       id: "gamecenter",

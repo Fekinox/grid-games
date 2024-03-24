@@ -1,4 +1,6 @@
 class GameRunner {
+  static particleCount = 30;
+
   constructor(app) {
     this.app = app;
     this.entry = null;
@@ -49,6 +51,7 @@ class GameRunner {
     this.view.isTranslating = () => {
       return this.viewport.dirty;
     };
+    this.viewport.gameBackground.textContent = "";
   }
 
   handleAction(action) {
@@ -63,6 +66,9 @@ class GameRunner {
       case 0:
         this.ties += 1;
         break;
+      }
+      if (action.winner !== 0) {
+        this.spawnWinParticles(action.winner);
       }
       this.scoreboard.update(this.p1score, this.p2score, this.ties);
     } else {
@@ -153,6 +159,68 @@ class GameRunner {
       this.p2score = 0;
       this.ties = 0;
       this.scoreboard.update(this.p1score, this.p2score, this.ties);
+    });
+  }
+
+  spawnWinParticles(winner) {
+    this.viewport.gameBackground.textContent = "";
+    const width = this.viewport.gameBackground.clientWidth;
+    const height = this.viewport.gameBackground.clientHeight;
+    const color =
+      (winner === 1)
+        ? "var(--player1-color)"
+        : "var(--player2-color)";
+
+    let animations = [];
+
+    for (let i = 0; i < GameRunner.particleCount; i++) {
+      const opacity = Math.random();
+      const initAngle = Math.random();
+      const finalAngle = 1 + initAngle;
+      const finalX = (Math.random() - 0.5) * 2 * width;
+      const finalY = (Math.random() - 0.5) * 2 * height;
+      const scale = Math.random() * 0.5 + 0.5;
+      const delay = i * 10;
+
+      let particle = elementBuild("div", {
+        classList: "winparticle",
+        parent: this.viewport.gameBackground,
+      });
+      particle.style.backgroundColor = color;
+
+      const anim1 = particle.animate([
+        {
+          rotate: `${initAngle}turn`,
+          translate: "0px 0px",
+          opacity: `${opacity}`,
+        },
+        {
+          rotate: `${finalAngle}turn`,
+          translate: `${finalX}px ${finalY}px`,
+          opacity: 0,
+        },
+      ], {
+        duration: 1000,
+        delay: delay,
+        fill: "both",
+      });
+
+      const anim2 = particle.animate([
+        { scale: 0, },
+        { scale: scale, offset: 0.2, },
+        { scale: 0, }
+      ], {
+        duration: 1000,
+        delay: delay,
+        fill: "both",
+      });
+
+      animations.push(anim1.finished);
+      animations.push(anim2.finished);
+    }
+
+    Promise.all(animations).then(() => {
+      this.viewport.gameBackground.textContent = "";
     });
   }
 }
