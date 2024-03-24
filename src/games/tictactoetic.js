@@ -184,6 +184,9 @@ class TeeFourView {
     this.rootElement = domElems.root;
     this.gameContainer = domElems.container;
     this.status = domElems.status;
+    this.center = domElems.center;
+
+    this.hboxesEnabled = true;
 
     this.internalGrid = engine.grid.clone();
     this.potWins = engine.potentialWins;
@@ -206,7 +209,7 @@ class TeeFourView {
     };
 
     this.gridView.onhover = (pos) => {
-      if (this.isTranslating()) { return; }
+      if (this.isTranslating() || !this.hboxesEnabled) { return; }
       this.handleHover(pos);
     };
 
@@ -274,13 +277,28 @@ class TeeFourView {
     let delay = (x, y) => 0;
     if (engine.lastAction !== null) {
       switch (engine.lastAction.name) {
-      case "move": {
+      case "move":
         delay = (x, y) => {
           const dist = Math.abs(x - engine.lastAction.x) +
               Math.abs(y - engine.lastAction.y);
           return 50 * dist;
         };
+        break;
       }
+    }
+
+    if (engine.outcome === null) {
+      this.center.classList.remove("game-complete");
+    } else {
+      this.hboxesEnabled = false;
+      this.gridView.clearHoverboxes();
+      this.center.classList.add("game-complete");
+      if (engine.outcome.player === 1) {
+        this.center.style.outlineColor = "var(--player1-color)";
+      } else if (engine.outcome.player === -1) {
+        this.center.style.outlineColor = "var(--player2-color)";
+      } else {
+        this.center.style.outlineColor = "var(--bg-5)";
       }
     }
 

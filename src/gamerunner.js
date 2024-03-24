@@ -43,6 +43,7 @@ class GameRunner {
       root: this.root,
       container: this.game,
       status: this.statusLine,
+      center: this.viewport.center,
     });
     this.view.sendAction = (action) => this.handleAction(action);
     this.view.isTranslating = () => {
@@ -92,7 +93,7 @@ class GameRunner {
 
     this.viewport = new Viewport(this.container, this.game);
 
-    window.addEventListener("resize", (event) => {
+    window.addEventListener("resize", (_event) => {
       this.viewport.updateViewportSize();
       this.viewport.update();
     });
@@ -113,7 +114,7 @@ class GameRunner {
       parent: buttons,
       attributes: { innerHTML: "RESET", }
     });
-    this.resetButton.addEventListener("click", (event) => {
+    this.resetButton.addEventListener("click", (_event) => {
       this.resetGame();
     });
 
@@ -122,7 +123,7 @@ class GameRunner {
       parent: buttons,
       attributes: { innerHTML: "BACK", }
     });
-    this.backButton.addEventListener("click", (event) => {
+    this.backButton.addEventListener("click", (_event) => {
       this.clearGame();
       this.app.openMenu();
     });
@@ -132,7 +133,7 @@ class GameRunner {
       parent: buttons,
       attributes: { innerHTML: "UPDATE RULES", }
     });
-    this.updateRulesButton.addEventListener("click", (event) => {
+    this.updateRulesButton.addEventListener("click", (_event) => {
       let menu = this.entry.settings.buildSettingsMenu(this.app,
         (rules) => {
           this.startGame(this.entry, rules);
@@ -146,7 +147,7 @@ class GameRunner {
       parent: buttons,
       attributes: { innerHTML: "RESET SCORES", }
     });
-    this.hardResetButton.addEventListener("click", (event) => {
+    this.hardResetButton.addEventListener("click", (_event) => {
       this.resetGame();
       this.p1score = 0;
       this.p2score = 0;

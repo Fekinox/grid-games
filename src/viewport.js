@@ -53,7 +53,7 @@ class Viewport {
       this.dirty = false;
     });
 
-    this.center.addEventListener("mouseup", (event) => {
+    this.center.addEventListener("mouseup", (_event) => {
       this.center.dataset.mouseDownX = "";
       this.center.dataset.mouseDownY = "";
     });
