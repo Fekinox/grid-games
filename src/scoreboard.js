@@ -5,15 +5,14 @@ class Scoreboard {
       { classList: "scorecontainer", parent: parentElement });
 
     this.p1Scoreboard = elementBuild("div",
-      { classList: "scoreitem", parent: this.score, });
-    this.p1Scoreboard.style.color = "var(--player1-color)";
+      { id: "p1score", classList: "scoreitem", parent: this.score, });
 
     this.p1sep = elementBuild("div",
       { classList: "scoreitem", parent: this.score });
     this.p1sep.textContent = "-";
 
     this.p2Scoreboard = elementBuild("div",
-      { classList: "scoreitem", parent: this.score, });
+      { id: "p2score", classList: "scoreitem", parent: this.score, });
     this.p2Scoreboard.style.color = "var(--player2-color)";
 
     this.p2sep = elementBuild("div",
@@ -21,7 +20,7 @@ class Scoreboard {
     this.p2sep.textContent = "-";
 
     this.tieScoreboard = elementBuild("div",
-      { classList: "scoreitem", parent: this.score, });
+      { id: "tiescore", classList: "scoreitem", parent: this.score, });
 
 
     this.lastScores = {
