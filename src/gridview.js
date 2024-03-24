@@ -83,7 +83,10 @@ class GridView {
 
           let obj = {
             cell: cell,
-            hbox: cellHoverBox,
+            hbox: {
+              elem: cellHoverBox,
+              active: false,
+            }
           };
 
           newFun(x, y, obj);
@@ -110,6 +113,90 @@ class GridView {
     if (trimmed.length !== 0) {
       for (const c of trimmed.split(" ")) {
         cell.cell.classList.add(c);
+      }
+    }
+  }
+
+  updateHoverboxes(checkerFn = null, delayFn = null) {
+    let checker = (_x, _y) => false;
+    if (checkerFn !== null) { checker = checkerFn; }
+
+    let delay = (_x, _y) => 0;
+    if (delayFn !== null) { delay = delayFn; }
+
+
+    for (let y = 0; y < this.renderableGrid.height; y++) {
+      for (let x = 0; x < this.renderableGrid.width; x++) {
+        let hbox = this.renderableGrid.get(x, y).hbox;
+        let cell = this.renderableGrid.get(x, y).cell;
+        let checkResult = checker(x, y);
+
+        if (!hbox.active && checkResult) {
+          applyAnimation(hbox.elem, "quarterTurn", {
+            duration: 300,
+            delay: delay(x, y),
+          });
+          applyAnimation(hbox.elem, "fadeIn", {
+            duration: 300,
+            delay: delay(x, y),
+          });
+          applyAnimation(cell, "toBlack", {
+            duration: 300,
+            delay: delay(x, y),
+          });
+        } else if (hbox.active && !checkResult) {
+          applyAnimation(hbox.elem, "quarterTurn", {
+            duration: 300,
+          });
+          applyAnimation(hbox.elem, "fadeOut", {
+            duration: 300,
+          });
+          applyAnimation(cell, "toColor", {
+            duration: 300,
+            delay: delay(x, y),
+          });
+        }
+
+        hbox.active = checkResult;
+      }
+    }
+  }
+
+  updateHoverboxAt(x, y, value) {
+    let hbox = this.renderableGrid.get(x, y).hbox;
+    let cell = this.renderableGrid.get(x, y).cell;
+
+    if (!hbox.active && value) {
+      applyAnimation(hbox.elem, "quarterTurn", {
+        duration: 300,
+      });
+      applyAnimation(hbox.elem, "fadeIn", {
+        duration: 300,
+      });
+      applyAnimation(cell, "toBlack", {
+        duration: 300,
+      });
+    } else if (hbox.active && !value) {
+      applyAnimation(hbox.elem, "quarterTurn", {
+        duration: 300,
+      });
+      applyAnimation(hbox.elem, "fadeOut", {
+        duration: 300,
+      });
+      applyAnimation(cell, "toColor", {
+        duration: 300,
+      });
+    }
+
+    hbox.active = value;
+  }
+
+  clearHoverboxes() {
+    for (let y = 0; y < this.renderableGrid.height; y++) {
+      for (let x = 0; x < this.renderableGrid.width; x++) {
+        let hbox = this.renderableGrid.get(x, y).hbox;
+        hbox.elem.getAnimations().forEach((anim) => { anim.cancel(); });
+        hbox.active = false;
       }
     }
   }

@@ -232,8 +232,6 @@ class OthelloView {
 
     this.internalGrid = engine.grid.clone();
     this.legalMoves = engine.currentPlayerLegalMoves;
-    this.hoverboxes = new Grid(engine.grid.width, engine.grid.height,
-      () => false);
 
     this.gridView = new GridView(this.gameContainer);
 
@@ -301,11 +299,7 @@ class OthelloView {
             this.gridView.animate(x, y, "bounceIn", {
               delay: Math.max(0, 50 * (delay(x, y) - 1))
             });
-            const hbox = this.gridView.getHbox(x, y);
-            hbox.getAnimations().forEach((anim) => {
-              anim.cancel();
-            });
-            this.hoverboxes.set(x, y, false);
+            this.gridView.updateHoverboxAt(x, y, false);
           } else {
             this.gridView.animate(x, y, "newCell");
           }
@@ -345,7 +339,8 @@ class OthelloView {
 
   handleHover(pos) {
     let swapTiles = [];
-    let delay = (x, y) => 0;
+    let delay = null;
+    let checker = null;
 
     if (pos !== null) {
       const swaps = this.legalMoves.get(pos.x, pos.y);
@@ -365,36 +360,13 @@ class OthelloView {
           Math.abs(y - pos.y));
         return Math.max(0, 50 * (dist - 1));
       };
+
+      checker = (x, y) => swapTiles.some((p) => 
+        p.x === x && p.y === y
+      );
     }
 
-    for (let y = 0; y < this.legalMoves.height; y++) {
-      for (let x = 0; x < this.legalMoves.width; x++) {
-        const inSwapTiles = swapTiles.some((p) => 
-          p.x === x && p.y === y
-        );
-        const hboxVisible = this.hoverboxes.get(x, y);
-        let hbox = this.gridView.getHbox(x, y);
-
-        if (!hboxVisible && inSwapTiles) {
-          applyAnimation(hbox, "quarterTurn", {
-            duration: 300,
-            delay: delay(x, y),
-          });
-          applyAnimation(hbox, "fadeIn", {
-            duration: 300,
-            delay: delay(x, y),
-          });
-        } else if (hboxVisible && !inSwapTiles) {
-          applyAnimation(hbox, "quarterTurn", {
-            duration: 300,
-          });
-          applyAnimation(hbox, "fadeOut", {
-            duration: 300,
-          });
-        }
-        this.hoverboxes.set(x, y, inSwapTiles);
-      }
-    }
+    this.gridView.updateHoverboxes(checker, delay);
   }
   
   // Renders the current game status line beneath the grid.

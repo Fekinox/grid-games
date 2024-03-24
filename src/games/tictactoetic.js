@@ -187,8 +187,6 @@ class TeeFourView {
 
     this.internalGrid = engine.grid.clone();
     this.potWins = engine.potentialWins;
-    this.hoverboxes = new Grid(engine.grid.width, engine.grid.height,
-      () => false);
 
     this.gridView = new GridView(this.gameContainer);
 
@@ -262,8 +260,6 @@ class TeeFourView {
     );
     this.internalGrid = engine.grid.clone();
     this.potWins = engine.potentialWins;
-    this.hoverboxes = new Grid(engine.grid.width, engine.grid.height,
-      () => false);
   }
 
   // Updates the view with the current game state.
@@ -272,8 +268,6 @@ class TeeFourView {
         engine.grid.height !== this.internalGrid.height) {
       this.rebuildGrid(engine);
       this.potWins = engine.potentialWins;
-      this.hoverboxes = new Grid(engine.grid.width, engine.grid.height,
-        () => false);
       return;
     }
 
@@ -343,7 +337,8 @@ class TeeFourView {
 
   handleHover(pos) {
     let winningTiles = [];
-    let delay = (x, y) => 0;
+    let checker = null;
+    let delay = null;
 
     if (pos !== null) {
       const wins = this.potWins.get(pos.x, pos.y);
@@ -359,40 +354,17 @@ class TeeFourView {
       });
 
       delay = (x, y) => {
-        const dist = Math.abs(x - pos.x) +
-          Math.abs(y - pos.y);
+        const dist = Math.max(Math.abs(x - pos.x),
+          Math.abs(y - pos.y));
         return 50 * dist;
       };
+
+      checker = (x, y) => winningTiles.some((p) =>
+        p.x === x && p.y === y
+      );
     }
 
-    for (let y = 0; y < this.potWins.height; y++) {
-      for (let x = 0; x < this.potWins.width; x++) {
-        const inWinTiles = winningTiles.some((p) => 
-          p.x === x && p.y === y
-        );
-        const hboxVisible = this.hoverboxes.get(x, y);
-        let hbox = this.gridView.getHbox(x, y);
-
-        if (!hboxVisible && inWinTiles) {
-          applyAnimation(hbox, "quarterTurn", {
-            duration: 300,
-            delay: delay(x, y),
-          });
-          applyAnimation(hbox, "fadeIn", {
-            duration: 300,
-            delay: delay(x, y),
-          });
-        } else if (hboxVisible && !inWinTiles) {
-          applyAnimation(hbox, "quarterTurn", {
-            duration: 300,
-          });
-          applyAnimation(hbox, "fadeOut", {
-            duration: 300,
-          });
-        }
-        this.hoverboxes.set(x, y, inWinTiles);
-      }
-    }
+    this.gridView.updateHoverboxes(checker, delay);
   }
   
   // Renders the current game status line beneath the grid.
