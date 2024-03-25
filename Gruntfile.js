@@ -16,6 +16,7 @@ module.exports = function(grunt) {
           "src/gamerules.js",
           "src/games/*.js",
           "src/gamerunner.js",
+          "src/gameselectionmenu.js",
           "src/menu.js",
           "src/scrolling.js",
           "src/game.js",

@@ -12,6 +12,11 @@ class OthelloEngine {
     return {
       name: "Othello",
       description: "Cover as much of the game board as possible.",
+      longDescription: [
+        "Take turns placing pieces on the game board.",
+        "When you place a piece down, there must be a straight line of other pieces between the new piece and another piece of your color (horizontally, vertically, or diagonally) that consists of only pieces of the opponent's color- those are flipped to your color.",
+        "The game ends when no player can make a legal move, and the winner is decided by the player with the most tiles of their color.",
+      ],
       settings: new GameRules([
         new GameRuleEntry({
           name: "width",
@@ -40,6 +45,13 @@ class OthelloEngine {
           default: false,
         }),
       ]),
+      ai: [
+        {
+          name: "random",
+          longName: "Random Move",
+          builder: (player) => new RandomLegalMove(player),
+        },
+      ],
       run: (rules) => new OthelloEngine(rules),
     };
   }

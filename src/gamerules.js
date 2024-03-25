@@ -3,7 +3,7 @@ class GameRules {
     this.entries = entries;
   }
 
-  getDefaultRules(entries) {
+  getDefaultRules() {
     return this.entries.reduce(
       (rules, entry) => {
         rules[entry.name] = entry.default;
@@ -13,7 +13,89 @@ class GameRules {
     );
   }
 
-  buildSettingsMenu(app, submitHook) {
+  buildSettingsMenu(submitHook) {
+    let form = elementBuild("form", {
+      classList: "settingsmenu",
+    });
+
+    let fields = [];
+
+    this.entries.forEach((entry) => {
+      let area = elementBuild("div", {
+        classList: "entry",
+        parent: form,
+      });
+
+      let label = elementBuild("label", { 
+        parent: area,
+        attributes: { innerHTML: entry.desc, },
+      });
+
+      let field = entry.buildInputField();
+      fields.push({
+        name: entry.name,
+        field: field,
+        default: entry.default
+      });
+
+      area.appendChild(field);
+    });
+
+    let buttons = elementBuild("div", {
+      classList: "buttons-hbox",
+      parent: form,
+    });
+
+    let submitButton = elementBuild("input", {
+      parent: buttons,
+      attributes: {
+        type: "submit",
+        value: "Play with modified rules",
+      }
+    });
+
+    let toDefaultButton = elementBuild("button", {
+      parent: buttons,
+      classList: "todefault",
+      attributes: {
+        innerHTML: "default",
+        onclick: (event) => {
+          fields.forEach((elem) => {
+            switch(elem.field.type) {
+            case "checkbox":
+              elem.field.checked = elem.default;
+              break;
+            case "number":
+              elem.field.value = elem.default;
+              break;
+            }
+          });
+          event.preventDefault();
+        }
+      }
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      let rules = fields.reduce(
+        (rules, item) => {
+          switch(item.field.type) {
+          case "checkbox":
+            rules[item.name] = item.field.checked;
+            break;
+          case "number":
+            rules[item.name] = Number(item.field.value);
+            break;
+          }
+          return rules;
+        }, {});
+      submitHook(rules);
+    });
+
+    return form;
+  }
+
+  buildSettingsPopup(app, submitHook) {
     let form = elementBuild("form", {
       classList: "popup",
     });

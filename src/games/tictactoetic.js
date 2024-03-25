@@ -24,6 +24,10 @@ class TeeFourEngine {
     return {
       name: "Tic Tac Toe Tic",
       description: "4 by 4 board. Get 4 in a row to win. Can expand the board by adding a row or column to the edge.",
+      longDescription: [
+        "Get 4 in a row to win.",
+        "You begin on a 4 by 4 board, but on your turn, you can choose to either place a piece of your color or expand the board in any direction.",
+      ],
       settings: new GameRules([
         new GameRuleEntry({
           name: "width",
@@ -61,6 +65,13 @@ class TeeFourEngine {
           default: false,
         }),
       ]),
+      ai: [
+        {
+          name: "random",
+          longName: "Random Move",
+          builder: (player) => new RandomLegalMove(player),
+        },
+      ],
       run: (rules) => new TeeFourEngine(rules),
     };
   }

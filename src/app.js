@@ -17,10 +17,10 @@ class App {
     this.openMenu();
   }
 
-  startGame(entry, rules) {
+  startGame(entry, rules, p1mode, p2mode) {
     this.menu.menuWindow.classList.add("hidden");
     this.runner.container.classList.remove("hidden");
-    this.runner.startGame(entry, rules);
+    this.runner.startGame(entry, rules, p1mode, p2mode);
   }
 
   openMenu() {

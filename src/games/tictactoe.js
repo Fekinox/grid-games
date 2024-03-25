@@ -23,6 +23,9 @@ class TeeThreeEngine {
     return {
       name: "Tic Tac Toe",
       description: "3 by 3 board. Get 3 in a row to win.",
+      longDescription: [
+        "Get 3 in a row to win.",
+      ],
       settings: new GameRules([
         new GameRuleEntry({
           name: "width",
@@ -60,6 +63,13 @@ class TeeThreeEngine {
           default: false,
         }),
       ]),
+      ai: [
+        {
+          name: "random",
+          longName: "Random Move",
+          builder: (player) => new RandomLegalMove(player),
+        },
+      ],
       run: (rules) => new TeeThreeEngine(rules),
     };
   }

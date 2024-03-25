@@ -8,7 +8,7 @@ class GameRunner {
     this.entry = null;
 
     this.player1 = null;
-    this.player2 = new RandomLegalMove();
+    this.player2 = null;
 
     this.enabled = false;
   }
@@ -31,8 +31,12 @@ class GameRunner {
     this.scoreboard.update(this.p1score, this.p2score, this.ties);
   }
 
-  startGame(gameEntry, rules) {
+  startGame(gameEntry, rules, p1mode, p2mode) {
     this.clearGame();
+    this.player1Builder = p1mode;
+    this.player2Builder = p2mode;
+    this.player1 = (p1mode !== null) ? p1mode(1) : null;
+    this.player2 = (p2mode !== null) ? p1mode(-1) : null;
     this.entry = gameEntry;
     this.rules = rules;
     this.engine = gameEntry.run(this.rules);
@@ -210,9 +214,10 @@ class GameRunner {
       attributes: { innerHTML: "UPDATE RULES", }
     });
     this.updateRulesButton.addEventListener("click", (_event) => {
-      let menu = this.entry.settings.buildSettingsMenu(this.app,
+      let menu = this.entry.settings.buildSettingsPopup(this.app,
         (rules) => {
-          this.startGame(this.entry, rules);
+          this.startGame(this.entry, rules,
+            this.player1Builder, this.player2Builder);
         }
       );
       app.addPopup(menu);

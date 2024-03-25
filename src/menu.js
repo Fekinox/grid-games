@@ -7,59 +7,58 @@ const gameEntries = [
 class Menu {
   constructor(app) {
     this.app = app;
+
+    this.selectedGame = null;
+    this.player1Mode = null;
+    this.player2Mode = null;
   }
 
   initialize(entries) {
     this.getDOMElements();
-    entries.forEach((entry) => {
-      let elem = this.buildGameEntry(entry);
+
+    // Build selected game menu
+    this.gameSelectionMenu = new GameSelectionMenu(this.menuWindow);
+
+    this.gameSelectionMenu.ongamestart = this.startGame;
+
+    this.gameSelect = elementBuild("section", {
+      id: "gameselect", parent: this.menuWindow
+    });
+
+    entries.forEach((entry, i) => {
+      let elem = this.buildGameEntry(entry, i);
       this.gameSelect.appendChild(elem);
     });
+
+    this.selectGame(0);
   }
 
   getDOMElements() {
     this.menuWindow = document.getElementById("gamemenu");
-    this.gameSelect = document.getElementById("gameselect");
     this.globalSettingsButton = document.getElementById("globalsettings");
   }
 
-  buildGameEntry(entry) {
+  selectGame(i) {
+    this.gameSelectionMenu.loadEntry(gameEntries[i]);
+    this.gameSelect.childNodes.forEach((node, j) => {
+      if (i == j) { node.classList.add("selected"); }
+      else { node.classList.remove("selected"); }
+    });
+  }
+
+  startGame(entry, rules, p1mode, p2mode) {
+    app.startGame(entry, rules, p1mode, p2mode);
+  }
+
+  buildGameEntry(entry, i) {
     let elem = elementBuild("div", {
-      classList: "gameentry",
+      classList: "gameentry"
     });
 
     elem.innerHTML += entry.name;
 
-    elem.addEventListener("click", (event) => {
-      app.startGame(entry, entry.settings.getDefaultRules());
-    });
-
-
-    let desc = elementBuild("div", {
-      classList: "gamedesc",
-      parent: elem,
-    });
-
-    desc.appendChild(elementBuild("hr", {}));
-
-    desc.innerHTML += entry.description;
-
-    let settingsButton = elementBuild("button", {
-      parent: desc,
-      attributes: {
-        innerHTML: "Settings",
-      }
-    });
-
-    settingsButton.addEventListener("click", (event) => {
-      let menu = entry.settings.buildSettingsMenu(this.app, 
-        (rules) => {
-          this.app.startGame(entry, rules);
-        }
-      );
-      app.addPopup(menu);
-      event.stopPropagation();
-      event.preventDefault();
+    elem.addEventListener("click", (_event) => {
+      this.selectGame(i);
     });
 
     return elem;

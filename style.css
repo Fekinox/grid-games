@@ -22,7 +22,7 @@
   --unit-size: 100vmax;
   --cell-size: calc(var(--unit-size) * 1.5);
 
-  font-size: 20px;
+  font-size: 18px;
 }
 
 body {
@@ -127,7 +127,7 @@ div.buttons-hbox {
 button, input[type='submit'] {
   font-size: 20px;
   padding: 0.5em 1em;
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: var(--bg-1);
   border: 0;
   color: white;
@@ -236,6 +236,35 @@ div#gamemenu {
   border-radius: 16px;
 }
 
+div#gameselection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: var(--bg-5);
+  border-radius: 16px;
+  padding: 1em;
+  width: 100%;
+  margin: 1em;
+  text-transform: none;
+}
+
+div#gameselection .buttons-hbox {
+  justify-content: space-between;
+  width: 100%;
+}
+
+select {
+  background-color: var(--bg-1);
+  border: 0;
+  color: #ffffff;
+  font-family: monospace, sans-serif;
+  padding: 0.5em 1em;
+  text-align: center;
+  border-radius: 8px;
+}
+
 section#gameselect {
   position: relative;
   width: 100%;
@@ -250,24 +279,19 @@ div.gameentry {
   border-radius: 8px;
   min-height: 50px;
   position: relative;
+  background-color: var(--bg-4);
+  padding: 10px;
+
+  transition: background-color 0.2s ease;
+}
+
+div.gameentry:hover {
+  background-color: var(--player1-color);
+  color: var(--bg-3);
+}
+
+div.gameentry.selected {
   background-color: var(--bg-5);
-  padding: 10px;
-}
-
-div.gameentry div.gamedesc {
-  display: none;
-  position: absolute;
-  background: inherit;
-  border-radius: inherit;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  padding: 10px;
-}
-
-div.gameentry:hover div.gamedesc {
-  display: block;
-  background-color: inherit;
 }
 
 div#dimmer {
@@ -282,6 +306,20 @@ div#dimmer {
 }
 
 form.popup {
+  background-color: var(--bg-5);
+  padding: 20px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 10px;
+}
+
+section#settings {
+  width: 100%;
+}
+
+form.settingsmenu {
   background-color: var(--bg-5);
   padding: 20px; 
   display: flex;
@@ -433,8 +471,8 @@ div.tttcell.win-blue {
 }
 
 i.red, i.blue {
-  margin-right: 10px;
   vertical-align: -0.2px;
+  font-size: 50px;
 }
 
 div.game#teethree {
