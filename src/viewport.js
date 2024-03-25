@@ -46,8 +46,6 @@ class Viewport {
 
     this.updateViewportSize();
 
-    this.update();
-
     this.center.addEventListener("mousedown", (event) => {
       this.center.dataset.mouseDownX = event.clientX;
       this.center.dataset.mouseDownY = event.clientY;
@@ -94,14 +92,38 @@ class Viewport {
         this.translateX = currentTX;
         this.translateY = currentTY;
         this.setTranslate();
+        this.updateOffscreenIndicators();
       }
     });
+
+    this.topOffscreenIndicator = elementBuild("div", {
+      classList: "offscreenindicator up bx bx-chevron-up",
+      parent: this.gameCenter,
+    });
+
+    this.bottomOffscreenIndicator = elementBuild("div", {
+      classList: "offscreenindicator down bx bx-chevron-down",
+      parent: this.gameCenter,
+    });
+
+    this.leftOffscreenIndicator = elementBuild("div", {
+      classList: "offscreenindicator left bx bx-chevron-left",
+      parent: this.gameCenter,
+    });
+
+    this.rightOffscreenIndicator = elementBuild("div", {
+      classList: "offscreenindicator right bx bx-chevron-right",
+      parent: this.gameCenter,
+    });
+
+    this.update();
   }
 
   update() {
     this.rescale();
     this.refreshExtents();
     this.setTranslate();
+    this.updateOffscreenIndicators();
   }
 
   refreshExtents() {
@@ -160,10 +182,41 @@ class Viewport {
     }
   }
 
+  updateOffscreenIndicators() {
+    // Check if offscreen on top
+    const gameViewRect = this.gameView.getBoundingClientRect();
+    const gameCenterRect = this.gameCenter.getBoundingClientRect();
+
+    if (gameViewRect.top < gameCenterRect.top) {
+      this.topOffscreenIndicator.style.opacity = 1;
+    } else {
+      this.topOffscreenIndicator.style.opacity = 0;
+    }
+
+    if (gameViewRect.left < gameCenterRect.left) {
+      this.leftOffscreenIndicator.style.opacity = 1;
+    } else {
+      this.leftOffscreenIndicator.style.opacity = 0;
+    }
+
+    if (gameViewRect.bottom > gameCenterRect.bottom) {
+      this.bottomOffscreenIndicator.style.opacity = 1;
+    } else {
+      this.bottomOffscreenIndicator.style.opacity = 0;
+    }
+
+    if (gameViewRect.right > gameCenterRect.right) {
+      this.rightOffscreenIndicator.style.opacity = 1;
+    } else {
+      this.rightOffscreenIndicator.style.opacity = 0;
+    }
+  }
+
   hardReset() {
     this.updateViewportSize();
     this.rescale();
     this.refreshExtents();
+    this.updateOffscreenIndicators();
     this.translateX = 0;
     this.translateY = 0;
     this.lastTranslateX = 0;

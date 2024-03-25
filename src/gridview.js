@@ -19,6 +19,7 @@ class GridView {
     this.gridItem = elementBuild("div", {
       id: "tttgrid",
       parent: parentElement,
+      attributes: { draggable: false, },
     });
 
     this.gridItem.addEventListener("click", (evt) => {
@@ -70,7 +71,9 @@ class GridView {
       new Grid(width, height,
         (x, y) => {
           let cell = elementBuild("div", {
-            classList: "tttcell",
+            classList: "tttcell", attributes: {
+              draggable: false,
+            }
           });
 
           let cellHoverBox = elementBuild("div", {
@@ -98,6 +101,7 @@ class GridView {
       let row = elementBuild("div", {
         classList: "tttrow",
         parent: this.gridItem,
+        attributes: { draggable: false, },
       });
       for (let x = 0; x < width; x++) {
         let cell = this.renderableGrid.get(x, y);
