@@ -353,6 +353,24 @@ form.popup {
   gap: 10px;
 }
 
+div.popup {
+  background-color: var(--bg-5);
+  padding: 20px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  text-transform: none;
+}
+
+a.bx {
+  text-decoration: none;
+  color: white;
+  font-size: 50px;
+}
+
 section#settings {
   width: 100%;
 }

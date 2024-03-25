@@ -16,6 +16,38 @@ class Menu {
   initialize(entries) {
     this.getDOMElements();
 
+    // Add credits button
+    this.creditsButtonBox = elementBuild("div", {
+      classList: "buttons-hbox", parent: this.menuWindow,
+    });
+
+    this.creditsButton = elementBuild("button", {
+      parent: this.creditsButtonBox, attributes: {
+        textContent: "CREDITS",
+      }
+    });
+
+    this.creditsButton.addEventListener("click", (_event) => {
+      const credits = elementBuild("div", {
+        classList: "popup",
+      });
+
+      elementBuild("p", {
+        parent: credits, attributes: {
+          textContent: "a game written by Will Fowlkes"
+        }
+      });
+
+      elementBuild("a", {
+        parent: credits, classList: "bx bxl-github", attributes: {
+          href: "https://github.com/Fekinox/grid-games"
+        }
+      });
+
+      credits.addEventListener("click", (_event) => app.clearPopup());
+      this.app.addPopup(credits);
+    });
+
     // Build selected game menu
     this.gameSelectionMenu = new GameSelectionMenu(this.menuWindow);
 
