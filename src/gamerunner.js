@@ -36,7 +36,7 @@ class GameRunner {
     this.player1Builder = p1mode;
     this.player2Builder = p2mode;
     this.player1 = (p1mode !== null) ? p1mode(1) : null;
-    this.player2 = (p2mode !== null) ? p1mode(-1) : null;
+    this.player2 = (p2mode !== null) ? p2mode(-1) : null;
     this.entry = gameEntry;
     this.rules = rules;
     this.engine = gameEntry.run(this.rules);
