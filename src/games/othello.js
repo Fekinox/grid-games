@@ -221,13 +221,6 @@ class OthelloEngine {
       this.setCurrentPlayerLegalMoves();
     }
 
-    if (this.outcome !== null) {
-      this.sendAction({
-        name: "gameOver",
-        winner: this.outcome.player
-      });
-    }
-
     return true;
   }
 

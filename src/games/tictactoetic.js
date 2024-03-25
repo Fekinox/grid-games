@@ -166,12 +166,7 @@ class TeeFourEngine {
       this.turn *= -1;
     }
 
-    if (this.outcome !== null) {
-      this.sendAction({
-        name: "gameOver",
-        winner: this.outcome.player
-      });
-    } else {
+    if (this.outcome === null) {
       this.updatePotentialWins(this.turn);
     }
 

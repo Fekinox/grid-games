@@ -116,8 +116,21 @@ class GameRunner {
     }
 
     console.log(action);
-    if (action.name === "gameOver") {
-      switch(action.winner) {
+    if (action.name === "pass") {
+      this.engine.turn *= -1;
+    } else {
+      const updated = this.engine.update(action);
+      if (updated) {
+        this.view.render(this.engine);
+        this.viewport.update();
+      }
+    }
+
+    if (this.engine.outcome === null) {
+      this.getNextMove();
+    } else {
+      let outcome = this.engine.outcome;
+      switch(outcome.player) {
       case 1:
         this.p1score += 1;
         break;
@@ -128,25 +141,10 @@ class GameRunner {
         this.ties += 1;
         break;
       }
-      if (action.winner !== 0) {
-        this.spawnWinParticles(action.winner);
+      if (outcome.player !== 0) {
+        this.spawnWinParticles(outcome.player);
       }
       this.scoreboard.update(this.p1score, this.p2score, this.ties);
-    } else if (action.name === "pass") {
-      this.engine.turn *= -1;
-      if (this.engine.outcome === null) {
-        this.getNextMove();
-      }
-    } else {
-      const updated = this.engine.update(action);
-      if (updated) {
-        this.view.render(this.engine);
-        this.viewport.update();
-      }
-
-      if (this.engine.outcome === null) {
-        this.getNextMove();
-      }
     }
   }
 
