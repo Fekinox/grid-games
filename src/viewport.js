@@ -219,26 +219,34 @@ class Viewport {
 
     if (gameViewRect.top < gameCenterRect.top) {
       this.topOffscreenIndicator.style.opacity = 1;
+      this.topOffscreenIndicator.style.display = "flex";
     } else {
       this.topOffscreenIndicator.style.opacity = 0;
+      this.topOffscreenIndicator.style.display = "none";
     }
 
     if (gameViewRect.left < gameCenterRect.left) {
       this.leftOffscreenIndicator.style.opacity = 1;
+      this.topOffscreenIndicator.style.display = "flex";
     } else {
       this.leftOffscreenIndicator.style.opacity = 0;
+      this.topOffscreenIndicator.style.display = "none";
     }
 
     if (gameViewRect.bottom > gameCenterRect.bottom) {
       this.bottomOffscreenIndicator.style.opacity = 1;
+      this.topOffscreenIndicator.style.display = "flex";
     } else {
       this.bottomOffscreenIndicator.style.opacity = 0;
+      this.topOffscreenIndicator.style.display = "none";
     }
 
     if (gameViewRect.right > gameCenterRect.right) {
       this.rightOffscreenIndicator.style.opacity = 1;
+      this.topOffscreenIndicator.style.display = "flex";
     } else {
       this.rightOffscreenIndicator.style.opacity = 0;
+      this.topOffscreenIndicator.style.display = "none";
     }
   }
 

@@ -102,8 +102,6 @@ class GameSelectionMenu {
 
         const p1mode = this.aiOptions[this.player1ModeSelect.value];
         const p2mode = this.aiOptions[this.player2ModeSelect.value];
-        console.log(p1mode);
-        console.log(p2mode);
 
         this.ongamestart(entry, rules, p1mode, p2mode);
       })

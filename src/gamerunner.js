@@ -70,7 +70,6 @@ class GameRunner {
   }
 
   getNextMove() {
-    console.log(`Getting next move for ${this.engine.turn}`);
     let player =
       (this.engine.turn === 1)
         ? this.player1
@@ -121,7 +120,6 @@ class GameRunner {
     }
 
     console.log(action);
-    const updated = this.engine.update(action);
     if (updated) {
       this.view.render(this.engine);
       this.viewport.update();
