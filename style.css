@@ -673,4 +673,14 @@ div.flippedcell {
     height: 100%;
     width: 100%;
   }
+
+  .buttons-hbox {
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+  }
+
+  button, input[type='submit'] {
+    max-width: 100%;
+  }
 }
