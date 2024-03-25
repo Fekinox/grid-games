@@ -235,6 +235,7 @@ class OthelloView {
     this.gameContainer = domElems.container;
     this.status = domElems.status;
     this.center = domElems.center;
+    this.enabled = true;
 
     this.hboxesEnabled = true;
 
@@ -246,7 +247,7 @@ class OthelloView {
     this.gridView.buildNewGrid(engine.grid.width, engine.grid.height);
 
     this.gridView.onclick = (pos) => {
-      if (this.isTranslating()) { return; }
+      if (this.isTranslating() || !this.enabled) { return; }
       this.sendAction({
         name: "move",
         x: pos.x,
@@ -255,7 +256,9 @@ class OthelloView {
     };
 
     this.gridView.onhover = (pos) => {
-      if (this.isTranslating() || !this.hboxesEnabled) { return; }
+      if (this.isTranslating() || !this.hboxesEnabled || !this.enabled) {
+        return;
+      }
       this.handleHover(pos);
     };
   }
@@ -317,10 +320,10 @@ class OthelloView {
         if (entry !== oldEntry) {
           if (oldEntry !== null) {
             this.gridView.animate(x, y, "invert", {
-              delay: Math.max(0, 50 * (delay(x, y) - 1))
+              delay: Math.max(0, 50 * (delay(x, y) + 2))
             });
             this.gridView.animate(x, y, "bounceIn", {
-              delay: Math.max(0, 50 * (delay(x, y) - 1))
+              delay: Math.max(0, 50 * (delay(x, y) + 2))
             });
             this.gridView.updateHoverboxAt(x, y, false);
           } else {

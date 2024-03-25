@@ -7,7 +7,7 @@ class GameRunner {
     this.app = app;
     this.entry = null;
 
-    this.player1 = new RandomLegalMove();
+    this.player1 = null;
     this.player2 = new RandomLegalMove();
 
     this.enabled = false;

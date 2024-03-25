@@ -208,6 +208,7 @@ class TeeFourView {
     this.gameContainer = domElems.container;
     this.status = domElems.status;
     this.center = domElems.center;
+    this.enabled = true;
 
     this.hboxesEnabled = true;
 
@@ -223,7 +224,7 @@ class TeeFourView {
     );
 
     this.gridView.onclick = (pos) => {
-      if (this.isTranslating()) { return; }
+      if (this.isTranslating() || !this.enabled) { return; }
       this.sendAction({
         name: "move",
         x: pos.x,
@@ -232,7 +233,9 @@ class TeeFourView {
     };
 
     this.gridView.onhover = (pos) => {
-      if (this.isTranslating() || !this.hboxesEnabled) { return; }
+      if (this.isTranslating() || !this.hboxesEnabled || !this.enabled) {
+        return;
+      }
       this.handleHover(pos);
     };
 
@@ -249,8 +252,8 @@ class TeeFourView {
       hbox.classList.add("hoverbox");
       button.appendChild(hbox);
       this.gameContainer.appendChild(button);
-      button.addEventListener("click", (event) => {
-        if (this.isTranslating()) { return; }
+      button.addEventListener("click", (_event) => {
+        if (this.isTranslating() || !this.enabled) { return; }
         this.sendAction({
           name: "expand",
           dir: dir
