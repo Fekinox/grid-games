@@ -28,10 +28,13 @@ The application also comes with additional functionality:
 * Ability to configure the game settings
 * Can make one or both players an AI (which for now, just performs random moves)
 
-## Rules
+## Technologies Used
 
-* You start with a 4 by 4 grid and must get 4 in a row to win.
-* On your turn, you may either place a piece of your color or expand the board in any direction. These board expansions will add a new row or new column to the board.
+* HTML
+* CSS
+* Javascript
+* Boxicons - Favicon and piece icons.
+* Grunt - Task runner for compiling the Javascript into a single file to be loaded in the browser
 
 ## Building
 
