@@ -119,7 +119,7 @@ class GameRunner {
       return;
     }
 
-    console.log(action);
+    const updated = this.engine.update(action);
     if (updated) {
       this.view.render(this.engine);
       this.viewport.update();
