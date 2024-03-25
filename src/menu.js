@@ -40,7 +40,8 @@ class Menu {
 
       elementBuild("a", {
         parent: credits, classList: "bx bxl-github", attributes: {
-          href: "https://github.com/Fekinox/grid-games"
+          href: "https://github.com/Fekinox/grid-games",
+          target: "_blank",
         }
       });
 
