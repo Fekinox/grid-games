@@ -62,9 +62,7 @@ class GameRunner {
     this.resetView();
     this.view.render(this.engine);
 
-    this.viewport.translateX = 0;
-    this.viewport.translateY = 0;
-    this.viewport.update();
+    this.viewport.hardReset();
 
     this.getNextMove();
   }
