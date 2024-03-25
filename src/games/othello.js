@@ -1,5 +1,3 @@
-// FIXME: Othello is extremely inefficient when the board gets really full.
-
 class OthelloEngine {
   constructor(rules) {
     this.width = rules.width;
