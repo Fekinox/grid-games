@@ -29,7 +29,7 @@ module.exports = function(grunt) {
       main: {
         files: [
           {
-            src: ["index.html", "style.css"],
+            src: ["index.html", "style.css", "bx-x.svg", ],
             dest: "public/",
           }
         ]
@@ -38,6 +38,7 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: [
+          "bx-x.svg",
           "index.html",
           "style.css",
           "src/**/*.js",
