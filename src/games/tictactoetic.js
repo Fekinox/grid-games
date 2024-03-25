@@ -143,22 +143,45 @@ class TeeFourEngine {
   // Update the potentialWins grid for potential winning moves for the current
   // player
   updatePotentialWins(player) {
-    if (this.grid.height !== this.potentialWins.height ||
-      this.grid.width !== this.potentialWins.width) {
-      this.potentialWins = new Grid(this.grid.width, this.grid.height);
-    }
-
     for (let y = 0; y < this.grid.height; y++) {
       for (let x = 0; x < this.grid.width; x++) {
         if (this.grid.get(x, y) !== null) {
           this.potentialWins.set(x, y, []);
           continue;
         }
+        let wins = Grid.forwardDirections.map((dir) => {
+          // Get straight lines from the current cell position, offset
+          // by one in both directions
+          let forwardQuery = this.grid.lineQuery(
+            x + dir.x, y + dir.y, dir.x, dir.y);
+          let backwardQuery = this.grid.lineQuery(
+            x - dir.x, y - dir.y, -dir.x, -dir.y);
 
-        let wins = Grid.allDirections.map((dir) => {
-          let xx = x + dir.x;
-          let yy = y + dir.y;
-          return this.grid.kInARow(xx, yy, dir.x, dir.y, this.toWin - 1, player);
+          // Find the number of steps we have to walk in a certain direction
+          // to reach a cell that isn't the current player's color
+          let forwardFirstNonEqual =
+            forwardQuery.findIndex((elem) => elem.elem !== player);
+          let backwardFirstNonEqual =
+            backwardQuery.findIndex((elem) => elem.elem !== player);
+          // If one of them is negative 1, that means that all the cells are
+          // the current player's color until they hit the end of the line.
+          if (forwardFirstNonEqual === -1) { 
+            forwardFirstNonEqual = forwardQuery.length;
+          }
+          if (backwardFirstNonEqual === -1) { 
+            backwardFirstNonEqual = backwardQuery.length;
+          }
+
+          // This will produce a win if
+          // 1 + forFirstNonE + backFirstNonE >= toWin.
+          if (1 + forwardFirstNonEqual + backwardFirstNonEqual >= this.toWin) {
+            return [
+              ...forwardQuery.slice(0, forwardFirstNonEqual),
+              ...backwardQuery.slice(0, backwardFirstNonEqual),
+            ];
+          } else {
+            return null;
+          }
         })
           .filter((win) => win !== null);
         this.potentialWins.set(x, y, wins);
