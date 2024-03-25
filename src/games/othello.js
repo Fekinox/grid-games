@@ -93,7 +93,7 @@ class OthelloEngine {
 
   getLegalMoves() {
     let moves = [];
-    if (!this.hasLegalMoves) { return null; }
+    if (!this.hasLegalMoves) { return []; }
     
     for (let y = 0; y < this.grid.height; y++) {
       for (let x = 0; x < this.grid.width; x++) {
@@ -219,13 +219,6 @@ class OthelloEngine {
     } else {
       this.turn *= -1;
       this.setCurrentPlayerLegalMoves();
-      if (!this.hasLegalMoves) {
-        window.setTimeout(() => {
-          this.sendAction({
-            name: "pass",
-          });
-        }, 3000);
-      }
     }
 
     if (this.outcome !== null) {
@@ -408,7 +401,7 @@ class OthelloView {
   
   // Renders the current game status line beneath the grid.
   renderStatus(engine) {
-    if (!engine.hasLegalMoves) {
+    if (!engine.hasLegalMoves && engine.outcome === null) {
       this.status.innerHTML =
         `${this.inlineIndicator(engine.turn)} HAS NO LEGAL MOVES, PASS.`;
       this.status.className = "";

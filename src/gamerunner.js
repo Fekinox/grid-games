@@ -72,6 +72,14 @@ class GameRunner {
         ? this.player1
         : this.player2;
 
+    // If a player has no legal moves, but the game isn't over, then
+    // automatically pass and change players.
+    if (this.engine.getLegalMoves().length === 0) {
+      setTimeout(() => {
+        this.handleAction({ name: "pass", g});
+      }, 1000);
+    }
+
     // If player is an AI, disable the UI and get the next move from the AI
     if (player !== null) {
       this.view.enabled = false;
@@ -124,6 +132,11 @@ class GameRunner {
         this.spawnWinParticles(action.winner);
       }
       this.scoreboard.update(this.p1score, this.p2score, this.ties);
+    } else if (action.name === "pass") {
+      this.engine.turn *= -1;
+      if (this.engine.outcome === null) {
+        this.getNextMove();
+      }
     } else {
       const updated = this.engine.update(action);
       if (updated) {
