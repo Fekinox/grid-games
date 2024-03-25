@@ -35,7 +35,6 @@ class Menu {
 
   getDOMElements() {
     this.menuWindow = document.getElementById("gamemenu");
-    this.globalSettingsButton = document.getElementById("globalsettings");
   }
 
   selectGame(i) {
