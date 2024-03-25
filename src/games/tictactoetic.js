@@ -89,7 +89,6 @@ class TeeFourEngine {
       return true;
     case "pass":
       this.turn *= -1;
-      this.setCurrentPlayerLegalMoves();
       return true;
     }
   }
@@ -182,8 +181,7 @@ class TeeFourEngine {
           } else {
             return null;
           }
-        })
-          .filter((win) => win !== null);
+        }).filter((win) => win !== null);
         this.potentialWins.set(x, y, wins);
       }
     }
@@ -331,6 +329,7 @@ class TeeFourView {
         engine.grid.height !== this.internalGrid.height) {
       this.rebuildGrid(engine);
       this.potWins = engine.potentialWins;
+      this.renderStatus(engine);
       return;
     }
 
@@ -419,7 +418,8 @@ class TeeFourView {
     let delay = null;
 
     if (pos !== null) {
-      const wins = this.potWins.get(pos.x, pos.y);
+      let wins = this.potWins.get(pos.x, pos.y);
+      if (wins === null) { wins = []; }
 
       wins.forEach((win) => {
         win.forEach((tile) => {

@@ -121,6 +121,7 @@ class GameRunner {
     if (updated) {
       this.view.render(this.engine);
       this.viewport.update();
+    } else {
     }
 
     if (this.engine.outcome === null) {
