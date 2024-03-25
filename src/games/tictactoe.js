@@ -69,6 +69,10 @@ class TeeThreeEngine {
     switch(action.name) {
     case "move":
       return this.makeMove(action.x, action.y);
+    case "pass":
+      this.turn *= -1;
+      this.setCurrentPlayerLegalMoves();
+      return true;
     }
   }
 

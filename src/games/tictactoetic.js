@@ -76,6 +76,10 @@ class TeeFourEngine {
     case "expand":
       this.expand(action.dir);
       return true;
+    case "pass":
+      this.turn *= -1;
+      this.setCurrentPlayerLegalMoves();
+      return true;
     }
   }
 
