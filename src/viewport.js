@@ -1,3 +1,5 @@
+const clickTranslateDistance = 100;
+
 class Viewport {
   constructor(parentElement, gameView) {
     this.rootElement = document.querySelector(":root");
@@ -101,9 +103,23 @@ class Viewport {
       parent: this.gameCenter,
     });
 
+    this.topOffscreenIndicator.addEventListener("click", (_event) => {
+      this.translateY = Math.min(this.yExtents,
+        Math.max(-this.yExtents, this.translateY + clickTranslateDistance));
+      this.setTranslate();
+      this.updateOffscreenIndicators();
+    });
+
     this.bottomOffscreenIndicator = elementBuild("div", {
       classList: "offscreenindicator down bx bx-chevron-down",
       parent: this.gameCenter,
+    });
+
+    this.bottomOffscreenIndicator.addEventListener("click", (_event) => {
+      this.translateY = Math.min(this.yExtents,
+        Math.max(-this.yExtents, this.translateY - clickTranslateDistance));
+      this.setTranslate();
+      this.updateOffscreenIndicators();
     });
 
     this.leftOffscreenIndicator = elementBuild("div", {
@@ -111,9 +127,23 @@ class Viewport {
       parent: this.gameCenter,
     });
 
+    this.leftOffscreenIndicator.addEventListener("click", (_event) => {
+      this.translateX = Math.min(this.xExtents,
+        Math.max(-this.xExtents, this.translateX + clickTranslateDistance));
+      this.setTranslate();
+      this.updateOffscreenIndicators();
+    });
+
     this.rightOffscreenIndicator = elementBuild("div", {
       classList: "offscreenindicator right bx bx-chevron-right",
       parent: this.gameCenter,
+    });
+
+    this.rightOffscreenIndicator.addEventListener("click", (_event) => {
+      this.translateX = Math.min(this.xExtents,
+        Math.max(-this.xExtents, this.translateX - clickTranslateDistance));
+      this.setTranslate();
+      this.updateOffscreenIndicators();
     });
 
     this.update();
