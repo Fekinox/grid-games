@@ -101,6 +101,30 @@ class TeeFourEngine {
       : null;
   }
 
+  getLegalMoves() {
+    let moves = [];
+    for (const dir of ["up", "down", "left", "right"]) {
+      moves.push({
+        name: "expand",
+        dir: dir,
+      });
+    }
+
+    for (let y = 0; y < this.grid.height; y++) {
+      for (let x = 0; x < this.grid.width; x++) {
+        if (this.grid.get(x, y) === null) {
+          moves.push({
+            name: "move",
+            x: x,
+            y: y,
+          });
+        }
+      }
+    }
+
+    return moves;
+  }
+
   // Update the potentialWins grid for potential winning moves for the current
   // player
   updatePotentialWins(player) {

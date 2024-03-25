@@ -123,6 +123,22 @@ class TeeThreeEngine {
       }
       : null;
   }
+
+  getLegalMoves() {
+    let moves = [];
+    for (let y = 0; y < this.grid.height; y++) {
+      for (let x = 0; x < this.grid.width; x++) {
+        if (this.grid.get(x, y) === null) {
+          moves.push({
+            name: "move",
+            x: x,
+            y: y,
+          });
+        }
+      }
+    }
+    return moves;
+  }
   
   // Update the potentialWins grid for potential winning moves for the current
   // player
@@ -155,6 +171,7 @@ class TeeThreeView {
     this.gameContainer = domElems.container;
     this.status = domElems.status;
     this.center = domElems.center;
+    this.enabled = true;
 
     this.hboxesEnabled = true;
 
@@ -170,7 +187,7 @@ class TeeThreeView {
     );
 
     this.gridView.onclick = (pos) => {
-      if (this.isTranslating()) { return; }
+      if (this.isTranslating() || !this.enabled) { return; }
       this.sendAction({
         name: "move",
         x: pos.x,
@@ -179,7 +196,9 @@ class TeeThreeView {
     };
 
     this.gridView.onhover = (pos) => {
-      if (this.isTranslating() || !this.hboxesEnabled) { return; }
+      if (this.isTranslating() || !this.hboxesEnabled || !this.enabled) {
+        return;
+      }
       this.handleHover(pos);
     
     };

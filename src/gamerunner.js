@@ -1,9 +1,16 @@
+const start = Date.now();
+
 class GameRunner {
   static particleCount = 30;
 
   constructor(app) {
     this.app = app;
     this.entry = null;
+
+    this.player1 = new RandomLegalMove();
+    this.player2 = new RandomLegalMove();
+
+    this.enabled = false;
   }
 
   initialize() {
@@ -27,9 +34,26 @@ class GameRunner {
   startGame(gameEntry, rules) {
     this.clearGame();
     this.entry = gameEntry;
-    this.engine = gameEntry.run(rules);
+    this.rules = rules;
+    this.engine = gameEntry.run(this.rules);
     this.game.id = this.engine.name;
-    this.engine.sendAction = (action) => this.handleAction(action);
+
+    // Javascript doesn't have cancellation tokens so I have to do this
+    // hackiness.
+    // Associate each game with a magic cookie that's created from the time
+    // since the session began, and only respond to requests that use that
+    // magic cookie.
+    this.gameID = Date.now() - start;
+
+    // Additionally, have a flag set that indicates if the game's ready to
+    // accept actions. This will be set to false once the player goes back, so
+    // it won't run any additional actions in the background.
+    this.enabled = true;
+
+    // Need to do this to prevent the callback from referencing this.gameID
+    // instead of the one created at game start.
+    const g = this.gameID;
+    this.engine.sendAction = (action) => this.handleAction(action, g);
 
     this.resetView();
     this.view.render(this.engine);
@@ -37,6 +61,29 @@ class GameRunner {
     this.viewport.translateX = 0;
     this.viewport.translateY = 0;
     this.viewport.update();
+
+    this.getNextMove();
+  }
+
+  getNextMove() {
+    console.log(`Getting next move for ${this.engine.turn}`);
+    let player =
+      (this.engine.turn === 1)
+        ? this.player1
+        : this.player2;
+
+    // If player is an AI, disable the UI and get the next move from the AI
+    if (player !== null) {
+      this.view.enabled = false;
+      const g = this.gameID;
+      setTimeout(() => {
+        this.handleAction(player.nextMove(this.engine), g);
+      }, 1000);
+    } else {
+    // If player is not an AI, enable the UI and get the next move from the
+    // player
+      this.view.enabled = true;
+    }
   }
 
   resetView() {
@@ -46,15 +93,21 @@ class GameRunner {
       container: this.game,
       status: this.statusLine,
       center: this.viewport.center,
-    });
-    this.view.sendAction = (action) => this.handleAction(action);
+    }, this.gameNumber);
+    const g = this.gameID;
+    this.view.sendAction = (action) => this.handleAction(action, g);
     this.view.isTranslating = () => {
       return this.viewport.dirty;
     };
     this.viewport.gameBackground.textContent = "";
   }
 
-  handleAction(action) {
+  handleAction(action, number) {
+    if (number !== this.gameID || !this.enabled) {
+      return;
+    }
+
+    console.log(action);
     if (action.name === "gameOver") {
       switch(action.winner) {
       case 1:
@@ -77,15 +130,23 @@ class GameRunner {
         this.view.render(this.engine);
         this.viewport.update();
       }
+
+      if (this.engine.outcome === null) {
+        this.getNextMove();
+      }
     }
   }
 
   resetGame() {
     this.engine.reset();
+    this.gameID = Date.now() - start;
+    const g = this.gameID;
+    this.engine.sendAction = (action) => this.handleAction(action, g);
     this.game.textContent = "";
     this.resetView();
     this.view.render(this.engine);
     this.viewport.hardReset();
+    this.getNextMove();
   }
 
   getDOMElements() {
@@ -130,6 +191,7 @@ class GameRunner {
       attributes: { innerHTML: "BACK", }
     });
     this.backButton.addEventListener("click", (_event) => {
+      this.enabled = false;
       this.clearGame();
       this.app.openMenu();
     });

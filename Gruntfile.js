@@ -8,6 +8,7 @@ module.exports = function(grunt) {
         src: [
           "src/dom.js",
           "src/animations.js",
+          "src/ai/*.js",
           "src/grid.js",
           "src/gridview.js",
           "src/viewport.js",

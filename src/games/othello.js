@@ -91,6 +91,25 @@ class OthelloEngine {
     }).filter((l) => l !== null && l.toRemove.length > 0);
   }
 
+  getLegalMoves() {
+    let moves = [];
+    if (!this.hasLegalMoves) { return null; }
+    
+    for (let y = 0; y < this.grid.height; y++) {
+      for (let x = 0; x < this.grid.width; x++) {
+        if (this.currentPlayerLegalMoves.get(x, y).length > 0) {
+          moves.push({
+            name: "move",
+            x: x,
+            y: y,
+          });
+        }
+      }
+    }
+
+    return moves;
+  }
+
   setCurrentPlayerLegalMoves() {
     this.hasLegalMoves = false;
     for (let y = 0; y < this.grid.height; y++) {
