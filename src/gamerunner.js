@@ -78,7 +78,7 @@ class GameRunner {
       setTimeout(() => {
         const g = this.gameID;
         this.handleAction({ name: "pass", }, g);
-      }, 3000);
+      }, 1000);
     }
     // If player is an AI, disable the UI and get the next move from the AI
     else if (player !== null) {
