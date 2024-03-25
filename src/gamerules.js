@@ -50,7 +50,7 @@ class GameRules {
       parent: buttons,
       attributes: {
         type: "submit",
-        value: "Play with modified rules",
+        value: "Play",
       }
     });
 
@@ -132,7 +132,7 @@ class GameRules {
       parent: buttons,
       attributes: {
         type: "submit",
-        value: "Play with modified rules",
+        value: "Play",
       }
     });
 

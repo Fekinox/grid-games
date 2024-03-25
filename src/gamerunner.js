@@ -188,26 +188,6 @@ class GameRunner {
     let buttons = elementBuild("div",
       { classList: "buttons-hbox", parent: this.container, });
 
-    this.resetButton = elementBuild("button", {
-      id: "reset",
-      parent: buttons,
-      attributes: { innerHTML: "RESET", }
-    });
-    this.resetButton.addEventListener("click", (_event) => {
-      this.resetGame();
-    });
-
-    this.backButton = elementBuild("button", {
-      id: "back",
-      parent: buttons,
-      attributes: { innerHTML: "BACK", }
-    });
-    this.backButton.addEventListener("click", (_event) => {
-      this.enabled = false;
-      this.clearGame();
-      this.app.openMenu();
-    });
-
     this.updateRulesButton = elementBuild("button", {
       id: "updateRules",
       parent: buttons,
@@ -223,6 +203,15 @@ class GameRunner {
       app.addPopup(menu);
     });
 
+    this.resetButton = elementBuild("button", {
+      id: "reset",
+      parent: buttons,
+      attributes: { innerHTML: "RESET", }
+    });
+    this.resetButton.addEventListener("click", (_event) => {
+      this.resetGame();
+    });
+
     this.hardResetButton = elementBuild("button", {
       id: "hardReset",
       parent: buttons,
@@ -235,6 +224,18 @@ class GameRunner {
       this.ties = 0;
       this.scoreboard.update(this.p1score, this.p2score, this.ties);
     });
+
+    this.backButton = elementBuild("button", {
+      id: "back",
+      parent: buttons,
+      attributes: { innerHTML: "BACK", }
+    });
+    this.backButton.addEventListener("click", (_event) => {
+      this.enabled = false;
+      this.clearGame();
+      this.app.openMenu();
+    });
+
   }
 
   spawnWinParticles(winner) {
