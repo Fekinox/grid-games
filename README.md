@@ -4,6 +4,11 @@
 
 ![Vercel](https://vercelbadge.vercel.app/api/Fekinox/tic-tac-toe-tic)
 
+## Deployments
+
+* [Vercel](https://tic-tac-toe-tic-two.vercel.app/)
+* [Netlify](https://fekinox-grid-games.netlify.app/)
+
 ![mainscreen](https://images2.imgbox.com/38/e2/dcM0Nvkn_o.png)
 
 A collection of 3 two-player games.
