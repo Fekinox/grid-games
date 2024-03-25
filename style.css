@@ -61,6 +61,7 @@ div#gameview {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 
 }
 
@@ -150,6 +151,7 @@ div#status {
   margin: 10px;
   height: 40px;
   line-height: 40px;
+  font-size: 30px;
 }
 
 div.buttons-hbox {
@@ -507,7 +509,7 @@ div.tttcell.win-blue {
 }
 
 i.red, i.blue {
-  vertical-align: -0.2px;
+  vertical-align: middle;
   font-size: 50px;
 }
 
