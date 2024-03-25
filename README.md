@@ -10,9 +10,12 @@ A collection of 3 two-player games.
 
 * Tic Tac Toe: Start on a 3 x 3 grid by default. Get 3 in a row to win.
 ![ttt](https://images2.imgbox.com/4a/73/5yCeMDuQ_o.png)
+
 * Tic Tac Toe Tic: A variant of Tic Tac Toe designed by a friend of mine. By default, it has the same rules as Tic Tac Toe, but you start on a 4 x 4 grid and must get 4 in a row to win. On your turn, you may either place a piece of your color, or expand the board by adding a row or column to the edge.
+
 ![tttt](https://images2.imgbox.com/18/f4/mK1YLWWi_o.png)
 * othello: A variant of the game Reversi with a special initial board configuration. Players take turns conquering pieces of the opposing player- pieces must be placed such that there is a straight line of opponent tiles connecting that piece to another piece of the same player's color.
+
 ![othello](https://images2.imgbox.com/e2/f4/HA44yV3w_o.png)
 
 The application also comes with additional functionality:
