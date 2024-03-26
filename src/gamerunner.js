@@ -128,6 +128,7 @@ class GameRunner {
       this.getNextMove();
     } else {
       let outcome = this.engine.outcome;
+      this.view.enabled = false;
       switch(outcome.player) {
       case 1:
         this.p1score += 1;

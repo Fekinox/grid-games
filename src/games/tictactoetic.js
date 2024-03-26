@@ -329,7 +329,7 @@ class TeeFourView {
         engine.grid.height !== this.internalGrid.height) {
       this.rebuildGrid(engine);
       this.potWins = engine.potentialWins;
-      this.renderStatus(engine);
+      this.render(engine);
       return;
     }
 
